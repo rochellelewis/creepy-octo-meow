@@ -166,18 +166,55 @@ class Profile implements \JsonSerializable {
 
 		//check if valid hash value
 		if(!ctype_xdigit($newProfileHash)) {
-			throw (new \InvalidArgumentException("Profile password hash is invalid"));
+			throw (new \InvalidArgumentException("Profile password hash is not a valid hash value."));
 		}
 
 		//check if valid length
 		if(strlen($newProfileHash) !== 128) {
-			throw (new \RangeException("profile password hash invalid length"));
+			throw (new \RangeException("Profile password hash invalid length"));
 		}
 
 		//store password hash value
 		$this->profileHash = $newProfileHash;
-
 	}
 
+	/**
+	 * accessor method for profile password salt
+	 *
+	 * @return string value of profile password salt
+	 **/
+	public function getProfileSalt() {
+		return($this->profileSalt);
+	}
+
+	/**
+	 * mutator method for profile password salt
+	 *
+	 * @param string $newProfileSalt new value of profile password hash salt
+	 * @throws \InvalidArgumentException if $newProfileSalt is empty, or not a valid hash value
+	 * @throws \RangeException if $newProfileSalt is not 64 characters
+	 * @throws \TypeError if $newProfileSalt is not a string
+	 **/
+	public function setProfileSalt(string $newProfileSalt) {
+		//trim, filter salt value
+		$newProfileSalt = trim($newProfileSalt);
+		$newProfileSalt = filter_var($newProfileSalt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newProfileSalt) === true){
+			throw (new \InvalidArgumentException("Profile salt value is invalid or insecure."));
+		}
+
+		//check if valid hash value
+		if(!ctype_xdigit($newProfileSalt)) {
+			throw (new \InvalidArgumentException("Profile salt is not a valid hash value."));
+		}
+
+		//check for valid length
+		if(strlen($newProfileSalt) !== 64) {
+			throw (new \RangeException("Profile salt is invalid length."));
+		}
+
+		//store salt value
+		$this->profileSalt = $newProfileSalt;
+	}
 
 }
