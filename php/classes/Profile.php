@@ -250,4 +250,61 @@ class Profile implements \JsonSerializable {
 		//store profile username
 		$this->profileUsername = $newProfileUsername;
 	}
+
+	/**
+	 * inserts this Profile into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		//verify that profile id is null / don't insert a profile that already exists
+		if($this->profileId !== null) {
+			throw (new \PDOException("not a new Profile"));
+		}
+
+		//create query template
+		$query = "INSERT INTO profile(profileEmail, profileHash, profileSalt, profileUsername) VALUES(:profileEmail, :profileHash, :profileSalt, :profileUsername)";
+		$statement = $pdo->prepare($query);
+
+		//bind the member variables to the placeholders in the query template
+		$parameters = ["profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt, "profileUsername" => $this->profileUsername];
+		$statement->execute($parameters);
+
+		//update the null profileId with what mysql gave us
+		$this->profileId = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * updates this Profile in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+
+	/**
+	 * deletes this Profile from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+
+	/**
+	 * gets the Profile by profileId
+	 * gets the Profile by profileEmail
+	 * gets the Profile by profileUsername
+	 * gets all Profiles
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param content to search for
+	 *
+	 * @return Profile|null Profile found or null if not found
+	 * @return \SplFixedArray SplFixedArray of Profiles found
+	 *
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
 }
