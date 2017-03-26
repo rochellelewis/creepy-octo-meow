@@ -166,18 +166,39 @@ class Post implements \JsonSerializable {
 	}
 
 	/**
-	 * accessor method for post id
+	 * accessor method for post date
 	 *
-	 * @return int|null value of post id
+	 * @return \DateTime value of post date
 	 **/
+	public function getPostDate() {
+		return($this->postDate);
+	}
 
 	/**
-	 * mutator method for post id
+	 * mutator method for post date
 	 *
-	 * @param int|null $newPostId new value of post id
-	 * @throws \RangeException if $newPostId is not positive
-	 * @throws \TypeError if $newPostId is not an integer
+	 * @param \DateTime|string|null $newPostDate post date as a DateTime object, string, or null value
+	 * @throws \InvalidArgumentException if $newPostDate is not a valid object or string
+	 * @throws \RangeException if $newPostDate is a date that does not exist
 	 **/
+	public function setPostDate($newPostDate = null) {
+		//base case: if post date is null, use current date and time
+		if($newPostDate === null) {
+			$this->postDate = new \DateTime();
+			return;
+		}
+
+		//store post date
+		try {
+			$newPostDate = self::validateDateTime($newPostDate);
+		} catch(\InvalidArgumentException $invalidArgumentException) {
+			throw (new \InvalidArgumentException($invalidArgumentException->getMessage(), 0, $invalidArgumentException));
+		} catch(\RangeException $rangeException) {
+			throw (new \RangeException($rangeException->getMessage(), 0, $rangeException));
+		}
+
+		$this->postDate = $newPostDate;
+	}
 
 	/**
 	 * accessor method for post id
