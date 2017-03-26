@@ -402,6 +402,37 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
+	public static function getPostsByPostContent(\PDO $pdo, $postContent) {
+		//trim, filter post content before searching
+		$postContent = trim($postContent);
+		$postContent = filter_var($postContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($postContent) === true) {
+			throw (new \PDOException("Post content is invalid or insecure."));
+		}
+
+		//create query template
+		$query = "SELECT postId, postProfileId, postContent, postDate, postTitle FROM post WHERE postContent LIKE :postContent";
+		$statement = $pdo->prepare($query);
+
+		//bind member variables to the placeholders in the query template
+		$parameters = ["postContent" => $postContent];
+		$statement->execute($parameters);
+
+		//build an array of posts
+		$posts = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$post = new Post($row["postId"], $row["postProfileId"], $row["postContent"], $row["postDate"], $row["postTitle"]);
+				$posts[$posts->key()] = $post;
+				$posts->next();
+			} catch(\Exception $exception) {
+				throw (new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+
+		return($posts);
+	}
 
 	/**
 	 * gets Posts by postDate
