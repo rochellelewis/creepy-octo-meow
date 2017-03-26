@@ -217,4 +217,37 @@ class Profile implements \JsonSerializable {
 		$this->profileSalt = $newProfileSalt;
 	}
 
+	/**
+	 * accessor method for profile username
+	 *
+	 * @return string value of profile username
+	 **/
+	public function getProfileUsername() {
+		return($this->profileUsername);
+	}
+
+	/**
+	 * mutator method for profile password username
+	 *
+	 * @param string $newProfileUsername new value of profile username
+	 * @throws \InvalidArgumentException if $newProfileUsername is empty or insecure
+	 * @throws \RangeException if $newProfileUsername is > 64 characters
+	 * @throws \TypeError if $newProfileUsername is not a string
+	 **/
+	public function setProfileUsername(string $newProfileUsername) {
+		//trim, filter profile username
+		$newProfileUsername = trim($newProfileUsername);
+		$newProfileUsername = filter_var($newProfileUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newProfileUsername) === true) {
+			throw (new \InvalidArgumentException("Profile username is invalid or insecure"));
+		}
+
+		//check for valid length
+		if(strlen($newProfileUsername) > 64) {
+			throw (new \RangeException("Profile username is too long."));
+		}
+
+		//store profile username
+		$this->profileUsername = $newProfileUsername;
+	}
 }
