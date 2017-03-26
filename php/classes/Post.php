@@ -234,4 +234,69 @@ class Post implements \JsonSerializable {
 		$this->postTitle = $newPostTitle;
 	}
 
+	/**
+	 * inserts this Post into mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+	public function insert(\PDO $pdo) {
+		//verify the post id is null / don't insert a post that already exists!
+		if($this->postId !== null) {
+			throw(new \PDOException("Not a new post."));
+		}
+
+		//create query template
+		$query = "INSERT INTO post(postProfileId, postContent, postDate, postTitle) VALUES(:postProfileId, :postContent, :postDate, :postTitle)";
+		$statement = $pdo->prepare($query);
+
+		//bind member variables to the placeholders in the query template
+		$formattedDate = $this->postDate->format("Y-m-d H:i:s");
+		$parameters = [
+			"postProfileId" => $this->postProfileId,
+			"postContent" => $this->postContent,
+			"postDate" => $formattedDate,
+			"postTitle" => $this->postTitle
+		];
+		$statement->execute($parameters);
+
+		//update null postId with what mysql gave us
+		$this->postId = intval($pdo->lastInsertId());
+	}
+
+	/**
+	 * updates this Post in mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+
+	/**
+	 * deletes this Post from mySQL
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError if $pdo is not a PDO connection object
+	 **/
+
+	/**
+	 * gets a Post by postId
+	 * gets Posts by postProfileId
+	 * gets Posts by postContent
+	 * gets Posts by postDate
+	 * gets Posts by postTitle
+	 * gets all Posts
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param to search for
+	 *
+	 * @return Post|null Post found or null if not found
+	 * @return \SplFixedArray SplFixedArray of Posts found
+	 *
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
 }
