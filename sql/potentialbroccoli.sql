@@ -4,9 +4,9 @@ DROP TABLE IF EXISTS profile;
 CREATE TABLE profile (
 	profileId INT UNSIGNED AUTO_INCREMENT NOT NULL,
 	profileEmail VARCHAR(64) NOT NULL,
-	profileHash CHAR(128),
-	profileSalt CHAR(64),
-	profileUsername VARCHAR(64),
+	profileHash CHAR(128) NOT NULL,
+	profileSalt CHAR(64) NOT NULL,
+	profileUsername VARCHAR(64) NOT NULL,
 	UNIQUE (profileEmail),
 	UNIQUE (profileUsername),
 	PRIMARY KEY (profileId)
