@@ -363,6 +363,35 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
+	public static function getPostsByPostProfileId(\PDO $pdo, $postProfileId) {
+		//verify post profile id
+		if($postProfileId <= 0) {
+			throw (new \PDOException("Post profile id is not positive."));
+		}
+
+		//create query template
+		$query = "SELECT postId, postProfileId, postContent, postDate, postTitle FROM post WHERE postProfileId = :postProfileId";
+		$statement = $pdo->prepare($query);
+
+		//bind member variables to the placeholders in the query template
+		$parameters = ["postProfileId" => $postProfileId];
+		$statement->execute($parameters);
+
+		//build an array of posts
+		$posts = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$post = new Post($row["postId"], $row["postProfileId"], $row["postContent"], $row["postDate"], $row["postTitle"]);
+				$posts[$posts->key()] = $post;
+				$posts->next();
+			} catch(\Exception $exception) {
+				throw (new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+
+		return($posts);
+	}
 
 	/**
 	 * gets Posts by postContent
