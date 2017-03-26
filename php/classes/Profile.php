@@ -453,18 +453,42 @@ class Profile implements \JsonSerializable {
 	}
 
 	/**
-	 * gets the Profile by profileId
-	 * gets the Profile by profileEmail
-	 * gets the Profile by profileUsername
 	 * gets all Profiles
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param content to search for
-	 *
-	 * @return Profile|null Profile found or null if not found
 	 * @return \SplFixedArray SplFixedArray of Profiles found
-	 *
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
+	public static function getAllProfiles(\PDO $pdo) {
+		//create query template
+		$query = "SELECT profileId, profileEmail, profileHash, profileSalt, profileUsername FROM profile";
+		$statement = $pdo->prepare($query);
+		$statement->execute();
+
+		//build an array of profiles
+		$profiles = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$profile = new Profile($row["profileId"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
+				$profiles[$profiles->key()] = $profile;
+				$profiles->next();
+			} catch(\Exception $exception) {
+				// if the row couldn't be converted, rethrow it
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return ($profiles);
+	}
+
+	/**
+	 * formats the state variables for JSON serialization
+	 *
+	 * @return array resulting state variables to serialize
+	 **/
+	public function jsonSerialize() {
+		$fields = get_object_vars($this);
+		return($fields);
+	}
 }
