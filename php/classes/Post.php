@@ -301,6 +301,20 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
+	public function delete(\PDO $pdo) {
+		//verify the post id is not null / don't delete a post that doesn't exist!
+		if($this->postId === null) {
+			throw(new \PDOException("Post does not exist."));
+		}
+
+		//create query template
+		$query = "DELETE FROM post WHERE postId = :postId";
+		$statement = $pdo->prepare($query);
+
+		//bind member variables to the placeholders in the query template
+		$parameters = ["postId" => $this->postId];
+		$statement->execute($parameters);
+	}
 
 	/**
 	 * gets a Post by postId
