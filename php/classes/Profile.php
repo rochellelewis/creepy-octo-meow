@@ -59,7 +59,11 @@ class Profile implements \JsonSerializable {
 	 **/
 	public function __construct(int $newProfileId = null, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, string $newProfileUsername) {
 		try {
-
+			$this->setProfileId($newProfileId);
+			$this->setProfileEmail($newProfileEmail);
+			$this->setProfileHash($newProfileHash);
+			$this->setProfileSalt($newProfileSalt);
+			$this->setProfileUsername($newProfileUsername);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
