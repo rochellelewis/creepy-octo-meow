@@ -139,5 +139,45 @@ class Profile implements \JsonSerializable {
 		$this->profileEmail = $newProfileEmail;
 	}
 
+	/**
+	 * accessor method for profile password hash
+	 *
+	 * @return string value of profile password hash
+	 **/
+	public function getProfileHash() {
+		return($this->profileHash);
+	}
+
+	/**
+	 * mutator method for profile password hash
+	 *
+	 * @param string $newProfileHash new value of profile password hash
+	 * @throws \InvalidArgumentException if $newProfileHash is empty, or not a valid hash value
+	 * @throws \RangeException if $newProfileHash is not 128 characters
+	 * @throws \TypeError if $newProfileHash is not a string
+	 **/
+	public function setProfileHash(string $newProfileHash) {
+		//trim, filter pass hash input
+		$newProfileHash = trim($newProfileHash);
+		$newProfileHash = filter_var($newProfileHash, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newProfileHash) === true) {
+			throw (new \InvalidArgumentException("Profile password hash empty or insecure."));
+		}
+
+		//check if valid hash value
+		if(!ctype_xdigit($newProfileHash)) {
+			throw (new \InvalidArgumentException("Profile password hash is invalid"));
+		}
+
+		//check if valid length
+		if(strlen($newProfileHash) !== 128) {
+			throw (new \RangeException("profile password hash invalid length"));
+		}
+
+		//store password hash value
+		$this->profileHash = $newProfileHash;
+
+	}
+
 
 }
