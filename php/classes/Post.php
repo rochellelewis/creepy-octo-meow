@@ -435,14 +435,61 @@ class Post implements \JsonSerializable {
 	}
 
 	/**
-	 * gets Posts by postDate
+	 * gets Posts by postDate, within a user-given range of dates
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param \DateTime post date to search for
+	 * @param \DateTime $postSunriseDate start of date range to search within
+	 * @param \DateTime $postSunsetDate end of date range to search within
 	 * @return \SplFixedArray SplFixedArray of Posts found
+	 * @throws \InvalidArgumentException if search dates are invalid or insecure
+	 * @throws \RangeException if search date range is invalid
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
+	public static function getPostsByPostDateRange (\PDO $pdo, $postSunriseDate, $postSunsetDate) {
+
+		//check, validate search dates
+		if((empty($postSunriseDate) === true) || (empty($postSunsetDate) === true)) {
+			throw (new \PDOException("Post date range is empty or invalid"));
+		}
+
+		try{
+			$postSunriseDate = self::validateDateTime($postSunriseDate);
+			$postSunsetDate = self::validateDateTime($postSunsetDate);
+		} catch(\InvalidArgumentException $invalidArgument) {
+			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
+		} catch(\RangeException $range) {
+			throw (new \RangeException($range->getMessage(), 0, $range));
+		}
+
+		//create query template
+		$query = "SELECT postId, postProfileId, postContent, postDate, postTitle FROM post WHERE postDate >= :postSunriseDate AND postDate <= :postSunsetDate";
+		$statement = $pdo->prepare($query);
+
+		//format and bind dates to the placeholders in the query template
+		$formattedSunriseDate = $postSunriseDate->format("Y-m-d H:i:s");
+		$formattedSunsetDate = $postSunsetDate->format("Y-m-d H:i:s");
+		$parameters = [
+			"postSunriseDate" => $formattedSunriseDate,
+			"postSunsetDate" => $formattedSunsetDate
+		];
+		$statement->execute($parameters);
+
+		//build an array of posts
+		$posts = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$post = new Post($row["postId"], $row["postProfileId"], $row["postContent"], $row["postDate"], $row["postTitle"]);
+				$posts[$posts->key()] = $post;
+				$posts->next();
+			} catch(\Exception $exception) {
+				throw (new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+
+		return($posts);
+	}
 
 	/**
 	 * gets Posts by postTitle
