@@ -269,7 +269,12 @@ class Profile implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the placeholders in the query template
-		$parameters = ["profileEmail" => $this->profileEmail, "profileHash" => $this->profileHash, "profileSalt" => $this->profileSalt, "profileUsername" => $this->profileUsername];
+		$parameters = [
+			"profileEmail" => $this->profileEmail,
+			"profileHash" => $this->profileHash,
+			"profileSalt" => $this->profileSalt,
+			"profileUsername" => $this->profileUsername
+		];
 		$statement->execute($parameters);
 
 		//update the null profileId with what mysql gave us
@@ -283,6 +288,26 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
+	public function update(\PDO $pdo) {
+		//verify profileId is not null / don't update a Profile that does not exist
+		if($this->profileId === null) {
+			throw (new \PDOException("Can't update a Profile that doesn't exist!"));
+		}
+
+		//create query template
+		$query = "UPDATE profile SET profileEmail = :profileEmail, profileHash = :profileHash, profileSalt = :profileSalt, profileUsername = :profileUsername WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+
+		//bind member variables to the placeholders in the template
+		$parameters = [
+			"profileEmail" => $this->profileEmail,
+			"profileHash" => $this->profileHash,
+			"profileSalt" => $this->profileSalt,
+			"profileUsername" => $this->profileUsername,
+			"profileId" => $this->profileId
+		];
+		$statement->execute($parameters);
+	}
 
 	/**
 	 * deletes this Profile from mySQL
