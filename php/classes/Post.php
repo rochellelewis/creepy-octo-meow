@@ -132,18 +132,38 @@ class Post implements \JsonSerializable {
 	}
 
 	/**
-	 * accessor method for post id
+	 * accessor method for post content
 	 *
-	 * @return int|null value of post id
+	 * @return string value of post content
 	 **/
+	public function getPostContent(){
+		return($this->postContent);
+	}
 
 	/**
-	 * mutator method for post id
+	 * mutator method for post content
 	 *
-	 * @param int|null $newPostId new value of post id
-	 * @throws \RangeException if $newPostId is not positive
-	 * @throws \TypeError if $newPostId is not an integer
+	 * @param string $newPostContent text content of post
+	 * @throws \InvalidArgumentException if $newPostContent is invalid or insecure
+	 * @throws \RangeException if $newPostContent is > 2000 characters
+	 * @throws \TypeError if $newPostContent is not a string
 	 **/
+	public function setPostContent(string $newPostContent) {
+		//trim, sanitize post content
+		$newPostContent = trim($newPostContent);
+		$newPostContent = filter_var($newPostContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newPostContent) === true) {
+			throw (new \InvalidArgumentException("Post content is invalid or insecure."));
+		}
+
+		//check post content length
+		if(strlen($newPostContent) > 2000) {
+			throw (new \RangeException("Post content is too long."));
+		}
+
+		//store post content
+		$this->postContent = $newPostContent;
+	}
 
 	/**
 	 * accessor method for post id
