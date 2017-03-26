@@ -201,17 +201,37 @@ class Post implements \JsonSerializable {
 	}
 
 	/**
-	 * accessor method for post id
+	 * accessor method for post title
 	 *
-	 * @return int|null value of post id
+	 * @return string value of post title
 	 **/
+	public function getPostTitle() {
+		return($this->postTitle);
+	}
 
 	/**
-	 * mutator method for post id
+	 * mutator method for post title
 	 *
-	 * @param int|null $newPostId new value of post id
-	 * @throws \RangeException if $newPostId is not positive
-	 * @throws \TypeError if $newPostId is not an integer
+	 * @param string $newPostTitle title of post
+	 * @throws \InvalidArgumentException if $newPostTitle is invalid or insecure
+	 * @throws \RangeException if $newPostTitle is greater than 64 characters
+	 * @throws \TypeError if $newPostTitle is not a string
 	 **/
+	public function setPostTitle(string $newPostTitle) {
+		//trim, filter post title
+		$newPostTitle = trim($newPostTitle);
+		$newPostTitle = filter_var($newPostTitle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($newPostTitle) === true) {
+			throw (new \InvalidArgumentException("Post title is invalid or insecure."));
+		}
+
+		//check post title length
+		if(strlen($newPostTitle) > 64) {
+			throw (new \RangeException("Post title is too long."));
+		}
+
+		//store post title
+		$this->postTitle = $newPostTitle;
+	}
 
 }
