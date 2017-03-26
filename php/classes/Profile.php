@@ -105,5 +105,39 @@ class Profile implements \JsonSerializable {
 		$this->profileId = $newProfileId;
 	}
 
+	/**
+	 * accessor method for profile email
+	 *
+	 * @return string value of profile email
+	 **/
+	public function getProfileEmail() {
+		return($this->profileEmail);
+	}
+
+	/**
+	 * mutator method for profile email
+	 *
+	 * @param string $newProfileEmail new value of profile email
+	 * @throws \InvalidArgumentException if $newProfileEmail is invalid or insecure
+	 * @throws \RangeException if $newProfileEmail is > 64 characters
+	 * @throws \TypeError if $newProfileEmail is not a string
+	 **/
+	public function setProfileEmail(string $newProfileEmail) {
+		//sanitize profile email content, check if secure
+		$newProfileEmail= trim($newProfileEmail);
+		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL);
+		if(empty($newProfileEmail) === true) {
+			throw (new \InvalidArgumentException("Profile email is invalid or insecure"));
+		}
+
+		//check profile email length
+		if(strlen($newProfileEmail) > 64) {
+			throw (new \RangeException("Profile email is too long."));
+		}
+
+		//store profile email
+		$this->profileEmail = $newProfileEmail;
+	}
+
 
 }
