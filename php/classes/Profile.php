@@ -332,6 +332,77 @@ class Profile implements \JsonSerializable {
 	}
 
 	/**
+	 * gets a Profile by profileId
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param int $profileId profile id to search for
+	 * @return Profile|null Profile found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
+		//check for valid profile id
+		if($profileId <= 0) {
+			throw (new \PDOException("Profile id is not positive"));
+		}
+
+		//create query template
+		$query = "SELECT profileId, profileEmail, profileHash, profileSalt, profileUsername FROM profile WHERE profileId = :profileId";
+		$statement = $pdo->prepare($query);
+
+		//bind profile id to placeholder in query template
+		$parameters = ["profileId" => $profileId];
+		$statement->execute($parameters);
+
+		//grab profile from mysql
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
+			}
+		} catch(\Exception $exception) {
+			//if row can't be converted, rethrow it
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		return($profile);
+	}
+
+	/**
+	 * gets the Profile by profileId
+	 * gets the Profile by profileEmail
+	 * gets the Profile by profileUsername
+	 * gets all Profiles
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param content to search for
+	 *
+	 * @return Profile|null Profile found or null if not found
+	 * @return \SplFixedArray SplFixedArray of Profiles found
+	 *
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
+	/**
+	 * gets the Profile by profileId
+	 * gets the Profile by profileEmail
+	 * gets the Profile by profileUsername
+	 * gets all Profiles
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param content to search for
+	 *
+	 * @return Profile|null Profile found or null if not found
+	 * @return \SplFixedArray SplFixedArray of Profiles found
+	 *
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+
+	/**
 	 * gets the Profile by profileId
 	 * gets the Profile by profileEmail
 	 * gets the Profile by profileUsername
