@@ -105,6 +105,72 @@ class Post implements \JsonSerializable {
 		$this->postId = $newPostId;
 	}
 
+	/**
+	 * accessor method for post profile id
+	 *
+	 * @return int value of post profile id
+	 **/
+	public function getPostProfileId() {
+		return($this->postProfileId);
+	}
 
+	/**
+	 * mutator method for post profile id
+	 *
+	 * @param int $newPostProfileId new value of post profile id
+	 * @throws \RangeException if $newPostProfileId is not positive
+	 * @throws \TypeError if $newPostProfileId is not an integer
+	 **/
+	public function setPostProfileId(int $newPostProfileId) {
+		//check for a valid profile id
+		if($newPostProfileId <= 0) {
+			throw (new \RangeException("Post profile id is not positive."));
+		}
+
+		//store the profile id
+		$this->postProfileId = $newPostProfileId;
+	}
+
+	/**
+	 * accessor method for post id
+	 *
+	 * @return int|null value of post id
+	 **/
+
+	/**
+	 * mutator method for post id
+	 *
+	 * @param int|null $newPostId new value of post id
+	 * @throws \RangeException if $newPostId is not positive
+	 * @throws \TypeError if $newPostId is not an integer
+	 **/
+
+	/**
+	 * accessor method for post id
+	 *
+	 * @return int|null value of post id
+	 **/
+
+	/**
+	 * mutator method for post id
+	 *
+	 * @param int|null $newPostId new value of post id
+	 * @throws \RangeException if $newPostId is not positive
+	 * @throws \TypeError if $newPostId is not an integer
+	 **/
+
+	/**
+	 * accessor method for post id
+	 *
+	 * @return int|null value of post id
+	 **/
+
+	/**
+	 * mutator method for post id
+	 *
+	 * @param int|null $newPostId new value of post id
+	 * @throws \RangeException if $newPostId is not positive
+	 * @throws \TypeError if $newPostId is not an integer
+	 **/
 
 }
