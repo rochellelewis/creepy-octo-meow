@@ -420,7 +420,37 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
+	public static function getProfileByProfileUsername(\PDO $pdo, string $profileUsername) {
+		//sanitize, check for valid profile username
+		$profileUsername = trim($profileUsername);
+		$profileUsername = filter_var($profileUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($profileUsername) === true) {
+			throw (new \PDOException("Profile username is invalid or insecure."));
+		}
 
+		//create query template
+		$query = "SELECT profileId, profileEmail, profileHash, profileSalt, profileUsername FROM profile WHERE profileUsername = :profileUsername";
+		$statement = $pdo->prepare($query);
+
+		//bind profile id to placeholder in query template
+		$parameters = ["profileUsername" => $profileUsername];
+		$statement->execute($parameters);
+
+		//grab profile from mysql
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
+			}
+		} catch(\Exception $exception) {
+			//if row can't be converted, rethrow it
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		return($profile);
+	}
 
 	/**
 	 * gets the Profile by profileId
