@@ -214,6 +214,23 @@ class ProfileTest extends PotentialBroccoliTest {
 	/**
 	 * test grabbing a Profile by email
 	 **/
+	public function testGetValidProfileByProfileEmail() {
+		//count number of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create new profile and insert
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profile->insert($this->getPDO());
+
+		//grab profile back from mysql and check that all fields match
+		$pdoProfile = Profile::getProfileByProfileEmail($this->getPDO(), $profile->getProfileEmail());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertEquals($pdoProfile->getProfileHash(), $this->VALID_HASH);
+		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_SALT);
+		$this->assertEquals($pdoProfile->getProfileUsername(), $this->VALID_USERNAME);
+	}
 
 	/**
 	 * test grabbing a Profile by an email that does not exist
