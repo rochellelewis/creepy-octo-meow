@@ -235,6 +235,11 @@ class ProfileTest extends PotentialBroccoliTest {
 	/**
 	 * test grabbing a Profile by an email that does not exist
 	 **/
+	public function testGetInvalidProfileByProfileEmail() {
+		//try and grab a profile by an email that doesn't exist
+		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "nothing@nada.com");
+		$this->assertCount(0, $profile);
+	}
 
 	/**
 	 * test grabbing a Profile by profile username
