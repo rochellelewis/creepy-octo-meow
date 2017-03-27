@@ -1,0 +1,13 @@
+<phpunit>
+	<testsuites>
+		<testsuite name="Potential Broccoli">
+			<file>ProfileTest.php</file>
+			<file>PostTest.php</file>
+		</testsuite>
+	</testsuites>
+	<filter>
+		<whitelist processUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">../classes</directory>
+		</whitelist>
+	</filter>
+</phpunit>
