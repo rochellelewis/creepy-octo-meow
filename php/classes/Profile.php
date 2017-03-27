@@ -417,7 +417,7 @@ class Profile implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
 			}
 		} catch(\Exception $exception) {
 			//if row can't be converted, rethrow it
@@ -458,7 +458,7 @@ class Profile implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
 			}
 		} catch(\Exception $exception) {
 			//if row can't be converted, rethrow it
@@ -499,7 +499,7 @@ class Profile implements \JsonSerializable {
 			$statement->setFetchMode(\PDO::FETCH_ASSOC);
 			$row = $statement->fetch();
 			if($row !== false) {
-				$profile = new Profile($row["profileId"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
 			}
 		} catch(\Exception $exception) {
 			//if row can't be converted, rethrow it
@@ -528,7 +528,7 @@ class Profile implements \JsonSerializable {
 		$statement->setFetchMode(\PDO::FETCH_ASSOC);
 		while(($row = $statement->fetch()) !== false) {
 			try {
-				$profile = new Profile($row["profileId"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
 				$profiles[$profiles->key()] = $profile;
 				$profiles->next();
 			} catch(\Exception $exception) {
