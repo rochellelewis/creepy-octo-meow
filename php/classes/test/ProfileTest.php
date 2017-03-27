@@ -95,6 +95,11 @@ class ProfileTest extends PotentialBroccoliTest {
 	 *
 	 * @expectedException \PDOException
 	 **/
+	public function testInsertInvalidProfile() {
+		//create profile with non-null profile id and watch it fail
+		$profile = new Profile(PotentialBroccoliTest::INVALID_KEY, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profile->insert($this->getPDO());
+	}
 
 	/**
 	 * test inserting a Profile, editing it, and then updating it
