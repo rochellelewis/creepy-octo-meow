@@ -61,7 +61,11 @@ class Post implements \JsonSerializable {
 	 **/
 	public function __construct(int $newPostId = null, int $newPostProfileId, string $newPostContent, $newPostDate = null, string $newPostTitle) {
 		try {
-
+			$this->setPostId($newPostId);
+			$this->setPostProfileId($newPostProfileId);
+			$this->setPostContent($newPostContent);
+			$this->setPostDate($newPostDate);
+			$this->setPostTitle($newPostTitle);
 		} catch(\InvalidArgumentException $invalidArgument) {
 			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
 		} catch(\RangeException $range) {
