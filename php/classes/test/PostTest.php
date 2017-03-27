@@ -265,6 +265,10 @@ class PostTest extends PotentialBroccoliTest {
 	/**
 	 * test grabbing Posts by a title that does not exist
 	 **/
+	public function testGetPostsByInvalidPostTitle() {
+		$posts = Post::getPostsByPostTitle($this->getPDO(), "you will find nothing");
+		$this->assertCount(0, $posts);
+	}
 
 	/**
 	 * test grabbing all Posts
