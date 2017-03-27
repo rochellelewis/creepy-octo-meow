@@ -102,6 +102,26 @@ class PostTest extends PotentialBroccoliTest {
 	/**
 	 * test inserting a Post, editing it, and then updating it
 	 **/
+	public function testUpdateValidPost() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("post");
+
+		//create a new post and insert
+		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$post->insert($this->getPDO());
+
+		//edit the post and run update method
+		$post->setPostContent($this->VALID_CONTENT_2);
+		$post->update($this->getPDO());
+
+		//grab the post back from mysql and check if all fields match
+		$pdoPost = Post::getPostByPostId($this->getPDO(), $post->getPostId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT_2);
+		$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
+		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
+	}
 
 	/**
 	 * test updating a Post that does not exist
