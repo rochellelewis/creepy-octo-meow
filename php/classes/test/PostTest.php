@@ -278,6 +278,10 @@ class PostTest extends PotentialBroccoliTest {
 	/**
 	 * test grabbing Posts by a date that does not exist
 	 **/
+	public function testGetPostsByInvalidDateRange() {
+		$posts = Post::getPostsByPostDateRange($this->getPDO(), $this->SUNRISE_DATE, $this->SUNSET_DATE);
+		$this->assertCount(0, $posts);
+	}
 
 	/**
 	 * test grabbing Posts by title
