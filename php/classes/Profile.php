@@ -21,6 +21,12 @@ class Profile implements \JsonSerializable {
 	private $profileId;
 
 	/**
+	 * Profile activation token.
+	 * @var string $profileActivationToken
+	 **/
+	private $profileActivationToken;
+
+	/**
 	 * Email address for the Profile. This is unique.
 	 * @var string $profileEmail
 	 **/
@@ -105,6 +111,51 @@ class Profile implements \JsonSerializable {
 
 		//convert and store the profile id
 		$this->profileId = $newProfileId;
+	}
+
+	/**
+	 * accessor method for profile activation token
+	 *
+	 * @return string value of profile activation token
+	 **/
+	public function getProfileActivationToken() {
+		return($this->profileActivationToken);
+	}
+
+	/**
+	 * mutator method for profile activation token
+	 *
+	 * @param string|null $newProfileActivationToken new value of profile activation token
+	 * @throws \InvalidArgumentException if $newProfileActivationToken is invalid, insecure, or not a valid hash value
+	 * @throws \RangeException if $newProfileActivationToken is not exactly 32 characters
+	 **/
+	public function setProfileActivationToken($newProfileActivationToken) {
+		//base case: set profile activation token to null for new profiles
+		if($newProfileActivationToken === null) {
+			$this->profileActivationToken = null;
+			return;
+		}
+
+		//trim, sanitize, filter existing activation tokens
+		$newProfileActivationToken = trim($newProfileActivationToken);
+		$newProfileActivationToken = strtolower($newProfileActivationToken);
+		$newProfileActivationToken = filter_var($newProfileActivationToken, FILTER_SANITIZE_STRING);
+		if(empty($newProfileActivationToken) === true) {
+			throw (new \InvalidArgumentException("Profile activation token is invalid or insecure."));
+		}
+
+		//verify activation token is valid hash
+		if(ctype_xdigit($newProfileActivationToken) === false) {
+			throw (new \InvalidArgumentException("Profile activation token is not a valid hash value."));
+		}
+
+		//check length
+		if(strlen($newProfileActivationToken) !== 32) {
+			throw (new \RangeException("Profile activation token is an invalid length."));
+		}
+
+		//store activation token
+		$this->profileActivationToken = $newProfileActivationToken;
 	}
 
 	/**
