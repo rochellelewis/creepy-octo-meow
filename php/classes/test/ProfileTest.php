@@ -26,6 +26,12 @@ class ProfileTest extends PotentialBroccoliTest {
 	protected $VALID_ACTIVATION = "aae04b1d8089795764c5f759ab387872";
 
 	/**
+	 * Profile activation token - to test invalid case. this will not be inserted
+	 * @var string $VALID_ACTIVATION_2
+	 **/
+	protected $VALID_ACTIVATION_2 = "c3036bf1d0a1eb478dcc03c93fda5383";
+
+	/**
 	 * Profile email address
 	 * @var string $VALID_EMAIL
 	 **/
@@ -199,6 +205,11 @@ class ProfileTest extends PotentialBroccoliTest {
 	/**
 	 * test grabbing a Profile by an activation token that does not exist
 	 **/
+	public function testGetInvalidProfileByProfileActivationToken() {
+		//try and grab a profile by an activation token that doesn't exist
+		$profile = Profile::getProfileByProfileActivationToken($this->getPDO(), $this->VALID_ACTIVATION_2);
+		$this->assertCount(0, $profile);
+	}
 
 	/**
 	 * test grabbing a Profile by email
