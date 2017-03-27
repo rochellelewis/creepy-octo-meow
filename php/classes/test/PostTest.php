@@ -167,35 +167,55 @@ class PostTest extends PotentialBroccoliTest {
 	}
 
 	/**
-	 * test grabbing a Post by Profile Id
+	 * test grabbing Posts by Profile Id
+	 **/
+	public function testGetValidPostsByPostProfileId() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("post");
+
+		//create a new post and insert
+		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$post->insert($this->getPDO());
+
+		//grab the posts from mysql, verify row count and namespace is correct
+		$results = Post::getPostsByPostProfileId($this->getPDO(), $this->profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\PotentialBroccoli\\Post", $results);
+
+		//verify that all fields match
+		$pdoPost = $results[0];
+		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT);
+		$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
+		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
+	}
+
+	/**
+	 * test grabbing Posts by a Profile Id that does not exist
 	 **/
 
 	/**
-	 * test grabbing a Post by a Profile Id that does not exist
+	 * test grabbing Posts by post content
 	 **/
 
 	/**
-	 * test grabbing a Post by post content
+	 * test grabbing Posts by content that does not exist
 	 **/
 
 	/**
-	 * test grabbing a Post by content that does not exist
+	 * test grabbing Posts by post date range
 	 **/
 
 	/**
-	 * test grabbing a Post by post date
+	 * test grabbing Posts by a date that does not exist
 	 **/
 
 	/**
-	 * test grabbing a Post by a date that does not exist
+	 * test grabbing Posts by title
 	 **/
 
 	/**
-	 * test grabbing a Post by title
-	 **/
-
-	/**
-	 * test grabbing a Post by a title that does not exist
+	 * test grabbing Posts by a title that does not exist
 	 **/
 
 	/**
