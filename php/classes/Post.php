@@ -358,7 +358,7 @@ class Post implements \JsonSerializable {
 	 * gets Posts by postProfileId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param to int $postProfileId profile id of author to search for
+	 * @param int $postProfileId profile id of author to search for
 	 * @return \SplFixedArray SplFixedArray of Posts found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
@@ -447,7 +447,6 @@ class Post implements \JsonSerializable {
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
 	public static function getPostsByPostDateRange (\PDO $pdo, $postSunriseDate, $postSunsetDate) {
-
 		//check, validate search dates
 		if((empty($postSunriseDate) === true) || (empty($postSunsetDate) === true)) {
 			throw (new \PDOException("Post date range is empty or invalid"));
@@ -500,6 +499,37 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
+	public static function getPostsByPostTitle(\PDO $pdo, $postTitle) {
+		//trim, filter post title before searching
+		$postTitle = trim($postTitle);
+		$postTitle = filter_var($postTitle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+		if(empty($postTitle) === true) {
+			throw (new \PDOException("Post title is invalid or insecure."));
+		}
+
+		//create query template
+		$query = "SELECT postId, postProfileId, postContent, postDate, postTitle FROM post WHERE postTitle LIKE :postTitle";
+		$statement = $pdo->prepare($query);
+
+		//bind member variables to the placeholders in the query template
+		$parameters = ["postTitle" => $postTitle];
+		$statement->execute($parameters);
+
+		//build an array of posts
+		$posts = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try {
+				$post = new Post($row["postId"], $row["postProfileId"], $row["postContent"], $row["postDate"], $row["postTitle"]);
+				$posts[$posts->key()] = $post;
+				$posts->next();
+			} catch(\Exception $exception) {
+				throw (new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+
+		return($posts);
+	}
 
 	/**
 	 * gets all Posts
