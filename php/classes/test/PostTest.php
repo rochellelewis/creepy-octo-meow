@@ -64,13 +64,29 @@ class PostTest extends PotentialBroccoliTest {
 		$this->profile = new Profile(null, $activation, "drumpf@tinyhands.ru", $hash, $salt, "bernie");
 		$this->profile->insert($this->getPDO());
 
-		//create a valid post date
+		//create a valid post date - this gives us something preset to check against
 		$this->VALID_DATE = new \DateTime();
 	}
 
 	/**
 	 * test inserting a valid Post and verify that the actual mySQL data matches
 	 **/
+	public function testInsertValidPost() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("post");
+
+		//create a new post and insert
+		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$post->insert($this->getPDO());
+
+		//grab the post back from mysql and check if all fields match
+		$pdoPost = Post::getPostByPostId($this->getPDO(), $post->getPostId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT);
+		$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
+		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
+	}
 
 	/**
 	 * test inserting a Post that already exists
