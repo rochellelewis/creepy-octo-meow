@@ -320,11 +320,12 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "INSERT INTO profile(profileEmail, profileHash, profileSalt, profileUsername) VALUES(:profileEmail, :profileHash, :profileSalt, :profileUsername)";
+		$query = "INSERT INTO profile(profileActivationToken, profileEmail, profileHash, profileSalt, profileUsername) VALUES(:profileActivationToken, :profileEmail, :profileHash, :profileSalt, :profileUsername)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the placeholders in the query template
 		$parameters = [
+			"profileActivationToken" => $this->profileActivationToken,
 			"profileEmail" => $this->profileEmail,
 			"profileHash" => $this->profileHash,
 			"profileSalt" => $this->profileSalt,
@@ -350,11 +351,12 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "UPDATE profile SET profileEmail = :profileEmail, profileHash = :profileHash, profileSalt = :profileSalt, profileUsername = :profileUsername WHERE profileId = :profileId";
+		$query = "UPDATE profile SET profileActivationToken = :profileActivationToken, profileEmail = :profileEmail, profileHash = :profileHash, profileSalt = :profileSalt, profileUsername = :profileUsername WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		//bind member variables to the placeholders in the template
 		$parameters = [
+			"profileActivationToken" =>$this->profileActivationToken,
 			"profileEmail" => $this->profileEmail,
 			"profileHash" => $this->profileHash,
 			"profileSalt" => $this->profileSalt,
