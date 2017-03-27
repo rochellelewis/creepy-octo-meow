@@ -54,6 +54,7 @@ class Profile implements \JsonSerializable {
 	 * Constructor for this Profile
 	 *
 	 * @param int|null $newProfileId id of this Profile, or null if a new Profile
+	 * @param string $newProfileActivationToken activation token for this Profile
 	 * @param string $newProfileEmail email address for this Profile
 	 * @param string $newProfileHash hash value for the Profile password
 	 * @param string $newProfileSalt salt for the hash value for the Profile password
@@ -63,9 +64,10 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if other exceptions occur
 	 **/
-	public function __construct(int $newProfileId = null, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, string $newProfileUsername) {
+	public function __construct(int $newProfileId = null, string $newProfileActivationToken, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, string $newProfileUsername) {
 		try {
 			$this->setProfileId($newProfileId);
+			$this->setProfileActivationToken($newProfileActivationToken);
 			$this->setProfileEmail($newProfileEmail);
 			$this->setProfileHash($newProfileHash);
 			$this->setProfileSalt($newProfileSalt);
