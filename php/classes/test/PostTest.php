@@ -160,6 +160,11 @@ class PostTest extends PotentialBroccoliTest {
 	 *
 	 * @expectedException \PDOException
 	 **/
+	public function testDeleteInvalidPost() {
+		//create a post, don't insert it, try deleting it and watch it fail
+		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$post->delete($this->getPDO());
+	}
 
 	/**
 	 * test grabbing a Post by Profile Id
