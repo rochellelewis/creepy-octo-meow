@@ -93,6 +93,11 @@ class PostTest extends PotentialBroccoliTest {
 	 *
 	 * @expectedException \PDOException
 	 **/
+	public function testInsertInvalidPost() {
+		//create a post with a non-null post id and watch it fail
+		$post = new Post(PotentialBroccoliTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$post->insert($this->getPDO());
+	}
 
 	/**
 	 * test inserting a Post, editing it, and then updating it
