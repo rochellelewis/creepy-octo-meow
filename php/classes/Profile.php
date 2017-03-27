@@ -428,8 +428,50 @@ class Profile implements \JsonSerializable {
 	}
 
 	/**
-	 * gets a Profile by profileEmail
+	 * gets a Profile by activation token
+	 *
+	 * @param \PDO $pdo PDO connection object
+	 * @param string $profileActivationToken activation token to search for
+	 * @return Profile|null Profile found or null if not found
+	 * @throws \PDOException when mySQL related errors occur
+	 * @throws \TypeError when variables are not the correct data type
+	 **/
+	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) {
+		//sanitize, check for valid activation token
+		$profileActivationToken = trim($profileActivationToken);
+		$profileActivationToken = strtolower($profileActivationToken);
+		$profileActivationToken = filter_var($profileActivationToken, FILTER_SANITIZE_STRING);
+		if(empty($profileActivationToken) === true) {
+			throw (new \PDOException("Profile activation token is invalid or insecure."));
+		}
 
+		//create query template
+		$query = "SELECT profileId, profileActivationToken, profileEmail, profileHash, profileSalt, profileUsername FROM profile WHERE profileActivationToken = :profileActivationToken";
+		$statement = $pdo->prepare($query);
+
+		//bind profile id to placeholder in query template
+		$parameters = ["profileActivationToken" => $profileActivationToken];
+		$statement->execute($parameters);
+
+		//grab profile from mysql
+		try {
+			$profile = null;
+			$statement->setFetchMode(\PDO::FETCH_ASSOC);
+			$row = $statement->fetch();
+			if($row !== false) {
+				$profile = new Profile($row["profileId"], $row["profileActivationToken"], $row["profileEmail"], $row["profileHash"], $row["profileSalt"], $row["profileUsername"]);
+			}
+		} catch(\Exception $exception) {
+			//if row can't be converted, rethrow it
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
+		}
+
+		return($profile);
+	}
+
+	/**
+	 * gets a Profile by profileEmail
+	 *
 	 * @param \PDO $pdo PDO connection object
 	 * @param string $profileEmail profile email to search for
 	 * @return Profile|null Profile found or null if not found
