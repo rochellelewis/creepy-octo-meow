@@ -72,4 +72,66 @@ class PostTest extends PotentialBroccoliTest {
 	 * test inserting a valid Post and verify that the actual mySQL data matches
 	 **/
 
+	/**
+	 * test inserting a Post that already exists
+	 *
+	 * @expectedException \PDOException
+	 **/
+
+	/**
+	 * test inserting a Post, editing it, and then updating it
+	 **/
+
+	/**
+	 * test updating a Post that does not exist
+	 *
+	 * @expectedException \PDOException
+	 **/
+
+	/**
+	 * test creating a Post and then deleting it
+	 **/
+
+	/**
+	 * test deleting a Post that does not exist
+	 *
+	 * @expectedException \PDOException
+	 **/
+
+	/**
+	 * test grabbing a Post by Profile Id
+	 **/
+
+	/**
+	 * test grabbing a Post by a Profile Id that does not exist
+	 **/
+
+	/**
+	 * test grabbing a Post by post content
+	 **/
+
+	/**
+	 * test grabbing a Post by content that does not exist
+	 **/
+
+	/**
+	 * test grabbing a Post by post date
+	 **/
+
+	/**
+	 * test grabbing a Post by a date that does not exist
+	 **/
+
+	/**
+	 * test grabbing a Post by title
+	 **/
+
+	/**
+	 * test grabbing a Post by a title that does not exist
+	 **/
+
+	/**
+	 * test grabbing all Posts
+	 **/
+
 }
