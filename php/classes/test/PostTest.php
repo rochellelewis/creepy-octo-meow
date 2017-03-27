@@ -39,6 +39,18 @@ class PostTest extends PotentialBroccoliTest {
 	protected $VALID_DATE = null;
 
 	/**
+	 * beginning date to test post date range search
+	 * @var \DateTime $SUNRISE_DATE
+	 **/
+	protected $SUNRISE_DATE = null;
+
+	/**
+	 * end date to test post date range search
+	 * @var \DateTime $SUNSET_DATE
+	 **/
+	protected $SUNSET_DATE = null;
+
+	/**
 	 * title of the Post
 	 * @var string $VALID_TITLE
 	 **/
@@ -64,8 +76,16 @@ class PostTest extends PotentialBroccoliTest {
 		$this->profile = new Profile(null, $activation, "drumpf@tinyhands.ru", $hash, $salt, "bernie");
 		$this->profile->insert($this->getPDO());
 
-		//create a valid post date - this gives us something preset to check against
+		//create a valid post date - this gives us something pre-set to check against
 		$this->VALID_DATE = new \DateTime();
+
+		//create a valid SUNRISE date for date range check
+		$this->SUNRISE_DATE = new \DateTime();
+		$this->SUNRISE_DATE->sub(new \DateInterval("P10D"));
+
+		//create a valid SUNSET date for date range check
+		$this->SUNSET_DATE = new \DateTime();
+		$this->SUNSET_DATE->add(new \DateInterval("P10D"));
 	}
 
 	/**
