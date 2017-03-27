@@ -274,4 +274,27 @@ class ProfileTest extends PotentialBroccoliTest {
 	/**
 	 * test grabbing all Profiles
 	 **/
+	public function testGetAllProfiles() {
+		//count number of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create new profile and insert
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profile->insert($this->getPDO());
+
+		//grab all profiles back from mysql and check that the count matches
+		$results = Profile::getAllProfiles($this->getPDO());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\PotentialBroccoli\\Profile", $results);
+
+		//grab the first index out of the results array and check that all fields match what was inserted
+		$pdoProfile = $results[0];
+		$this->assertEquals($pdoProfile->getProfileId(), $profile->getProfileId());
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
+		$this->assertEquals($pdoProfile->getProfileHash(), $this->VALID_HASH);
+		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_SALT);
+		$this->assertEquals($pdoProfile->getProfileUsername(), $this->VALID_USERNAME);
+	}
 }
