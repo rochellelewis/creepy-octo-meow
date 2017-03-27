@@ -193,6 +193,10 @@ class PostTest extends PotentialBroccoliTest {
 	/**
 	 * test grabbing Posts by a Profile Id that does not exist
 	 **/
+	public function testGetPostByInvalidPostProfileId() {
+		$posts = Post::getPostsByPostProfileId($this->getPDO(), parent::INVALID_KEY);
+		$this->assertCount(0, $posts);
+	}
 
 	/**
 	 * test grabbing Posts by post content
