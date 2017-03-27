@@ -201,6 +201,26 @@ class PostTest extends PotentialBroccoliTest {
 	/**
 	 * test grabbing Posts by post content
 	 **/
+	public function testGetValidPostsByPostContent() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("post");
+
+		//create a new post and insert
+		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$post->insert($this->getPDO());
+
+		//grab the posts from mysql, verify row count and namespace is correct
+		$results = Post::getPostsByPostContent($this->getPDO(), $this->VALID_CONTENT);
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$this->assertCount(1, $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\PotentialBroccoli\\Post", $results);
+
+		//verify that all fields match
+		$pdoPost = $results[0];
+		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
+		$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
+		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
+	}
 
 	/**
 	 * test grabbing Posts by content that does not exist
