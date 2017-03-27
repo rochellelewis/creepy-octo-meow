@@ -404,7 +404,7 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileEmail, profileHash, profileSalt, profileUsername FROM profile WHERE profileId = :profileId";
+		$query = "SELECT profileId, profileActivationToken, profileEmail, profileHash, profileSalt, profileUsername FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		//bind profile id to placeholder in query template
@@ -445,7 +445,7 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileEmail, profileHash, profileSalt, profileUsername FROM profile WHERE profileEmail = :profileEmail";
+		$query = "SELECT profileId, profileActivationToken, profileEmail, profileHash, profileSalt, profileUsername FROM profile WHERE profileEmail = :profileEmail";
 		$statement = $pdo->prepare($query);
 
 		//bind profile id to placeholder in query template
@@ -486,7 +486,7 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "SELECT profileId, profileEmail, profileHash, profileSalt, profileUsername FROM profile WHERE profileUsername = :profileUsername";
+		$query = "SELECT profileId, profileActivationToken, profileEmail, profileHash, profileSalt, profileUsername FROM profile WHERE profileUsername = :profileUsername";
 		$statement = $pdo->prepare($query);
 
 		//bind profile id to placeholder in query template
@@ -519,7 +519,7 @@ class Profile implements \JsonSerializable {
 	 **/
 	public static function getAllProfiles(\PDO $pdo) {
 		//create query template
-		$query = "SELECT profileId, profileEmail, profileHash, profileSalt, profileUsername FROM profile";
+		$query = "SELECT profileId, profileActivationToken, profileEmail, profileHash, profileSalt, profileUsername FROM profile";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
