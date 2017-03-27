@@ -146,6 +146,23 @@ class ProfileTest extends PotentialBroccoliTest {
 	/**
 	 * test creating a Profile and then deleting it
 	 **/
+	public function testDeleteValidProfile() {
+		//count number of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create new profile and insert
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profile->insert($this->getPDO());
+
+		//delete the profile we just made
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$profile->delete($this->getPDO());
+
+		//try and grab the profile back from mysql and verify we get nothing
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertNull($pdoProfile);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
+	}
 
 	/**
 	 * test deleting a Profile that does not exist
