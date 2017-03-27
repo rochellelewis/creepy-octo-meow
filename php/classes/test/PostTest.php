@@ -137,6 +137,23 @@ class PostTest extends PotentialBroccoliTest {
 	/**
 	 * test creating a Post and then deleting it
 	 **/
+	public function testDeleteValidPost() {
+		//count the number of rows and save it for later
+		$numRows = $this->getConnection()->getRowCount("post");
+
+		//create a new post and insert
+		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$post->insert($this->getPDO());
+
+		//verify the row has been inserted, then run delete
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
+		$post->delete($this->getPDO());
+
+		//try and grab it back from mysql and verify that you get nothing
+		$pdoPost = Post::getPostByPostId($this->getPDO(), $post->getPostId());
+		$this->assertNull($pdoPost);
+		$this->assertEquals($numRows, $this->getConnection()->getRowCount("post"));
+	}
 
 	/**
 	 * test deleting a Post that does not exist
