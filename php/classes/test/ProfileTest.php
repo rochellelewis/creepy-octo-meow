@@ -1,7 +1,7 @@
 <?php
  namespace Edu\Cnm\PotentialBroccoli\Test;
 
- use Edu\Cnm\PotentialBroccoli\{Profile, ValidateDate};
+ use Edu\Cnm\PotentialBroccoli\Profile;
 
  //grab the project test parameters
  require_once ("PotentialBroccoliTest.php");
@@ -56,6 +56,12 @@ class ProfileTest extends PotentialBroccoliTest {
 	protected $VALID_USERNAME = "bernie";
 
 	/**
+	 * Profile password username to test update
+	 * @var string $VALID_USERNAME_2
+	 **/
+	protected $VALID_USERNAME_2 = "elizabeth";
+
+	/**
 	 * create dependent objects before running each test
 	 **/
 	public final function setUp() {
@@ -104,6 +110,27 @@ class ProfileTest extends PotentialBroccoliTest {
 	/**
 	 * test inserting a Profile, editing it, and then updating it
 	 **/
+	public function testUpdateValidProfile() {
+		//count number of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("profile");
+
+		//create new profile and insert
+		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profile->insert($this->getPDO());
+
+		//edit the profile and run update method
+		$profile->setProfileUsername($this->VALID_USERNAME_2);
+		$profile->update($this->getPDO());
+
+		//grab the profile back from mysql and check that all fields match
+		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
+		$this->assertEquals($pdoProfile->getProfileActivationToken(), $this->VALID_ACTIVATION);
+		$this->assertEquals($pdoProfile->getProfileEmail(), $this->VALID_EMAIL);
+		$this->assertEquals($pdoProfile->getProfileHash(), $this->VALID_HASH);
+		$this->assertEquals($pdoProfile->getProfileSalt(), $this->VALID_SALT);
+		$this->assertEquals($pdoProfile->getProfileUsername(), $this->VALID_USERNAME_2);
+	}
 
 	/**
 	 * test updating a Profile that does not exist
