@@ -225,6 +225,10 @@ class PostTest extends PotentialBroccoliTest {
 	/**
 	 * test grabbing Posts by content that does not exist
 	 **/
+	public function testGetPostsByInvalidPostContent() {
+		$posts = Post::getPostsByPostContent($this->getPDO(), "you will find nothing");
+		$this->assertCount(0, $posts);
+	}
 
 	/**
 	 * test grabbing Posts by post date range
