@@ -9,7 +9,7 @@ use Edu\Cnm\PotentialBroccoli\Profile;
 /**
  * API for Profile class
  *
- * GET, POST, and PUT requests are supported.
+ * GET and PUT requests are supported.
  *
  * @author Rochelle Lewis <rlewis37@cnm.edu>
  **/
@@ -92,11 +92,16 @@ try {
 
 		}
 
-	} elseif($method === "PUT" || $method === "POST") {
+	} elseif($method === "PUT") {
 
 		verifyXsrf();
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
+
+		//restrict write access to profile if not logged in to the profile
+		if(empty(($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $id)) {
+			throw (new \Exception("U are not allowed to access this profile!", 405));
+		}
 
 		//check if profile email is available (required field)
 		if(empty($requestObject->profileEmail) === true) {
@@ -108,54 +113,42 @@ try {
 			throw (new \InvalidArgumentException("No profile username.", 405));
 		}
 
-		if($method === "PUT") {
-
-			//restrict write access to profile if not logged in to the profile
-			if(empty(($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $id)) {
-				throw (new \Exception("U are not allowed to access this profile!", 405));
-			}
-
-			//retrieve profile to update
-			$profile = Profile::getProfileByProfileId($pdo, $id);
-			if($profile === null) {
-				throw (new RuntimeException("Profile does not exist.", 404));
-			}
-
-			//update all non-password attributes
-			$profile->setProfileActivationToken($requestObject->profileActivationToken);
-			$profile->setProfileEmail($requestObject->profileEmail);
-			$profile->setProfileUsername($requestObject->profileUsername);
-
-			//change password if requested
-			if(empty($requestObject->currentProfilePassword) === false && empty($requestContent->newProfilePassword) === false) {
-
-				//throw exception if new password confirmation field doesn't match
-				if($requestObject->newProfilePassword !== $requestObject->newProfileConfirmPassword) {
-					throw (new \RuntimeException("New passwords do not match", 401));
-				}
-
-				//throw exception if current password given doesn't hash to match what's currently in mysql
-				$currentPasswordHash = hash_pbkdf2("sha512", $requestObject->currentProfilePassword, $profile->getProfileSalt(), 262144);
-				if($currentPasswordHash !== $profile->getProfileHash()) {
-					throw (new \RuntimeException("Current password is incorrect.", 401));
-				}
-
-				//generate new salt and hash for new password
-				$newProfileSalt = bin2hex(random_bytes(16));
-				$newProfileHash = hash_pbkdf2("sha512", $requestObject->newProfilePassword, $newProfileSalt, 262144);
-
-				//update password
-				$profile->setProfileSalt($newProfileSalt);
-				$profile->setProfileHash($newProfileHash);
-			}
-
-			//run update, update reply
-			$profile->update($pdo);
-			$reply->message = "Profile updated ok!";
-
-		} elseif($method === "POST") {
-
+		//retrieve profile to update
+		$profile = Profile::getProfileByProfileId($pdo, $id);
+		if($profile === null) {
+			throw (new RuntimeException("Profile does not exist.", 404));
 		}
+
+		//update all non-password attributes
+		$profile->setProfileEmail($requestObject->profileEmail);
+		$profile->setProfileUsername($requestObject->profileUsername);
+
+		//change password if requested
+		if(empty($requestObject->currentProfilePassword) === false && empty($requestContent->newProfilePassword) === false) {
+
+			//throw exception if new password confirmation field doesn't match
+			if($requestObject->newProfilePassword !== $requestObject->newProfileConfirmPassword) {
+				throw (new \RuntimeException("New passwords do not match", 401));
+			}
+
+			//throw exception if current password given doesn't hash to match what's currently in mysql
+			$currentPasswordHash = hash_pbkdf2("sha512", $requestObject->currentProfilePassword, $profile->getProfileSalt(), 262144);
+			if($currentPasswordHash !== $profile->getProfileHash()) {
+				throw (new \RuntimeException("Current password is incorrect.", 401));
+			}
+
+			//generate new salt and hash for new password
+			$newProfileSalt = bin2hex(random_bytes(16));
+			$newProfileHash = hash_pbkdf2("sha512", $requestObject->newProfilePassword, $newProfileSalt, 262144);
+
+			//update password
+			$profile->setProfileSalt($newProfileSalt);
+			$profile->setProfileHash($newProfileHash);
+		}
+
+		//run update, update reply
+		$profile->update($pdo);
+		$reply->message = "Profile updated ok!";
 
 	} else {
 		throw (new \InvalidArgumentException("Invalid HTTP request!"));
