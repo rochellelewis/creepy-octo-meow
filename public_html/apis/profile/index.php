@@ -94,7 +94,10 @@ try {
 
 	} elseif($method === "PUT") {
 
+		//check xsrf token
 		verifyXsrf();
+
+		//grab request content, decode json into a php object
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
