@@ -9,6 +9,8 @@ use Edu\Cnm\PotentialBroccoli\Profile;
 /**
  * API for Profile class
  *
+ * GET, POST, and PUT requests are supported.
+ *
  * @author Rochelle Lewis <rlewis37@cnm.edu>
  **/
 
@@ -36,16 +38,59 @@ try {
 	//determine which HTTP method, store the result in $method
 	$method = array_key_exists("HTTP_x_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-	//stores the Primary Key for GET, DELETE, PUT in $id. This comes in the URL from the front end
+	//sanitize and store input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$activationToken = filter_input(INPUT_GET, "activationToken", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$email = filter_input(INPUT_GET, "email", FILTER_SANITIZE_EMAIL);
+	$username = filter_input(INPUT_GET, "username", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
-	//for PUT and DELETE requests, throw an exception if no valid $id
-	if(($method === "DELETE" || $method === "PUT") && (empty($id) === true || $id < 0)) {
+	//for PUT requests throw an exception if no valid $id
+	if(($method === "PUT") && (empty($id) === true || $id < 0)) {
 		throw(new \InvalidArgumentException("Y U No have valid id?", 405));
 	}
 
 	//begin if blocks for the various HTTP requests
 	if($method === "GET") {
+
+		setXsrfCookie("/");
+
+		//grab profile/profiles based upon available input
+		if(empty($id) === false) {
+
+			$profile = Profile::getProfileByProfileId($pdo, $id);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+
+		} elseif(empty($activationToken) === false) {
+
+			$profile = Profile::getProfileByProfileActivationToken($pdo, $activationToken);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+
+		} elseif(empty($email) === false) {
+
+			$profile = Profile::getProfileByProfileEmail($pdo, $email);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+
+		} elseif(empty($username) === false) {
+
+			$profile = Profile::getProfileByProfileUsername($pdo, $username);
+			if($profile !== null) {
+				$reply->data = $profile;
+			}
+
+		} else {
+
+			$profiles = Profile::getAllProfiles($pdo)->toArray();
+			if($profiles !== null) {
+				$reply->data = $profiles;
+			}
+
+		}
 
 	} elseif($method === "PUT" || $method === "POST") {
 
@@ -54,8 +99,6 @@ try {
 		} elseif($method === "POST") {
 
 		}
-
-	} elseif($method === "DELETE") {
 
 	} else {
 		throw (new \InvalidArgumentException("Invalid HTTP request!"));
@@ -76,5 +119,5 @@ if($reply->data === null) {
 	unset($reply->data);
 }
 
-//finally - JSON encodes the $reply object and sends it back to the front end.
+//finally - JSON encode the $reply object and echo it back to the front end.
 echo json_encode($reply);
