@@ -40,9 +40,9 @@ try {
 
 	//sanitize and store input
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$activationToken = filter_input(INPUT_GET, "activationToken", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$email = filter_input(INPUT_GET, "email", FILTER_SANITIZE_EMAIL);
-	$username = filter_input(INPUT_GET, "username", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileActivationToken = filter_input(INPUT_GET, "profileActivationToken", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$profileEmail = filter_input(INPUT_GET, "profileEmail", FILTER_SANITIZE_EMAIL);
+	$profileUsername = filter_input(INPUT_GET, "profileUsername", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//for PUT requests throw an exception if no valid $id
 	if(($method === "PUT") && (empty($id) === true || $id < 0)) {
@@ -62,23 +62,23 @@ try {
 				$reply->data = $profile;
 			}
 
-		} elseif(empty($activationToken) === false) {
+		} elseif(empty($profileActivationToken) === false) {
 
-			$profile = Profile::getProfileByProfileActivationToken($pdo, $activationToken);
+			$profile = Profile::getProfileByProfileActivationToken($pdo, $profileActivationToken);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
 
-		} elseif(empty($email) === false) {
+		} elseif(empty($profileEmail) === false) {
 
-			$profile = Profile::getProfileByProfileEmail($pdo, $email);
+			$profile = Profile::getProfileByProfileEmail($pdo, $profileEmail);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
 
-		} elseif(empty($username) === false) {
+		} elseif(empty($profileUsername) === false) {
 
-			$profile = Profile::getProfileByProfileUsername($pdo, $username);
+			$profile = Profile::getProfileByProfileUsername($pdo, $profileUsername);
 			if($profile !== null) {
 				$reply->data = $profile;
 			}
@@ -94,7 +94,64 @@ try {
 
 	} elseif($method === "PUT" || $method === "POST") {
 
+		verifyXsrf();
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		//check if profile email is available (required field)
+		if(empty($requestObject->profileEmail) === true) {
+			throw (new \InvalidArgumentException("No profile email.", 405));
+		}
+
+		//check if profile username is available (required field)
+		if(empty($requestObject->profileUsername) === true) {
+			throw (new \InvalidArgumentException("No profile username.", 405));
+		}
+
 		if($method === "PUT") {
+
+			//restrict write access to profile if not logged in to the profile
+			if(empty(($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $id)) {
+				throw (new \Exception("U are not allowed to access this profile!", 405));
+			}
+
+			//retrieve profile to update
+			$profile = Profile::getProfileByProfileId($pdo, $id);
+			if($profile === null) {
+				throw (new RuntimeException("Profile does not exist.", 404));
+			}
+
+			//update all non-password attributes
+			$profile->setProfileActivationToken($requestObject->profileActivationToken);
+			$profile->setProfileEmail($requestObject->profileEmail);
+			$profile->setProfileUsername($requestObject->profileUsername);
+
+			//change password if requested
+			if(empty($requestObject->currentProfilePassword) === false && empty($requestContent->newProfilePassword) === false) {
+
+				//throw exception if new password confirmation field doesn't match
+				if($requestObject->newProfilePassword !== $requestObject->newProfileConfirmPassword) {
+					throw (new \RuntimeException("New passwords do not match", 401));
+				}
+
+				//throw exception if current password given doesn't hash to match what's currently in mysql
+				$currentPasswordHash = hash_pbkdf2("sha512", $requestObject->currentProfilePassword, $profile->getProfileSalt(), 262144);
+				if($currentPasswordHash !== $profile->getProfileHash()) {
+					throw (new \RuntimeException("Current password is incorrect.", 401));
+				}
+
+				//generate new salt and hash for new password
+				$newProfileSalt = bin2hex(random_bytes(16));
+				$newProfileHash = hash_pbkdf2("sha512", $requestObject->newProfilePassword, $newProfileSalt, 262144);
+
+				//update password
+				$profile->setProfileSalt($newProfileSalt);
+				$profile->setProfileHash($newProfileHash);
+			}
+
+			//run update, update reply
+			$profile->update($pdo);
+			$reply->message = "Profile updated ok!";
 
 		} elseif($method === "POST") {
 
