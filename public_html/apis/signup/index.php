@@ -41,7 +41,21 @@ try {
 
 	if($method === "POST") {
 
-		//this is where the magic happens
+		//this is where the magic happens (ﾉ◕ヮ◕)ﾉ*:･ﾟ✧
+
+		//grab request content, decode json into a php object
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		//check for all required fields
+
+		//create password salt and hash
+
+		//create a new Profile and insert into mysql
+
+		//build the account activation email link
+
+		//build account activation email, and mailgun it!
 
 	} else {
 		throw (new \InvalidArgumentException("Invalid HTTP request!"));
