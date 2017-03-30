@@ -205,6 +205,7 @@ class PostTest extends PotentialBroccoliTest {
 
 		//verify that all fields match
 		$pdoPost = $results[0];
+		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT);
 		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
 		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
@@ -237,6 +238,7 @@ class PostTest extends PotentialBroccoliTest {
 
 		//verify that all fields match
 		$pdoPost = $results[0];
+		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
 		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
 		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
@@ -269,6 +271,7 @@ class PostTest extends PotentialBroccoliTest {
 
 		//verify that all fields match
 		$pdoPost = $results[0];
+		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT);
 		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
@@ -302,6 +305,7 @@ class PostTest extends PotentialBroccoliTest {
 
 		//verify that all fields match
 		$pdoPost = $results[0];
+		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT);
 		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
@@ -334,6 +338,7 @@ class PostTest extends PotentialBroccoliTest {
 
 		//verify that all fields match
 		$pdoPost = $results[0];
+		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT);
 		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
