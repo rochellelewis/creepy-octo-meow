@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\DataDesign\Test;
+namespace Edu\Cnm\PotentialBroccoli\Test;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
