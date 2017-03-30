@@ -48,14 +48,56 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		//check for all required fields
+		if(empty($requestObject->profileEmail) === true) {
+			throw (new \InvalidArgumentException("Y u no email?"));
+		}
+
+		if(empty($requestObject->profileUsername) === true) {
+			throw (new \InvalidArgumentException("Please choose a username."));
+		}
+
+		if(empty($requestObject->profilePassword) === true) {
+			throw (new \InvalidArgumentException("You must provide a password."));
+		} else {
+			$profilePassword = $requestObject->profilePassword;
+		}
+
+		if(empty($requestObject->profileConfirmPassword) === true) {
+			throw (new \InvalidArgumentException("Please confirm your password."));
+		}
+
+		if($requestObject->profilePassword !== $requestObject->profileConfirmPassword) {
+			throw (new \InvalidArgumentException("Passwords do not match."));
+		}
+
+		//create profile activation token
+		$activationToken = bin2hex(random_bytes(16));
 
 		//create password salt and hash
+		$salt = bin2hex(random_bytes(16));
+		$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $salt, 262144);
 
 		//create a new Profile and insert into mysql
+		$profile = new Profile(null, $activationToken, $requestObject->profileEmail, $hash, $salt, $requestObject->profileUsername);
+		$profile->insert($pdo);
 
-		//build the account activation email link
+		//build the account activation email link - this url points to the activation api
+		$basePath = dirname($_SERVER["SCRIPT_NAME"], 2);
+		$urlGlue = $basePath . "/activation/?profileActivationToken=$activationToken";
+		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlGlue;
 
 		//build account activation email, and mailgun it!
+		$senderName = "Potential Broccoli Demo App";
+		$senderEmail = "rlewis37@cnm.edu";
+		$subject = "Potential Broccoli Account Activation";
+		$message = <<< EOF
+<h2>One more step to activate your account.</h2>
+<p>Visit the following link to complete the sign-up process: <a href="$confirmLink">$confirmLink<a></p>
+EOF;
+		$response = mailgunHandler($senderName, $senderEmail, $requestObject->profileUsername, $requestObject->profileEmail, $subject, $message);
+
+		//update reply after sending activation email
+		$reply->message = "Almost done! Check your email to activate your account.";
 
 	} else {
 		throw (new \InvalidArgumentException("Invalid HTTP request!"));
