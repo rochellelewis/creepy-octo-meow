@@ -208,7 +208,7 @@ class ProfileTest extends PotentialBroccoliTest {
 	public function testGetInvalidProfileByProfileActivationToken() {
 		//try and grab a profile by an activation token that doesn't exist
 		$profile = Profile::getProfileByProfileActivationToken($this->getPDO(), $this->VALID_ACTIVATION_2);
-		$this->assertCount(0, $profile);
+		$this->assertNull($profile);
 	}
 
 	/**
@@ -238,7 +238,7 @@ class ProfileTest extends PotentialBroccoliTest {
 	public function testGetInvalidProfileByProfileEmail() {
 		//try and grab a profile by an email that doesn't exist
 		$profile = Profile::getProfileByProfileEmail($this->getPDO(), "nothing@nada.com");
-		$this->assertCount(0, $profile);
+		$this->assertNull($profile);
 	}
 
 	/**
@@ -268,7 +268,7 @@ class ProfileTest extends PotentialBroccoliTest {
 	public function testGetInvalidProfileByProfileUsername() {
 		//try and grab a profile by a username that doesn't exist
 		$profile = Profile::getProfileByProfileUsername($this->getPDO(), "you will find nothing");
-		$this->assertCount(0, $profile);
+		$this->assertNull($profile);
 	}
 
 	/**
