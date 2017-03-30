@@ -46,7 +46,7 @@ try {
 
 	//for PUT requests throw an exception if no valid $id
 	if(($method === "PUT") && (empty($id) === true || $id < 0)) {
-		throw(new \InvalidArgumentException("Y U No have valid id?", 405));
+		throw(new \InvalidArgumentException("Profile id is not valid.", 405));
 	}
 
 	//begin if blocks for the various HTTP requests
@@ -154,7 +154,7 @@ try {
 		$reply->message = "Profile updated ok!";
 
 	} else {
-		throw (new \InvalidArgumentException("Invalid HTTP request!"));
+		throw (new \InvalidArgumentException("Invalid HTTP request!", 405));
 	}
 
 } catch(Exception $exception) {
