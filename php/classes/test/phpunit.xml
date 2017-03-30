@@ -2,7 +2,7 @@
 	<testsuites>
 		<testsuite name="Potential Broccoli">
 			<file>ProfileTest.php</file>
-			<!--<file>PostTest.php</file>-->
+			<file>PostTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>
