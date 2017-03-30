@@ -247,7 +247,7 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @param string $newProfileSalt new value of profile password hash salt
 	 * @throws \InvalidArgumentException if $newProfileSalt is empty, or not a valid hash value
-	 * @throws \RangeException if $newProfileSalt is not 64 characters
+	 * @throws \RangeException if $newProfileSalt is not 32 characters
 	 * @throws \TypeError if $newProfileSalt is not a string
 	 **/
 	public function setProfileSalt(string $newProfileSalt) {
@@ -264,7 +264,7 @@ class Profile implements \JsonSerializable {
 		}
 
 		//check for valid length
-		if(strlen($newProfileSalt) !== 64) {
+		if(strlen($newProfileSalt) !== 32) {
 			throw (new \RangeException("Profile salt is invalid length."));
 		}
 
