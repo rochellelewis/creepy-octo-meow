@@ -36,7 +36,7 @@ try {
 	$pdo = connectToEncryptedMySQL("/etc/apache2/capstone-mysql/rlewis37.ini");
 
 	//determine which HTTP method, store the result in $method
-	$method = array_key_exists("HTTP_x_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
+	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	if($method === "POST") {
 
