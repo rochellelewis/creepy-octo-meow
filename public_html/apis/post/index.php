@@ -9,7 +9,7 @@ use Edu\Cnm\PotentialBroccoli\{Profile, Post};
 /**
  * API for Post class
  *
- * GET, PUT, POST requests are supported.
+ * GET, PUT, POST, DELETE requests are supported.
  *
  * @author Rochelle Lewis <rlewis37@cnm.edu>
  **/
@@ -39,11 +39,92 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//throw exception if not logged in
+	if(empty($_SESSION["profile"] === true)) {
+		throw (new \InvalidArgumentException("U are not logged in.", 401));
+	}
 
 	//sanitize and store input
+	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
+	$postProfileId = filter_input(INPUT_GET, "postProfileId", FILTER_VALIDATE_INT);
+	$postContent = filter_input(INPUT_GET, "postContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$postDate = filter_input(INPUT_GET, "postDate", FILTER_VALIDATE_INT);
+	$postSunriseDate = filter_input(INPUT_GET, "postSunriseDate", FILTER_VALIDATE_INT);
+	$postSunsetDate = filter_input(INPUT_GET, "postSunsetDate", FILTER_VALIDATE_INT);
+	$postTitle = filter_input(INPUT_GET, "postTitle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
-	//begin if blocks for the various HTTP requests
+	//if sunrise and sunset are available for date range search, format them
+	/*if(empty($postSunriseDate) === false && empty($postSunsetDate) === false) {
+		$postSunriseDate = \DateTime::createFromFormat("U", $postSunriseDate / 1000);
+		$postSunsetDate = \DateTime::createFromFormat("U", $postSunsetDate / 1000);
+	}*/
 
+	//check for valid post id for PUT and DELETE requests
+	if(($method === "PUT" || $method === "DELETE") && (empty($id) === true || $id <= 0)) {
+		throw (new \InvalidArgumentException("Post id is not valid.", 405));
+	}
+
+	//begin if blocks for the allowed HTTP requests
+	if($method = "GET") {
+
+		setXsrfCookie();
+
+		if(empty($id) === false) {
+
+			$post = Post::getPostByPostId($pdo, $id);
+			if($post !== null) {
+				$reply->data = $post;
+			}
+
+		} elseif(empty($postProfileId) === false) {
+
+			$posts = Post::getPostsByPostProfileId($pdo, $postProfileId)->toArray();
+			if($posts !== null) {
+				$reply->data = $posts;
+			}
+
+		} elseif(empty($postContent) === false) {
+
+			$posts = Post::getPostsByPostContent($pdo, $postContent)->toArray();
+			if($posts !== null) {
+				$reply->data = $posts;
+			}
+
+		} elseif(empty($postSunriseDate) === false && empty($postSunsetDate) === false) {
+
+			$posts = Post::getPostsByPostDateRange($pdo, $postSunriseDate, $postSunsetDate)->toArray();
+			if($posts !== null) {
+				$reply->data = $posts;
+			}
+
+		} elseif(empty($postTitle) === false) {
+
+			$posts = Post::getPostsByPostTitle($pdo, $postTitle)->toArray();
+			if($posts !== null) {
+				$reply->data = $posts;
+			}
+
+		} else {
+
+			$posts = Post::getAllPosts($pdo)->toArray();
+			if($posts !== null) {
+				$reply->data = $posts;
+			}
+
+		}
+
+	} elseif($method === "PUT" || $method === "POST") {
+
+		if($method === "PUT") {
+
+		} elseif($method === "POST") {
+
+		}
+
+	} elseif($method === "DELETE") {
+
+	} else {
+		throw (new \InvalidArgumentException("Invalid HTTP request!", 405));
+	}
 
 } catch(Exception $exception) {
 	$reply->status = $exception->getCode();
