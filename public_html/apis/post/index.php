@@ -4,7 +4,7 @@ require_once (dirname(__DIR__, 3) . "/php/classes/autoload.php");
 require_once (dirname(__DIR__, 3) . "/php/lib/xsrf.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\PotentialBroccoli\{Profile, Post};
+use Edu\Cnm\PotentialBroccoli\{Post};
 
 /**
  * API for Post class
@@ -179,6 +179,25 @@ try {
 		}
 
 	} elseif($method === "DELETE") {
+
+		verifyXsrf();
+
+		//grab the post
+		$post = Post::getPostByPostId($pdo, $id);
+		if($post === null) {
+			throw (new \RuntimeException("Post no exist!", 404));
+		}
+
+		//throw exception if user is not logged in to the account that created the post
+		if(empty(($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $post->getPostProfileId())) {
+			throw (new \Exception("U are not allowed to delete this post!", 403));
+		}
+
+		//delete the post (╯°▽°)╯︵ ┻━┻
+		$post->delete($pdo);
+
+		//update reply
+		$reply->message = "Post deleted.";
 
 	} else {
 		throw (new \InvalidArgumentException("Invalid HTTP request!", 405));
