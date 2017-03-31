@@ -71,19 +71,19 @@ try {
 		}
 
 		//create profile activation token
-		$activationToken = bin2hex(random_bytes(16));
+		$profileActivationToken = bin2hex(random_bytes(16));
 
 		//create password salt and hash
 		$salt = bin2hex(random_bytes(16));
 		$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $salt, 262144);
 
 		//create a new Profile and insert into mysql
-		$profile = new Profile(null, $activationToken, $requestObject->profileEmail, $hash, $salt, $requestObject->profileUsername);
+		$profile = new Profile(null, $profileActivationToken, $requestObject->profileEmail, $hash, $salt, $requestObject->profileUsername);
 		$profile->insert($pdo);
 
 		//build the account activation email link - this url points to the activation api
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 2);
-		$urlGlue = $basePath . "/activation/?profileActivationToken=$activationToken";
+		$urlGlue = $basePath . "/activation/?profileActivationToken=$profileActivationToken";
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlGlue;
 
 		//build account activation email, and mailgun it!
