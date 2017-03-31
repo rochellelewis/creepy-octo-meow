@@ -1,5 +1,5 @@
 <?php
-
+require_once (dirname(__DIR__, 3) . "/vendor/autoload.php");
 require_once (dirname(__DIR__, 3) . "/php/classes/autoload.php");
 require_once (dirname(__DIR__, 3) . "/php/lib/xsrf.php");
 require_once (dirname(__DIR__, 3) . "/php/lib/mailgun.php");
@@ -83,7 +83,7 @@ try {
 
 		//build the account activation email link - this url points to the activation api
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 2);
-		$urlGlue = $basePath . "/activation/?profileActivationToken=$profileActivationToken";
+		$urlGlue = $basePath . "/activation/" . $profileActivationToken;
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlGlue;
 
 		//build account activation email, and mailgun it!
