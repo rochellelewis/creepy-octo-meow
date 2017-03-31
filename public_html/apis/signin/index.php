@@ -49,7 +49,7 @@ try {
 
 		//check for password (required field)
 		if(empty($requestObject->profilePassword) === true) {
-			throw (new \InvalidArgumentException("U shall not pass!", 401));
+			throw (new \InvalidArgumentException("No password? U shall not pass!", 401));
 		} else {
 			$profilePassword = filter_var($requestObject->profilePassword, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 		}
