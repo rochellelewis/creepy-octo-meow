@@ -40,7 +40,7 @@ try {
 
 	//throw exception if not logged in
 	if(empty($_SESSION["profile"] === true)) {
-		throw (new \InvalidArgumentException("U are not logged in.", 401));
+		throw (new \InvalidArgumentException("Sorry. U are not logged in.", 401));
 	}
 
 	//sanitize and store input
@@ -121,20 +121,25 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
+		//make sure a post profile id is available
+		if(empty($requestObject->postProfileId) === true) {
+			throw (new \InvalidArgumentException("No post profile id.", 405));
+		}
+
 		//make sure there is post content (required field)
-		if(empty($postContent) === true) {
+		if(empty($requestObject->postContent) === true) {
 			throw (new \InvalidArgumentException("No post content.", 405));
 		}
 
 		//make sure there is a post title (required field)
-		if(empty($postTitle) === true) {
+		if(empty($requestObject->postTitle) === true) {
 			throw (new \InvalidArgumentException("No post title.", 405));
 		}
 
 		if($method === "PUT") {
 
-			//restrict access to the post if user is not logged in to the profile that created it
-			if(empty(($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $postProfileId)) {
+			//restrict access to post if user is not logged in to the account that created it
+			if(empty(($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $requestObject->postProfileId)) {
 				throw (new \Exception("U are not allowed to access this post!", 403));
 			}
 
@@ -144,9 +149,15 @@ try {
 				throw (new \RuntimeException("Post does not exist.", 404));
 			}
 
+			//update post date when updating the post
+			if(empty($requestObject->postDate) === false) {
+				$requestObject->postDate = new \DateTime();
+			}
+
 			//update the post
-			$post->setPostTitle($requestObject->postTitle);
 			$post->setPostContent($requestObject->postContent);
+			$post->setPostDate($requestObject->postDate);
+			$post->setPostTitle($requestObject->postTitle);
 			$post->update($pdo);
 
 			//update reply
@@ -154,12 +165,17 @@ try {
 
 		} elseif($method === "POST") {
 
-			//check for an active logged in session
+			//check that a profile id was sent along with the request
+			if(empty($requestObject->postProfileId) === true) {
+				throw (new \InvalidArgumentException("No profile id.", 405));
+			}
 
 			//create a new post and insert into mysql
+			$post = new Post(null, $requestObject->postProfileId, $requestObject->postContent, null, $requestObject->postTitle);
+			$post->insert($pdo);
 
 			//update reply
-
+			$reply->message = "Post created!";
 		}
 
 	} elseif($method === "DELETE") {
