@@ -127,7 +127,7 @@ try {
 		$profile->setProfileUsername($requestObject->profileUsername);
 
 		//change password if requested
-		if(empty($requestObject->currentProfilePassword) === false && empty($requestContent->newProfilePassword) === false) {
+		if(empty($requestObject->currentProfilePassword) === false && empty($requestObject->newProfilePassword) === false) {
 
 			//throw exception if new password confirmation field doesn't match
 			if($requestObject->newProfilePassword !== $requestObject->newProfileConfirmPassword) {
