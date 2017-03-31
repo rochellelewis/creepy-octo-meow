@@ -103,7 +103,7 @@ try {
 
 		//restrict write access to profile if not logged in to the profile
 		if(empty(($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $id)) {
-			throw (new \Exception("U are not allowed to access this profile!", 405));
+			throw (new \Exception("U are not allowed to access this profile!", 403));
 		}
 
 		//check if profile email is available (required field)

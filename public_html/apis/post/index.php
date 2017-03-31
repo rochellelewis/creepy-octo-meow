@@ -114,9 +114,51 @@ try {
 
 	} elseif($method === "PUT" || $method === "POST") {
 
+		//check xsrf token
+		verifyXsrf();
+
+		//grab request content, decode json into a php object
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		//make sure there is post content (required field)
+		if(empty($postContent) === true) {
+			throw (new \InvalidArgumentException("No post content.", 405));
+		}
+
+		//make sure there is a post title (required field)
+		if(empty($postTitle) === true) {
+			throw (new \InvalidArgumentException("No post title.", 405));
+		}
+
 		if($method === "PUT") {
 
+			//restrict access to the post if user is not logged in to the profile that created it
+			if(empty(($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $postProfileId)) {
+				throw (new \Exception("U are not allowed to access this post!", 403));
+			}
+
+			//grab the post
+			$post = Post::getPostByPostId($pdo, $id);
+			if($post === null) {
+				throw (new \RuntimeException("Post does not exist.", 404));
+			}
+
+			//update the post
+			$post->setPostTitle($requestObject->postTitle);
+			$post->setPostContent($requestObject->postContent);
+			$post->update($pdo);
+
+			//update reply
+			$reply->message = "Your post was successfully updated!";
+
 		} elseif($method === "POST") {
+
+			//check for an active logged in session
+
+			//create a new post and insert into mysql
+
+			//update reply
 
 		}
 
