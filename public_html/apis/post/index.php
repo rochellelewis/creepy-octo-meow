@@ -38,8 +38,8 @@ try {
 	//determine which HTTP method, store the result in $method
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-	//throw exception if not logged in
-	if(empty($_SESSION["profile"] === true)) {
+	//user must be logged in - if not, throw an exception
+	if(empty($_SESSION["profile"]) === true) {
 		throw (new \InvalidArgumentException("Sorry. U are not logged in.", 401));
 	}
 
@@ -47,7 +47,7 @@ try {
 	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
 	$postProfileId = filter_input(INPUT_GET, "postProfileId", FILTER_VALIDATE_INT);
 	$postContent = filter_input(INPUT_GET, "postContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	$postDate = filter_input(INPUT_GET, "postDate", FILTER_VALIDATE_INT);
+	//$postDate = filter_input(INPUT_GET, "postDate", FILTER_VALIDATE_INT);
 	$postSunriseDate = filter_input(INPUT_GET, "postSunriseDate", FILTER_VALIDATE_INT);
 	$postSunsetDate = filter_input(INPUT_GET, "postSunsetDate", FILTER_VALIDATE_INT);
 	$postTitle = filter_input(INPUT_GET, "postTitle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -64,7 +64,7 @@ try {
 	}
 
 	//begin if blocks for the allowed HTTP requests
-	if($method = "GET") {
+	if($method === "GET") {
 
 		setXsrfCookie();
 
@@ -117,6 +117,11 @@ try {
 		//check xsrf token
 		verifyXsrf();
 
+		//user MUST have an activated account before they can create or edit posts.
+		if($_SESSION["profile"]->getProfileActivationToken() !== null) {
+			throw (new \InvalidArgumentException("You must have an activated account before you can create posts. Please check your email for the activation link.", 401));
+		}
+
 		//grab request content, decode json into a php object
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
@@ -136,12 +141,12 @@ try {
 			throw (new \InvalidArgumentException("No post title.", 405));
 		}
 
-		if($method === "PUT") {
+		//restrict access if user is not logged into the account that authored created the post!
+		if($_SESSION["profile"]->getProfileId() !== $requestObject->postProfileId) {
+			throw (new \Exception("Profile id does not match post profile id.", 401));
+		}
 
-			//restrict access to post if user is not logged in to the account that created it
-			if(empty(($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $requestObject->postProfileId)) {
-				throw (new \Exception("U are not allowed to access this post!", 403));
-			}
+		if($method === "PUT") {
 
 			//grab the post
 			$post = Post::getPostByPostId($pdo, $id);
@@ -149,26 +154,21 @@ try {
 				throw (new \RuntimeException("Post does not exist.", 404));
 			}
 
-			//update post date when updating the post
-			if(empty($requestObject->postDate) === false) {
-				$requestObject->postDate = new \DateTime();
-			}
+			//set updated post data
+			$post->setPostContent($requestObject->postContent);
+			$post->setPostTitle($requestObject->postTitle);
+
+			//update the post date on post update
+			$updateDate = new \DateTime();
+			$post->setPostDate($updateDate);
 
 			//update the post
-			$post->setPostContent($requestObject->postContent);
-			$post->setPostDate($requestObject->postDate);
-			$post->setPostTitle($requestObject->postTitle);
 			$post->update($pdo);
 
 			//update reply
 			$reply->message = "Your post was successfully updated!";
 
 		} elseif($method === "POST") {
-
-			//check that a profile id was sent along with the request
-			if(empty($requestObject->postProfileId) === true) {
-				throw (new \InvalidArgumentException("No profile id.", 405));
-			}
 
 			//create a new post and insert into mysql
 			$post = new Post(null, $requestObject->postProfileId, $requestObject->postContent, null, $requestObject->postTitle);
@@ -188,9 +188,9 @@ try {
 			throw (new \RuntimeException("Post no exist!", 404));
 		}
 
-		//throw exception if user is not logged in to the account that created the post
-		if(empty(($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $post->getPostProfileId())) {
-			throw (new \Exception("U are not allowed to delete this post!", 403));
+		//make sure user is logged in to the account that created the post
+		if($_SESSION["profile"]->getProfileId() !== $post->getPostProfileId()) {
+			throw (new \InvalidArgumentException("U are not allowed to delete this post!", 401));
 		}
 
 		//delete the post (╯°▽°)╯︵ ┻━┻
