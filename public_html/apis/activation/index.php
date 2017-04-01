@@ -38,16 +38,17 @@ try {
 	//determine which HTTP method, store the result in $method
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
-	//sanitize and store input (activation token)
-	$profileActivationToken = filter_input(INPUT_GET, "profileActivationToken", FILTER_SANITIZE_STRING);
+	//sanitize and store activation token
+	//make sure "id" is changed to "token" on line 5 in .htaccess
+	$token = filter_input(INPUT_GET, "token", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
 	//check that activation token is a valid hash
-	if(ctype_xdigit($profileActivationToken) === false) {
+	if(ctype_xdigit($token) === false) {
 		throw (new \InvalidArgumentException("Activation token is invalid.", 405));
 	}
 
 	//check that activation token is correct length
-	if(strlen($profileActivationToken) !== 32) {
+	if(strlen($token) !== 32) {
 		throw (new \InvalidArgumentException("Activation Token is invalid length.", 405));
 	}
 
@@ -56,7 +57,7 @@ try {
 		setXsrfCookie();
 
 		//grab the profile by activation token
-		$profile = Profile::getProfileByProfileActivationToken($pdo, $profileActivationToken);
+		$profile = Profile::getProfileByProfileActivationToken($pdo, $token);
 
 		if(empty($profile) === true) {
 			throw (new \InvalidArgumentException("No profile found for the activation token.", 404));
