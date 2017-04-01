@@ -5,7 +5,7 @@
 				Creepy Octo Meow
 			</div>
 			<div class="col-sm-6 text-right">
-				About | GitHub
+				<a href="about.php">About</a> | <a href="https://github.com/rlewis2892/creepy-octo-meow" target="_blank">GitHub</a>
 			</div>
 		</div>
 	</div>
