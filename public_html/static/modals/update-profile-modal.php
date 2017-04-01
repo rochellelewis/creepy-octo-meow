@@ -1,0 +1,50 @@
+<div class="modal fade" id="update-profile-modal" tabindex="-1" role="dialog" aria-labelledby="update-profile">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<h4 class="modal-title" id="update-profile">Update {{Username}}</h4>
+			</div>
+			<div class="modal-body">
+				<form action="" class="form-horizontal">
+					<div class="form-group">
+						<label for="profileEmail" class="col-sm-4 control-label">Email</label>
+						<div class="col-sm-8">
+							<input type="email" class="form-control" id="profileEmail" name="profileEmail" placeholder="Email">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="profileUsername" class="col-sm-4 control-label">Username</label>
+						<div class="col-sm-8">
+							<input type="email" class="form-control" id="profileUsername" name="profileUsername" placeholder="Username">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="currentProfilePassword" class="col-sm-4 control-label">Current Password</label>
+						<div class="col-sm-8">
+							<input type="password" class="form-control" id="currentProfilePassword" name="currentProfilePassword" placeholder="Current Password">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="newProfilePassword" class="col-sm-4 control-label">New Password</label>
+						<div class="col-sm-8">
+							<input type="password" class="form-control" id="newProfilePassword" name="newProfilePassword" placeholder="New Password">
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="newProfileConfirmPassword" class="col-sm-4 control-label">Confirm New Password</label>
+						<div class="col-sm-8">
+							<input type="password" class="form-control" id="newProfileConfirmPassword" name="newProfileConfirmPassword" placeholder="Confirm New Password">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-sm-offset-4 col-sm-8">
+							<button type="submit" class="btn btn-danger">Update Profile</button>
+							<button type="reset" class="btn btn-default" data-dismiss="modal">Cancel</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

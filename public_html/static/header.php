@@ -18,7 +18,7 @@
 					<li class="dropdown">
 						<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hai, <em>username</em>&nbsp;<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a href="#">Profile</a></li>
+							<li><a href="profile.php">Profile</a></li>
 							<li><a href="#">Log Out</a></li>
 						</ul>
 					</li>
