@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\PotentialBroccoli;
+namespace Edu\Cnm\CreepyOctoMeow;
 
 require_once ("autoload.php");
 

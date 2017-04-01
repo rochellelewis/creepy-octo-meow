@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\PotentialBroccoli\Test;
+namespace Edu\Cnm\CreepyOctoMeow\Test;
 
 use PHPUnit\Framework\TestCase;
 use PHPUnit\DbUnit\TestCaseTrait;
@@ -27,7 +27,7 @@ require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
  *
  * @author Dylan McDonald <dmcdonald21@cnm.edu>
  **/
-abstract class PotentialBroccoliTest extends TestCase {
+abstract class CreepyOctoMeowTest extends TestCase {
 	use TestCaseTrait;
 
 	/**

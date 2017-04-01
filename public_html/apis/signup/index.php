@@ -5,7 +5,7 @@ require_once (dirname(__DIR__, 3) . "/php/lib/xsrf.php");
 //require_once (dirname(__DIR__, 3) . "/php/lib/mailgun.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\PotentialBroccoli\Profile;
+use Edu\Cnm\CreepyOctoMeow\Profile;
 
 /**
  * API for new user sign up, Profile class
@@ -87,11 +87,11 @@ try {
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlGlue;
 
 		//build account activation email
-		$senderName = "Potential Broccoli";
+		$senderName = "Creepy Octo Meow";
 		$senderEmail = "rlewis37@cnm.edu";
 		$recipientEmail = $profile->getProfileEmail();
 		$recipientName = $profile->getProfileUsername();
-		$subject = "Account Activation | Potential Broccoli";
+		$subject = "Account Activation | Creepy Octo Meow";
 		$message = <<< EOF
 <h2>One more step to activate your account.</h2>
 <p>Visit the following link to complete the sign-up process: <a href="$confirmLink">$confirmLink<a></p>

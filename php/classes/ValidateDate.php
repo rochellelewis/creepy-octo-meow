@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\PotentialBroccoli;
+namespace Edu\Cnm\CreepyOctoMeow;
 
 /**
  * Trait to Validate a mySQL Date

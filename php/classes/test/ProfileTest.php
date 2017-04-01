@@ -1,10 +1,10 @@
 <?php
- namespace Edu\Cnm\PotentialBroccoli\Test;
+ namespace Edu\Cnm\CreepyOctoMeow\Test;
 
- use Edu\Cnm\PotentialBroccoli\Profile;
+ use Edu\Cnm\CreepyOctoMeow\Profile;
 
  //grab the project test parameters
- require_once ("PotentialBroccoliTest.php");
+ require_once("CreepyOctoMeowTest.php");
 
  //grab the class under scrutiny
  require_once (dirname(__DIR__) . "/autoload.php");
@@ -18,7 +18,7 @@
  * @see Profile
  * @author Rochelle Lewis <rlewis37@cnm.edu>
  **/
-class ProfileTest extends PotentialBroccoliTest {
+class ProfileTest extends CreepyOctoMeowTest {
 	/**
 	 * Profile activation token
 	 * @var string $VALID_ACTIVATION
@@ -109,7 +109,7 @@ class ProfileTest extends PotentialBroccoliTest {
 	 **/
 	public function testInsertInvalidProfile() {
 		//create profile with non-null profile id and watch it fail
-		$profile = new Profile(PotentialBroccoliTest::INVALID_KEY, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profile = new Profile(CreepyOctoMeowTest::INVALID_KEY, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
 		$profile->insert($this->getPDO());
 	}
 
@@ -286,7 +286,7 @@ class ProfileTest extends PotentialBroccoliTest {
 		$results = Profile::getAllProfiles($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("profile"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\PotentialBroccoli\\Profile", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CreepyOctoMeow\\Profile", $results);
 
 		//grab the first index out of the results array and check that all fields match what was inserted
 		$pdoProfile = $results[0];

@@ -1,11 +1,11 @@
 <?php
 
-namespace Edu\Cnm\PotentialBroccoli\Test;
+namespace Edu\Cnm\CreepyOctoMeow\Test;
 
-use Edu\Cnm\PotentialBroccoli\{Profile, Post};
+use Edu\Cnm\CreepyOctoMeow\{Profile, Post};
 
 //grab the project test parameters
-require_once ("PotentialBroccoliTest.php");
+require_once ("CreepyOctoMeowTest.php");
 
 //grab the classes under scrutiny
 require_once (dirname(__DIR__) . "/autoload.php");
@@ -19,7 +19,7 @@ require_once (dirname(__DIR__) . "/autoload.php");
  * @see Post
  * @author Rochelle Lewis <rlewis37@cnm.edu>
  **/
-class PostTest extends PotentialBroccoliTest {
+class PostTest extends CreepyOctoMeowTest {
 	/**
 	 * content of the Post
 	 * @var string $VALID_CONTENT
@@ -115,7 +115,7 @@ class PostTest extends PotentialBroccoliTest {
 	 **/
 	public function testInsertInvalidPost() {
 		//create a post with a non-null post id and watch it fail
-		$post = new Post(PotentialBroccoliTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$post = new Post(CreepyOctoMeowTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
 		$post->insert($this->getPDO());
 	}
 
@@ -201,7 +201,7 @@ class PostTest extends PotentialBroccoliTest {
 		$results = Post::getPostsByPostProfileId($this->getPDO(), $this->profile->getProfileId());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\PotentialBroccoli\\Post", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CreepyOctoMeow\\Post", $results);
 
 		//verify that all fields match
 		$pdoPost = $results[0];
@@ -234,7 +234,7 @@ class PostTest extends PotentialBroccoliTest {
 		$results = Post::getPostsByPostContent($this->getPDO(), $this->VALID_CONTENT);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\PotentialBroccoli\\Post", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CreepyOctoMeow\\Post", $results);
 
 		//verify that all fields match
 		$pdoPost = $results[0];
@@ -267,7 +267,7 @@ class PostTest extends PotentialBroccoliTest {
 		$results = Post::getPostsByPostDateRange($this->getPDO(), $this->SUNRISE_DATE, $this->SUNSET_DATE);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\PotentialBroccoli\\Post", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CreepyOctoMeow\\Post", $results);
 
 		//verify that all fields match
 		$pdoPost = $results[0];
@@ -301,7 +301,7 @@ class PostTest extends PotentialBroccoliTest {
 		$results = Post::getPostsByPostTitle($this->getPDO(), $this->VALID_TITLE);
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\PotentialBroccoli\\Post", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CreepyOctoMeow\\Post", $results);
 
 		//verify that all fields match
 		$pdoPost = $results[0];
@@ -334,7 +334,7 @@ class PostTest extends PotentialBroccoliTest {
 		$results = Post::getAllPosts($this->getPDO());
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
 		$this->assertCount(1, $results);
-		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\PotentialBroccoli\\Post", $results);
+		$this->assertContainsOnlyInstancesOf("Edu\\Cnm\\CreepyOctoMeow\\Post", $results);
 
 		//verify that all fields match
 		$pdoPost = $results[0];
