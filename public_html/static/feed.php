@@ -11,7 +11,7 @@
 				<div class="row">
 					<div class="col-md-4">
 						<h1>Feed Teh Kitty.</h1>
-						<p><button class="btn btn-default"><i class="fa fa-plus"></i> Publish Post</button></p>
+						<p><button class="btn btn-default" data-toggle="modal" data-target="#new-post-modal"><i class="fa fa-plus"></i> Publish Post</button></p>
 						<form class="form-inline">
 							<div class="form-group">
 								<label class="sr-only" for="search-feed">search feed</label>
@@ -45,6 +45,14 @@
 				</div>
 			</div>
 		</main>
+
+		<!-- create post modal -->
+		<?php require_once ("modals/new-post-modal.php");?>
+
+		<!-- delete modal -->
+
+		<!-- edit modal -->
+
 	</div><!--./sfooter-content-->
 
 	<!--insert footer -->
