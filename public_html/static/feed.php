@@ -8,7 +8,41 @@
 
 		<main>
 			<div class="container-fluid">
-
+				<div class="row">
+					<div class="col-md-4">
+						<h1>Feed Teh Kitty.</h1>
+						<p><button class="btn btn-default"><i class="fa fa-plus"></i> Publish Post</button></p>
+						<form class="form-inline">
+							<div class="form-group">
+								<label class="sr-only" for="search-feed">search feed</label>
+								<div class="input-group">
+									<input type="text" class="form-control" id="search-feed" name="search-feed" placeholder="search posts">
+									<span class="input-group-btn">
+										<button class="btn btn-default"><i class="fa fa-search"></i></button>
+									</span>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div class="col-md-8">
+						<div class="panel panel-info">
+							<div class="panel-heading">
+								<h3 class="panel-title pull-left">Post Title</h3>
+								<button class="pull-right btn btn-default btn-sm"><i class="fa fa-trash-o"></i></button>
+								<button class="pull-right btn btn-default btn-sm"><i class="fa fa-pencil"></i></button>
+								<div class="clearfix"></div>
+							</div>
+							<div class="panel-body">
+								<div class="post-date">
+									<small><em>author</em> | <em>date</em></small>
+								</div>
+								<div class="post-content">
+									Post content
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</main>
 	</div><!--./sfooter-content-->

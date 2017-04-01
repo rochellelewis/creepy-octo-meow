@@ -1,3 +1,10 @@
+/****************************************
+* Content Layout
+*****************************************/
+header + main {
+	padding-top: 100px;
+}
+
 /***
 * Flexbox Sticky Footer
 * http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
