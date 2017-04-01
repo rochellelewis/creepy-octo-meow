@@ -2,7 +2,7 @@
 require_once (dirname(__DIR__, 3) . "/vendor/autoload.php");
 require_once (dirname(__DIR__, 3) . "/php/classes/autoload.php");
 require_once (dirname(__DIR__, 3) . "/php/lib/xsrf.php");
-require_once (dirname(__DIR__, 3) . "/php/lib/mailgun.php");
+//require_once (dirname(__DIR__, 3) . "/php/lib/mailgun.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\PotentialBroccoli\Profile;
@@ -86,15 +86,40 @@ try {
 		$urlGlue = $basePath . "/activation/?token=" . $profileActivationToken;
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlGlue;
 
-		//build account activation email, and mailgun it!
-		$senderName = "Potential Broccoli Demo App";
+		//build account activation email
+		$senderName = "Potential Broccoli";
 		$senderEmail = "rlewis37@cnm.edu";
-		$subject = "Potential Broccoli Account Activation";
+		$recipientEmail = $profile->getProfileEmail();
+		$recipientName = $profile->getProfileUsername();
+		$subject = "Account Activation | Potential Broccoli";
 		$message = <<< EOF
 <h2>One more step to activate your account.</h2>
 <p>Visit the following link to complete the sign-up process: <a href="$confirmLink">$confirmLink<a></p>
 EOF;
-		$response = mailgunHandler($senderName, $senderEmail, $requestObject->profileUsername, $requestObject->profileEmail, $subject, $message);
+
+		//mailgun it!
+		//$response = mailgunHandler($senderName, $senderEmail, $recipientName, $recipientEmail, $subject, $message);
+
+		//swiftmail it!
+		$swiftMessage = Swift_Message::newInstance();
+		$swiftMessage->setFrom([$senderEmail => $senderName]);
+
+		$recipients = [
+			$recipientEmail => $recipientName,
+			$senderEmail => $senderName
+		];
+
+		$swiftMessage->setTo($recipients);
+		$swiftMessage->setSubject($subject);
+		$swiftMessage->setBody($message, "text/html");
+		$swiftMessage->addPart(html_entity_decode($message), "text/plain");
+		$smtp = Swift_SmtpTransport::newInstance("localhost", 25);
+		$mailer = Swift_Mailer::newInstance($smtp);
+		$numSent = $mailer->send($swiftMessage, $failedRecipients);
+
+		if($numSent !== count($recipients)) {
+			throw(new \RuntimeException("Unable to send activation email."));
+		}
 
 		//update reply after sending activation email
 		$reply->message = "Almost done! Check your email to activate your account.";
