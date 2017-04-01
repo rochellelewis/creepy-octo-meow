@@ -83,7 +83,7 @@ try {
 
 		//build the account activation email link - this url points to the activation api
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 2);
-		$urlGlue = $basePath . "/activation/" . $profileActivationToken;
+		$urlGlue = $basePath . "/activation/?token=" . $profileActivationToken;
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlGlue;
 
 		//build account activation email, and mailgun it!
