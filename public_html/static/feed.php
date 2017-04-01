@@ -7,7 +7,9 @@
 		<?php require_once ("header.php");?>
 
 		<main>
-			<h2>main content</h2>
+			<div class="container-fluid">
+
+			</div>
 		</main>
 	</div><!--./sfooter-content-->
 
