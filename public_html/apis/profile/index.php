@@ -101,19 +101,9 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		//restrict write access to profile if not logged in to the profile
-		if(empty(($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $id)) {
+		//restrict write access to profile if not actively logged in to the profile
+		if((empty($_SESSION["profile"]) === true) || ($_SESSION["profile"]->getProfileId() !== $id)) {
 			throw (new \Exception("U are not allowed to access this profile!", 403));
-		}
-
-		//check if profile email is available (required field)
-		if(empty($requestObject->profileEmail) === true) {
-			throw (new \InvalidArgumentException("No profile email.", 405));
-		}
-
-		//check if profile username is available (required field)
-		if(empty($requestObject->profileUsername) === true) {
-			throw (new \InvalidArgumentException("No profile username.", 405));
 		}
 
 		//retrieve profile to update
@@ -123,21 +113,26 @@ try {
 		}
 
 		//update all non-password attributes
-		$profile->setProfileEmail($requestObject->profileEmail);
-		$profile->setProfileUsername($requestObject->profileUsername);
+		if($requestObject->profileEmail !== null) {
+			$profile->setProfileEmail($requestObject->profileEmail);
+		}
 
-		//change password if requested
-		if(empty($requestObject->currentProfilePassword) === false && empty($requestObject->newProfilePassword) === false) {
+		if($requestObject->profileUsername !== null) {
+			$profile->setProfileUsername($requestObject->profileUsername);
+		}
+
+		//change password if requested and all required fields are passed
+		if(($requestObject->currentProfilePassword !== null) && ($requestObject->newProfilePassword !== null) && ($requestObject->newProfileConfirmPassword !== null)) {
+
+			//throw exception if current password given doesn't hash to match the current password!
+			$currentPasswordHash = hash_pbkdf2("sha512", $requestObject->currentProfilePassword, $profile->getProfileSalt(), 262144);
+			if($currentPasswordHash !== $profile->getProfileHash()) {
+				throw (new \RuntimeException("Current password is incorrect.", 401));
+			}
 
 			//throw exception if new password confirmation field doesn't match
 			if($requestObject->newProfilePassword !== $requestObject->newProfileConfirmPassword) {
 				throw (new \RuntimeException("New passwords do not match", 401));
-			}
-
-			//throw exception if current password given doesn't hash to match what's currently in mysql
-			$currentPasswordHash = hash_pbkdf2("sha512", $requestObject->currentProfilePassword, $profile->getProfileSalt(), 262144);
-			if($currentPasswordHash !== $profile->getProfileHash()) {
-				throw (new \RuntimeException("Current password is incorrect.", 401));
 			}
 
 			//generate new salt and hash for new password
