@@ -3,12 +3,25 @@
 	<body class="sfooter">
 		<div class="sfooter-content">
 
-			<!-- insert header -->
-			<?php require_once ("header.php");?>
-
 			<main>
-				<h2>main content</h2>
+				<div class="container">
+					<div class="row">
+						<div class="col-sm-10 col-sm-offset-1">
+							<div class="welcome text-center">
+								<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login-modal">Log In</button>
+								<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#signup-modal">Sign Up</button>
+							</div>
+						</div>
+					</div>
+				</div>
 			</main>
+
+			<!-- login modal -->
+			<?php require_once ("modals/login-modal.php");?>
+
+			<!-- signup modal -->
+			<?php require_once ("modals/signup-modal.php");?>
+
 		</div><!--./sfooter-content-->
 
 		<!--insert footer -->
