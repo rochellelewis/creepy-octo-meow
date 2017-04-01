@@ -3,6 +3,7 @@
     "phpunit/dbunit": "@stable",
     "phpunit/phpunit": "@stable",
     "mailgun/mailgun-php": "@stable",
-    "php-http/guzzle6-adapter": "@stable"
+    "php-http/guzzle6-adapter": "@stable",
+    "swiftmailer/swiftmailer": "@stable"
   }
 }
