@@ -1,30 +1,42 @@
 <!-- insert head tag -->
 <?php require_once ("head-utils.php");?>
-	<body class="sfooter">
-		<div class="sfooter-content">
+<body class="sfooter">
+	<div class="sfooter-content">
 
-			<main>
-				<div class="container">
-					<div class="row">
-						<div class="col-sm-10 col-sm-offset-1">
-							<div class="welcome text-center">
-								<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#login-modal">Log In</button>
-								<button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#signup-modal">Sign Up</button>
-							</div>
-						</div>
+		<!-- insert header -->
+		<?php require_once ("header.php");?>
+
+		<main>
+			<div class="container-fluid">
+
+				<!-- title row -->
+				<div class="row">
+					<div class="col-xs-12">
+						<h1>Creepy Octo Meow.</h1>
 					</div>
 				</div>
-			</main>
 
-			<!-- login modal -->
-			<?php require_once ("modals/login-modal.php");?>
+				<!-- content row -->
+				<div class="row">
+					<div class="col-sm-6">
+						<p>This is some content</p>
+					</div>
+					<div class="col-sm-6">
+						<p>This is some more content.</p>
+					</div>
+				</div>
+			</div>
+		</main>
 
-			<!-- signup modal -->
-			<?php require_once ("modals/signup-modal.php");?>
+		<!-- login modal -->
+		<?php require_once ("modals/login-modal.php");?>
 
-		</div><!--./sfooter-content-->
+		<!-- signup modal -->
+		<?php require_once ("modals/signup-modal.php");?>
 
-		<!--insert footer -->
-		<?php require_once ("footer.php");?>
-	</body>
+	</div><!--./sfooter-content-->
+
+	<!--insert footer -->
+	<?php require_once ("footer.php");?>
+</body>
 </html>

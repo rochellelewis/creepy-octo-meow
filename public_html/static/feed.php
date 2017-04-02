@@ -8,23 +8,19 @@
 
 		<main>
 			<div class="container-fluid">
+
+				<!-- title row -->
 				<div class="row">
-					<div class="col-md-4">
+					<div class="col-xs-12">
 						<h1>Feed Teh Kitty.</h1>
-						<p><button class="btn btn-default" data-toggle="modal" data-target="#new-post-modal"><i class="fa fa-plus"></i> Publish Post</button></p>
-						<form class="form-inline">
-							<div class="form-group">
-								<label class="sr-only" for="search-feed">search feed</label>
-								<div class="input-group">
-									<input type="text" class="form-control" id="search-feed" name="search-feed" placeholder="search posts">
-									<span class="input-group-btn">
-										<button class="btn btn-default"><i class="fa fa-search"></i></button>
-									</span>
-								</div>
-							</div>
-						</form>
 					</div>
-					<div class="col-md-8">
+				</div>
+
+				<!-- content row -->
+				<div class="row">
+					<div class="col-xs-12">
+
+						<!-- single post item -->
 						<div class="panel panel-info">
 							<div class="panel-heading">
 								<h3 class="panel-title pull-left">Post Title</h3>
@@ -40,10 +36,11 @@
 									Post content
 								</div>
 							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+						</div><!--/.panel-->
+
+					</div><!--./col-md-8-->
+				</div><!--/.row-->
+			</div><!--/.container-fluid-->
 		</main>
 
 		<!-- create post modal -->
