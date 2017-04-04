@@ -23,15 +23,11 @@ module.exports = {
 			},
 			{
 				test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-				loader: 'url-loader?name=/assets/[name].[hash].[ext]'
+				loader: 'file-loader?name=/assets/[name].[hash].[ext]'
 			},
 			{
 				test: /\.css$/,
 				loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader?minimize=true' })
-			},
-			{
-				test: /\.js$/,
-				loader: 'script-loader'
 			},
 			{
 				test: /\.ts$/,

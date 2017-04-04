@@ -51,7 +51,6 @@
 		"resolve-url-loader": "^1.6.1",
 		"rimraf": "^2.5.4",
 		"sass-loader": "^6.0.0",
-		"script-loader": "^0.7.0",
 		"style-loader": "^0.13.1",
 		"typescript": "^2.1.6",
 		"url-loader": "^0.5.7",

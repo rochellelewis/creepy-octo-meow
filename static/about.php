@@ -1,10 +1,10 @@
 <!-- insert head tag -->
-<?php require_once ("head-utils.php");?>
+<?php require_once("head-utils.php");?>
 	<body class="sfooter">
 		<div class="sfooter-content">
 
 			<!-- insert header -->
-			<?php require_once ("header.php");?>
+			<?php require_once("header.php");?>
 
 			<main>
 				<div class="container-fluid">
@@ -29,14 +29,14 @@
 			</main>
 
 			<!-- login modal -->
-			<?php require_once ("modals/login-modal.php");?>
+			<?php require_once("modals/login-modal.php");?>
 
 			<!-- signup modal -->
-			<?php require_once ("modals/signup-modal.php");?>
+			<?php require_once("modals/signup-modal.php");?>
 
 		</div><!--./sfooter-content-->
 
 		<!--insert footer -->
-		<?php require_once ("footer.php");?>
+		<?php require_once("footer.php");?>
 	</body>
 </html>

@@ -13,7 +13,7 @@ if(session_status() !== PHP_SESSION_ACTIVE) {
 
 		<title>Creepy Octo Meow</title>
 	</head>
-	<body class="sfooter">
+	<body>
 		<!-- This custom tag much match your Angular @Component selector name in app/app.component.ts -->
 		<creepy-octo-meow>Loading&hellip;</creepy-octo-meow>
 	</body>

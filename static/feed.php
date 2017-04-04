@@ -1,10 +1,10 @@
 <!-- insert head tag -->
-<?php require_once ("head-utils.php");?>
+<?php require_once("head-utils.php");?>
 <body class="sfooter">
 	<div class="sfooter-content">
 
 		<!-- insert header -->
-		<?php require_once ("header.php");?>
+		<?php require_once("header.php");?>
 
 		<main>
 			<div class="container-fluid">
@@ -44,17 +44,17 @@
 		</main>
 
 		<!-- create post modal -->
-		<?php require_once ("modals/new-post-modal.php");?>
+		<?php require_once("modals/new-post-modal.php");?>
 
 		<!-- delete modal -->
-		<?php require_once ("modals/delete-post-modal.php");?>
+		<?php require_once("modals/delete-post-modal.php");?>
 
 		<!-- update post modal -->
-		<?php require_once ("modals/update-post-modal.php");?>
+		<?php require_once("modals/update-post-modal.php");?>
 
 	</div><!--./sfooter-content-->
 
 	<!--insert footer -->
-	<?php require_once ("footer.php");?>
+	<?php require_once("footer.php");?>
 </body>
 </html>
