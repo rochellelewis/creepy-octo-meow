@@ -4,8 +4,16 @@ import {FeedComponent} from "./components/feed-component";
 import {ProfileComponent} from "./components/profile-component";
 import {NavbarComponent} from "./components/navbar-component";
 import {CreatePostComponent} from "./components/create-post-component";
+import {EditPostComponent} from "./components/edit-post-component";
 
-export const allAppComponents = [HomeComponent, FeedComponent, ProfileComponent, NavbarComponent, CreatePostComponent];
+export const allAppComponents = [
+	HomeComponent,
+	FeedComponent,
+	ProfileComponent,
+	NavbarComponent,
+	CreatePostComponent,
+	EditPostComponent
+];
 
 export const routes: Routes = [
 	{path: "", component: HomeComponent},
