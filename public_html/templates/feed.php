@@ -36,3 +36,8 @@
 		</div><!--/.row-->
 	</div><!--/.container-fluid-->
 </main>
+
+<!-- add modal windows -->
+<create-post></create-post>
+<edit-post></edit-post>
+<delete-post></delete-post>
