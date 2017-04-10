@@ -8,6 +8,7 @@ import {EditPostComponent} from "./components/edit-post-component";
 import {DeletePostComponent} from "./components/delete-post-component";
 import {LogInComponent} from "./components/login-component";
 import {SignUpComponent} from "./components/signup-component";
+import {EditProfileComponent} from "./components/edit-profile-component";
 
 export const allAppComponents = [
 	HomeComponent,
@@ -18,7 +19,8 @@ export const allAppComponents = [
 	EditPostComponent,
 	DeletePostComponent,
 	LogInComponent,
-	SignUpComponent
+	SignUpComponent,
+	EditProfileComponent
 ];
 
 export const routes: Routes = [
