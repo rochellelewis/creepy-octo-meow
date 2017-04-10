@@ -6,7 +6,8 @@ import {NavbarComponent} from "./components/navbar-component";
 import {CreatePostComponent} from "./components/create-post-component";
 import {EditPostComponent} from "./components/edit-post-component";
 import {DeletePostComponent} from "./components/delete-post-component";
-import {LoginComponent} from "./components/login-component";
+import {LogInComponent} from "./components/login-component";
+import {SignUpComponent} from "./components/signup-component";
 
 export const allAppComponents = [
 	HomeComponent,
@@ -16,7 +17,8 @@ export const allAppComponents = [
 	CreatePostComponent,
 	EditPostComponent,
 	DeletePostComponent,
-	LoginComponent
+	LogInComponent,
+	SignUpComponent
 ];
 
 export const routes: Routes = [

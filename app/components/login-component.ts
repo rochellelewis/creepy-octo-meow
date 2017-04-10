@@ -5,4 +5,4 @@ import {Component} from "@angular/core";
 	selector: "login"
 })
 
-export class LoginComponent { }
+export class LogInComponent { }
