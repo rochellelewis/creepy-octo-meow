@@ -16,7 +16,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">
 						<a class="btn btn-default btn-sm" href="feed.php"><i class="fa fa-arrow-left"></i> Back to feed</a>
-						<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#edit-profile-modal"><i class="fa fa-pencil"></i>&nbsp;Edit Profile</button>
+						<button class="btn btn-default btn-sm" data-toggle="modal" data-target="#update-profile-modal"><i class="fa fa-pencil"></i>&nbsp;Edit Profile</button>
 						<div class="clearfix"></div>
 					</div>
 					<div class="panel-body">

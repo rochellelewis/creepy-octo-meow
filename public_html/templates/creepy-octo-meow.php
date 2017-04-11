@@ -18,3 +18,7 @@
 <!-- modal window components -->
 <login></login>
 <signup></signup>
+<create-post></create-post>
+<edit-post></edit-post>
+<delete-post></delete-post>
+<edit-profile></edit-profile>

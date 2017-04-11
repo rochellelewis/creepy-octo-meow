@@ -5,4 +5,4 @@ import {Component} from "@angular/core";
 	selector: "edit-profile"
 })
 
-export class EditProfileComponent {}
+export class EditProfileComponent { }
