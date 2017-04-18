@@ -117,14 +117,19 @@ try {
 		//check xsrf token
 		verifyXsrf();
 
+		//grab request content, decode json into a php object
+		$requestContent = file_get_contents("php://input");
+		$requestObject = json_decode($requestContent);
+
+		//restrict access if user is not logged into the account that authored created the post!
+		if($_SESSION["profile"]->getProfileId() !== $requestObject->postProfileId) {
+			throw (new \Exception("Profile id does not match post profile id.", 401));
+		}
+
 		//user MUST have an activated account before they can create or edit posts.
 		if($_SESSION["profile"]->getProfileActivationToken() !== null) {
 			throw (new \InvalidArgumentException("You must have an activated account before you can create posts. Please check your email for the activation link.", 401));
 		}
-
-		//grab request content, decode json into a php object
-		$requestContent = file_get_contents("php://input");
-		$requestObject = json_decode($requestContent);
 
 		//make sure a post profile id is available
 		if(empty($requestObject->postProfileId) === true) {
@@ -139,11 +144,6 @@ try {
 		//make sure there is a post title (required field)
 		if(empty($requestObject->postTitle) === true) {
 			throw (new \InvalidArgumentException("No post title.", 405));
-		}
-
-		//restrict access if user is not logged into the account that authored created the post!
-		if($_SESSION["profile"]->getProfileId() !== $requestObject->postProfileId) {
-			throw (new \Exception("Profile id does not match post profile id.", 401));
 		}
 
 		if($method === "PUT") {
