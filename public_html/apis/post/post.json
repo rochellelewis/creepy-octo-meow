@@ -1,0 +1,7 @@
+// Sample JSON input to test against
+
+{
+  "postProfileId": null,
+  "postContent": "I'm a new post! YAY!",
+  "postTitle": "I'm a post title :D"
+}

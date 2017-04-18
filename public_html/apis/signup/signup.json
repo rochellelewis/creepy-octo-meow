@@ -1,0 +1,8 @@
+// Sample JSON input to test against
+
+{
+  "profileEmail": "",
+  "profileUsername": "",
+  "profilePassword": "",
+  "profileConfirmPassword": ""
+}
