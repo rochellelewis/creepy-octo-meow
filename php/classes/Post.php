@@ -59,21 +59,16 @@ class Post implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if other exceptions occur
 	 **/
-	public function __construct(int $newPostId = null, int $newPostProfileId, string $newPostContent, $newPostDate = null, string $newPostTitle) {
+	public function __construct(?int $newPostId, int $newPostProfileId, string $newPostContent, $newPostDate = null, string $newPostTitle) {
 		try {
 			$this->setPostId($newPostId);
 			$this->setPostProfileId($newPostProfileId);
 			$this->setPostContent($newPostContent);
 			$this->setPostDate($newPostDate);
 			$this->setPostTitle($newPostTitle);
-		} catch(\InvalidArgumentException $invalidArgument) {
-			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		} catch(\RangeException $range) {
-			throw (new \RangeException($range->getMessage(), 0, $range));
-		} catch(\TypeError $typeError) {
-			throw (new \TypeError($typeError->getMessage(), 0, $typeError));
-		} catch(\Exception $exception) {
-			throw (new \Exception($exception->getMessage(), 0, $exception));
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw (new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	}
 
