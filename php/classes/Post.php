@@ -496,7 +496,7 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getPostsByPostTitle(\PDO $pdo, $postTitle) {
+	public static function getPostsByPostTitle(\PDO $pdo, string $postTitle) : \SplFixedArray {
 		//trim, filter post title before searching
 		$postTitle = trim($postTitle);
 		$postTitle = filter_var($postTitle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -536,7 +536,7 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllPosts(\PDO $pdo) {
+	public static function getAllPosts(\PDO $pdo) : \SplFixedArray {
 		//create query template
 		$query = "SELECT postId, postProfileId, postContent, postDate, postTitle FROM post";
 		$statement = $pdo->prepare($query);
