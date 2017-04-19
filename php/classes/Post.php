@@ -239,7 +239,7 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function insert(\PDO $pdo) {
+	public function insert(\PDO $pdo) : void {
 		//verify the post id is null / don't insert a post that already exists!
 		if($this->postId !== null) {
 			throw(new \PDOException("Not a new post."));
@@ -270,7 +270,7 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function update(\PDO $pdo) {
+	public function update(\PDO $pdo) : void {
 		//verify the post id is not null / don't update a post that doesn't exist!
 		if($this->postId === null) {
 			throw(new \PDOException("Post does not exist."));
@@ -299,7 +299,7 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function delete(\PDO $pdo) {
+	public function delete(\PDO $pdo) : void {
 		//verify the post id is not null / don't delete a post that doesn't exist!
 		if($this->postId === null) {
 			throw(new \PDOException("Post does not exist."));
