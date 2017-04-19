@@ -77,7 +77,7 @@ class Post implements \JsonSerializable {
 	 *
 	 * @return int|null value of post id
 	 **/
-	public function getPostId() {
+	public function getPostId() : ?int {
 		return($this->postId);
 	}
 
@@ -88,7 +88,7 @@ class Post implements \JsonSerializable {
 	 * @throws \RangeException if $newPostId is not positive
 	 * @throws \TypeError if $newPostId is not an integer
 	 **/
-	public function setPostId(int $newPostId = null) {
+	public function setPostId(?int $newPostId) : void {
 		//base case: if post id is null, this is a new Post and mysql will assign the primary key
 		if($newPostId === null) {
 			$this->postId = null;
@@ -109,7 +109,7 @@ class Post implements \JsonSerializable {
 	 *
 	 * @return int value of post profile id
 	 **/
-	public function getPostProfileId() {
+	public function getPostProfileId() : int {
 		return($this->postProfileId);
 	}
 
@@ -120,7 +120,7 @@ class Post implements \JsonSerializable {
 	 * @throws \RangeException if $newPostProfileId is not positive
 	 * @throws \TypeError if $newPostProfileId is not an integer
 	 **/
-	public function setPostProfileId(int $newPostProfileId) {
+	public function setPostProfileId(int $newPostProfileId) : void {
 		//check for a valid profile id
 		if($newPostProfileId <= 0) {
 			throw (new \RangeException("Post profile id is not positive."));
@@ -135,7 +135,7 @@ class Post implements \JsonSerializable {
 	 *
 	 * @return string value of post content
 	 **/
-	public function getPostContent(){
+	public function getPostContent() : string {
 		return($this->postContent);
 	}
 
@@ -147,7 +147,7 @@ class Post implements \JsonSerializable {
 	 * @throws \RangeException if $newPostContent is > 2000 characters
 	 * @throws \TypeError if $newPostContent is not a string
 	 **/
-	public function setPostContent(string $newPostContent) {
+	public function setPostContent(string $newPostContent) : void {
 		//trim, sanitize post content
 		$newPostContent = trim($newPostContent);
 		$newPostContent = filter_var($newPostContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -169,7 +169,7 @@ class Post implements \JsonSerializable {
 	 *
 	 * @return \DateTime value of post date
 	 **/
-	public function getPostDate() {
+	public function getPostDate() : \DateTime {
 		return($this->postDate);
 	}
 
@@ -180,7 +180,7 @@ class Post implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if $newPostDate is not a valid object or string
 	 * @throws \RangeException if $newPostDate is a date that does not exist
 	 **/
-	public function setPostDate($newPostDate = null) {
+	public function setPostDate($newPostDate = null) : void {
 		//base case: if post date is null, use current date and time
 		if($newPostDate === null) {
 			$this->postDate = new \DateTime();
@@ -190,10 +190,9 @@ class Post implements \JsonSerializable {
 		//store post date
 		try {
 			$newPostDate = self::validateDateTime($newPostDate);
-		} catch(\InvalidArgumentException $invalidArgumentException) {
-			throw (new \InvalidArgumentException($invalidArgumentException->getMessage(), 0, $invalidArgumentException));
-		} catch(\RangeException $rangeException) {
-			throw (new \RangeException($rangeException->getMessage(), 0, $rangeException));
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw (new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
 		$this->postDate = $newPostDate;
@@ -204,7 +203,7 @@ class Post implements \JsonSerializable {
 	 *
 	 * @return string value of post title
 	 **/
-	public function getPostTitle() {
+	public function getPostTitle() : string {
 		return($this->postTitle);
 	}
 
@@ -216,7 +215,7 @@ class Post implements \JsonSerializable {
 	 * @throws \RangeException if $newPostTitle is greater than 64 characters
 	 * @throws \TypeError if $newPostTitle is not a string
 	 **/
-	public function setPostTitle(string $newPostTitle) {
+	public function setPostTitle(string $newPostTitle) : void {
 		//trim, filter post title
 		$newPostTitle = trim($newPostTitle);
 		$newPostTitle = filter_var($newPostTitle, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
