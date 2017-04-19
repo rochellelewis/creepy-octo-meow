@@ -323,7 +323,7 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getPostByPostId(\PDO $pdo, $postId) {
+	public static function getPostByPostId(\PDO $pdo, int $postId) {
 		//verify the post id
 		if($postId <= 0) {
 			throw (new \PDOException("Post id is not positive."));
@@ -361,7 +361,7 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getPostsByPostProfileId(\PDO $pdo, $postProfileId) {
+	public static function getPostsByPostProfileId(\PDO $pdo, int $postProfileId) : \SplFixedArray {
 		//verify post profile id
 		if($postProfileId <= 0) {
 			throw (new \PDOException("Post profile id is not positive."));
@@ -400,7 +400,7 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getPostsByPostContent(\PDO $pdo, $postContent) {
+	public static function getPostsByPostContent(\PDO $pdo, string $postContent) : \SplFixedArray {
 		//trim, filter post content before searching
 		$postContent = trim($postContent);
 		$postContent = filter_var($postContent, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -444,7 +444,7 @@ class Post implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getPostsByPostDateRange (\PDO $pdo, $postSunriseDate, $postSunsetDate) {
+	public static function getPostsByPostDateRange (\PDO $pdo, \DateTime $postSunriseDate, \DateTime $postSunsetDate) : \SplFixedArray {
 		//check, validate search dates
 		if((empty($postSunriseDate) === true) || (empty($postSunsetDate) === true)) {
 			throw (new \PDOException("Post date range is empty or invalid"));
@@ -453,10 +453,9 @@ class Post implements \JsonSerializable {
 		try{
 			$postSunriseDate = self::validateDateTime($postSunriseDate);
 			$postSunsetDate = self::validateDateTime($postSunsetDate);
-		} catch(\InvalidArgumentException $invalidArgument) {
-			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		} catch(\RangeException $range) {
-			throw (new \RangeException($range->getMessage(), 0, $range));
+		} catch(\InvalidArgumentException | \RangeException $exception) {
+			$exceptionType = get_class($exception);
+			throw (new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
 		//create query template
