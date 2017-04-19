@@ -64,7 +64,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if other exceptions occur
 	 **/
-	public function __construct(int $newProfileId = null, $newProfileActivationToken, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, string $newProfileUsername) {
+	public function __construct(?int $newProfileId, ?string $newProfileActivationToken, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, string $newProfileUsername) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileActivationToken($newProfileActivationToken);
@@ -72,14 +72,9 @@ class Profile implements \JsonSerializable {
 			$this->setProfileHash($newProfileHash);
 			$this->setProfileSalt($newProfileSalt);
 			$this->setProfileUsername($newProfileUsername);
-		} catch(\InvalidArgumentException $invalidArgument) {
-			throw (new \InvalidArgumentException($invalidArgument->getMessage(), 0, $invalidArgument));
-		} catch(\RangeException $range) {
-			throw (new \RangeException($range->getMessage(), 0, $range));
-		} catch(\TypeError $typeError) {
-			throw (new \TypeError($typeError->getMessage(), 0, $typeError));
-		} catch(\Exception $exception) {
-			throw (new \Exception($exception->getMessage(), 0, $exception));
+		} catch(\InvalidArgumentException | \RangeException | \TypeError | \Exception $exception) {
+			$exceptionType = get_class($exception);
+			throw (new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 	}
 
@@ -88,7 +83,7 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @return int|null value of profile id
 	 **/
-	public function getProfileId() {
+	public function getProfileId() :?int {
 		return($this->profileId);
 	}
 
@@ -99,7 +94,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileId is not positive
 	 * @throws \TypeError if $newProfileId is not an integer
 	 **/
-	public function setProfileId(int $newProfileId = null) {
+	public function setProfileId(?int $newProfileId) : void {
 		//base case: if profile id is null, this is a new profile and mysql will assign the primary key
 		if($newProfileId === null) {
 			$this->profileId = null;
@@ -120,7 +115,7 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @return string value of profile activation token
 	 **/
-	public function getProfileActivationToken() {
+	public function getProfileActivationToken() : ?string {
 		return($this->profileActivationToken);
 	}
 
@@ -131,7 +126,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if $newProfileActivationToken is invalid, insecure, or not a valid hash value
 	 * @throws \RangeException if $newProfileActivationToken is not exactly 32 characters
 	 **/
-	public function setProfileActivationToken($newProfileActivationToken) {
+	public function setProfileActivationToken(string $newProfileActivationToken) : void {
 		//base case: set profile activation token to null for new profiles
 		if($newProfileActivationToken === null) {
 			$this->profileActivationToken = null;
