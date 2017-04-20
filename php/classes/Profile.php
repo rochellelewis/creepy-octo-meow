@@ -160,7 +160,7 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @return string value of profile email
 	 **/
-	public function getProfileEmail() {
+	public function getProfileEmail() : string {
 		return($this->profileEmail);
 	}
 
@@ -172,7 +172,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileEmail is > 64 characters
 	 * @throws \TypeError if $newProfileEmail is not a string
 	 **/
-	public function setProfileEmail(string $newProfileEmail) {
+	public function setProfileEmail(string $newProfileEmail) : void {
 		//sanitize profile email content, check if secure
 		$newProfileEmail= trim($newProfileEmail);
 		$newProfileEmail = filter_var($newProfileEmail, FILTER_SANITIZE_EMAIL);
@@ -194,7 +194,7 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @return string value of profile password hash
 	 **/
-	public function getProfileHash() {
+	public function getProfileHash() : string {
 		return($this->profileHash);
 	}
 
@@ -206,7 +206,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileHash is not 128 characters
 	 * @throws \TypeError if $newProfileHash is not a string
 	 **/
-	public function setProfileHash(string $newProfileHash) {
+	public function setProfileHash(string $newProfileHash) : void {
 		//trim, filter pass hash input
 		$newProfileHash = trim($newProfileHash);
 		$newProfileHash = filter_var($newProfileHash, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -233,7 +233,7 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @return string value of profile password salt
 	 **/
-	public function getProfileSalt() {
+	public function getProfileSalt() :string {
 		return($this->profileSalt);
 	}
 
@@ -245,7 +245,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileSalt is not 32 characters
 	 * @throws \TypeError if $newProfileSalt is not a string
 	 **/
-	public function setProfileSalt(string $newProfileSalt) {
+	public function setProfileSalt(string $newProfileSalt) :void {
 		//trim, filter salt value
 		$newProfileSalt = trim($newProfileSalt);
 		$newProfileSalt = filter_var($newProfileSalt, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -272,7 +272,7 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @return string value of profile username
 	 **/
-	public function getProfileUsername() {
+	public function getProfileUsername() : string {
 		return($this->profileUsername);
 	}
 
@@ -284,7 +284,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \RangeException if $newProfileUsername is > 64 characters
 	 * @throws \TypeError if $newProfileUsername is not a string
 	 **/
-	public function setProfileUsername(string $newProfileUsername) {
+	public function setProfileUsername(string $newProfileUsername) : void {
 		//trim, filter profile username
 		$newProfileUsername = trim($newProfileUsername);
 		$newProfileUsername = filter_var($newProfileUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -308,7 +308,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function insert(\PDO $pdo) {
+	public function insert(\PDO $pdo) : void {
 		//verify that profile id is null / don't insert a profile that already exists
 		if($this->profileId !== null) {
 			throw (new \PDOException("not a new Profile"));
@@ -339,7 +339,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function update(\PDO $pdo) {
+	public function update(\PDO $pdo) : void {
 		//verify profileId is not null / don't update a Profile that does not exist
 		if($this->profileId === null) {
 			throw (new \PDOException("Can't update a Profile that doesn't exist!"));
@@ -368,7 +368,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
-	public function delete(\PDO $pdo) {
+	public function delete(\PDO $pdo) : void {
 		//verify profileId is not null / don't delete a profile that does not exist
 		if($this->profileId === null) {
 			throw (new \PDOException("Can't delete a Profile that doesn't exist!"));
@@ -392,7 +392,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProfileByProfileId(\PDO $pdo, int $profileId) {
+	public static function getProfileByProfileId(\PDO $pdo, int $profileId) : ?Profile {
 		//check for valid profile id
 		if($profileId <= 0) {
 			throw (new \PDOException("Profile id is not positive"));
@@ -431,7 +431,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) {
+	public static function getProfileByProfileActivationToken(\PDO $pdo, string $profileActivationToken) :?Profile {
 		//sanitize, check for valid activation token
 		$profileActivationToken = trim($profileActivationToken);
 		$profileActivationToken = strtolower($profileActivationToken);
@@ -473,7 +473,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail) {
+	public static function getProfileByProfileEmail(\PDO $pdo, string $profileEmail) :?Profile {
 		//sanitize, check for valid profile email
 		$profileEmail = trim($profileEmail);
 		$profileEmail = filter_var($profileEmail, FILTER_SANITIZE_EMAIL);
@@ -514,7 +514,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProfileByProfileUsername(\PDO $pdo, string $profileUsername) {
+	public static function getProfileByProfileUsername(\PDO $pdo, string $profileUsername) : ?Profile {
 		//sanitize, check for valid profile username
 		$profileUsername = trim($profileUsername);
 		$profileUsername = filter_var($profileUsername, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -554,7 +554,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getAllProfiles(\PDO $pdo) {
+	public static function getAllProfiles(\PDO $pdo) : \SplFixedArray {
 		//create query template
 		$query = "SELECT profileId, profileActivationToken, profileEmail, profileHash, profileSalt, profileUsername FROM profile";
 		$statement = $pdo->prepare($query);
