@@ -13,7 +13,7 @@ export class ProfileService extends BaseService {
 	}
 
 	// define the API endpoint
-	private profileUrl = "api/profile";
+	private profileUrl = "api/profile/";
 
 	// connect to the profile API and delete the profile
 	deleteProfile(id: number) : Observable<Status> {
