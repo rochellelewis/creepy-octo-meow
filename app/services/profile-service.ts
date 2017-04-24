@@ -37,7 +37,7 @@ export class ProfileService extends BaseService {
 	}
 
 	// connect to profile API and get profile by activation token
-	getProfileByProfileEmail(profileActivationToken: string) : Observable<Profile[]> {
+	getProfileByProfileActivationToken(profileActivationToken: string) : Observable<Profile[]> {
 		return(this.http.get(this.profileUrl + profileActivationToken)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
