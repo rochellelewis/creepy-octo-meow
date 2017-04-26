@@ -26,14 +26,14 @@ export class PostService extends BaseService {
 
 	// connect to the profile API and edit/update the post
 	editPost(post: Post) : Observable<Status> {
-		return(this.http.get(this.postUrl + post.id, post)
+		return(this.http.put(this.postUrl + post.id, post)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}
 
 	// connect to the profile API and create the post
 	createPost(post: Post) : Observable<Status> {
-		return(this.http.get(this.postUrl, Post)
+		return(this.http.post(this.postUrl, Post)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}
