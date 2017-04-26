@@ -24,7 +24,14 @@ export class ProfileService extends BaseService {
 
 	// connect to the profile API and edit/update the profile
 	editProfile(profile: Profile) : Observable<Status> {
-		return(this.http.get(this.profileUrl + id)
+		return(this.http.put(this.profileUrl + profile.id, profile)
+			.map(BaseService.extractData)
+			.catch(BaseService.handleError));
+	}
+
+	// connect to the profile API and create the profile
+	createProfile(profile: Profile) : Observable<Status> {
+		return(this.http.post(this.profileUrl, profile)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}
@@ -55,5 +62,13 @@ export class ProfileService extends BaseService {
 		return(this.http.get(this.profileUrl + profileUsername)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
+	}
+
+	// connect to profile API and get all profiles
+	getAllProfiles(profile: Profile) : Observable<Profile[]> {
+		return(this.http.get(this.profileUrl, profile)
+			.map(BaseService.extractData)
+			.catch(BaseService.handleError)
+		);
 	}
 }
