@@ -11,5 +11,11 @@ export class SignOutService extends BaseService {
 		super(http);
 	}
 
-	private signOutUrl = "/apis/signout/"
+	private signOutUrl = "/apis/signout/";
+
+	getSignOut() : Observable<Status> {
+		return(this.http.get(this.signOutUrl)
+			.map(BaseService.extractMessage)
+			.catch(BaseService.handleError));
+	}
 }
