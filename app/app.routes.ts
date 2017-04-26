@@ -1,14 +1,14 @@
 import {RouterModule, Routes} from "@angular/router";
-import {HomeComponent} from "./components/home-component";
-import {FeedComponent} from "./components/feed-component";
-import {ProfileComponent} from "./components/profile-component";
-import {NavbarComponent} from "./components/navbar-component";
-import {CreatePostComponent} from "./components/create-post-component";
-import {EditPostComponent} from "./components/edit-post-component";
-import {DeletePostComponent} from "./components/delete-post-component";
-import {LogInComponent} from "./components/login-component";
-import {SignUpComponent} from "./components/signup-component";
-import {EditProfileComponent} from "./components/edit-profile-component";
+import {HomeComponent} from "./components/home.component";
+import {FeedComponent} from "./components/feed.component";
+import {ProfileComponent} from "./components/profile.component";
+import {NavbarComponent} from "./components/navbar.component";
+import {CreatePostComponent} from "./components/create-post.component";
+import {EditPostComponent} from "./components/edit-post.component";
+import {DeletePostComponent} from "./components/delete-post.component";
+import {SignInComponent} from "./components/sign-in.component";
+import {SignUpComponent} from "./components/sign-up.component";
+import {EditProfileComponent} from "./components/edit-profile.component";
 
 export const allAppComponents = [
 	HomeComponent,
@@ -18,7 +18,7 @@ export const allAppComponents = [
 	CreatePostComponent,
 	EditPostComponent,
 	DeletePostComponent,
-	LogInComponent,
+	SignInComponent,
 	SignUpComponent,
 	EditProfileComponent
 ];

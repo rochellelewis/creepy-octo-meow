@@ -1,8 +1,8 @@
 import {Component} from "@angular/core";
 
 @Component({
-	templateUrl: "./templates/signup.php",
-	selector: "signup"
+	templateUrl: "./templates/sign-up.php",
+	selector: "sign-up"
 })
 
 export class SignUpComponent { }
