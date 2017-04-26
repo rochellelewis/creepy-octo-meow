@@ -15,7 +15,7 @@ export class PostService extends BaseService {
 	}
 
 	// define the API endpoint
-	private postUrl = "api/post/";
+	private postUrl = "apis/post/";
 
 	// connect to the post API and delete the post
 	deletePost(id: number) : Observable<Status> {
