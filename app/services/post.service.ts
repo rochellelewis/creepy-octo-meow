@@ -5,7 +5,7 @@ import {Status} from "../classes/status";
 import {Post, Profile} from "../classes/post";
 import {Observable} from "rxjs/Observable";
 
-import {DateTimeFormat} = Intl.DateTimeFormat;
+import DateTimeFormat = Intl.DateTimeFormat;
 
 @Injectable ()
 export class PostService extends BaseService {
