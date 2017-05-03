@@ -15,7 +15,7 @@
 			<div class="col-xs-12">
 
 				<!-- BEGIN POST ITEM -->
-				<div class="panel panel-info" *ngFor="let post of postsFiltered">
+				<div class="panel panel-info" *ngFor="let post of posts">
 					<div class="panel-heading">
 						<h3 class="panel-title pull-left">{{post.postTitle}}</h3>
 						<button class="pull-right btn btn-default btn-sm" data-toggle="modal" data-target="#delete-post-modal"><i class="fa fa-trash-o"></i></button>
