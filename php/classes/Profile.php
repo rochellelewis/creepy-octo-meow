@@ -126,7 +126,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \InvalidArgumentException if $newProfileActivationToken is invalid, insecure, or not a valid hash value
 	 * @throws \RangeException if $newProfileActivationToken is not exactly 32 characters
 	 **/
-	public function setProfileActivationToken(string $newProfileActivationToken) : void {
+	public function setProfileActivationToken(?string $newProfileActivationToken) : void {
 		//base case: set profile activation token to null for new profiles
 		if($newProfileActivationToken === null) {
 			$this->profileActivationToken = null;
