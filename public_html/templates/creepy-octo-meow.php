@@ -16,8 +16,8 @@
 </footer>
 
 <!-- modal window components -->
-<login></login>
-<signup></signup>
+<sign-in></sign-in>
+<sign-up></sign-up>
 <create-post></create-post>
 <edit-post></edit-post>
 <delete-post></delete-post>
