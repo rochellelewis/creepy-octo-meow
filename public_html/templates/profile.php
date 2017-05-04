@@ -6,7 +6,7 @@
 		<!-- title row -->
 		<div class="row">
 			<div class="col-xs-12">
-				<h1>Username </h1>
+				<h1>{{ profile.profileUsername }} </h1>
 			</div>
 		</div>
 
@@ -24,6 +24,11 @@
 					</div>
 				</div>
 			</div>
+		</div>
+
+		<div *ngIf="status !== null" class="alert alert-dismissible" [ngClass]="status.type" role="alert">
+			<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span></button>
+			{{ status.message }}
 		</div>
 
 	</div><!--./container-fluid-->
