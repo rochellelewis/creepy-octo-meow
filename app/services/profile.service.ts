@@ -16,8 +16,8 @@ export class ProfileService extends BaseService {
 	private profileUrl = "apis/profile/";
 
 	// connect to the profile API and delete the profile
-	deleteProfile(id: number) : Observable<Status> {
-		return(this.http.delete(this.profileUrl + id)
+	deleteProfile(profileId: number) : Observable<Status> {
+		return(this.http.delete(this.profileUrl + profileId)
 			.map(BaseService.extractMessage)
 			.catch(BaseService.handleError));
 	}
@@ -30,8 +30,8 @@ export class ProfileService extends BaseService {
 	}
 
 	// connect to profile API and get profile by id
-	getProfile(id: number) : Observable<Profile> {
-		return(this.http.get(this.profileUrl + id)
+	getProfile(profileId: number) : Observable<Profile> {
+		return(this.http.get(this.profileUrl + profileId)
 			.map(BaseService.extractData)
 			.catch(BaseService.handleError));
 	}

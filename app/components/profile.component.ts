@@ -1,16 +1,16 @@
 import {Component, OnInit} from "@angular/core";
+import {Router, ActivatedRoute, Params} from "@angular/router";
 import {ProfileService} from "../services/profile.service";
 import {Profile} from "../classes/profile";
 import {Status} from "../classes/status";
 import {Observable} from "rxjs";
 import "rxjs/add/observable/from";
-import {ActivatedRoute, Params} from "@angular/router";
 
 @Component({
 	templateUrl: "./templates/profile.php"
 })
 
-export class ProfileComponent implements OnInit{
+export class ProfileComponent implements OnInit {
 
 	profile: Profile = new Profile(0, "", "", "", "", "");
 	status: Status = null;
@@ -19,8 +19,8 @@ export class ProfileComponent implements OnInit{
 
 	ngOnInit() : void {
 		this.route.params.forEach((params : Params) => {
-			let profileId = +params["id"];
-			this.profileService.getProfile(profileId).subscribe(profile => this.profile = profile);
+			let id = +params["id"];
+			this.profileService.getProfile(id).subscribe(profile => this.profile = profile);
 		});
 	}
 
