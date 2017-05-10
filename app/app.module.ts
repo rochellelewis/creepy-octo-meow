@@ -18,7 +18,7 @@ const moduleDeclarations = [AppComponent];
 	imports:      [BrowserModule, FormsModule, HttpModule, routing],
 	declarations: [...moduleDeclarations, ...allAppComponents],
 	bootstrap:    [AppComponent],
-	providers:    [appRoutingProviders, PostService]
+	providers:    [appRoutingProviders, PostService, ProfileService]
 })
 
 export class AppModule {}
