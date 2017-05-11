@@ -22,7 +22,9 @@ const moduleDeclarations = [AppComponent];
 		appRoutingProviders,
 		PostService,
 		ProfileService,
-		SignInService
+		SignInService,
+		SignUpService,
+		SignOutService
 	]
 })
 
