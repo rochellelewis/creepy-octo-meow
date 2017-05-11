@@ -1,8 +1,12 @@
 import {Component, ViewChild, EventEmitter, Output} from "@angular/core";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs/Observable";
-import {Status} from "../classes/status";
+
 import {SignInService} from "../services/sign-in.service";
+import {ProfileService} from "../services/profile.service";
+
+import {Profile} from "../classes/profile";
+import {Status} from "../classes/status";
 import {SignIn} from "../classes/sign-in";
 
 declare var $: any;
@@ -31,7 +35,7 @@ export class SignInComponent {
 		this.signInService.postSignIn(this.signin).subscribe(status => {
 			this.status = status;
 			if(status.status === 200) {
-				this.router.navigate([""]);
+				this.router.navigate(["feed"]);
 				location.reload(true);
 				this.signInForm.reset();
 				setTimeout(function(){$("#signin-modal").modal("hide");}, 1000);
