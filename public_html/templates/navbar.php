@@ -19,11 +19,11 @@
 					<li class="dropdown">
 						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hai, <em>username</em>&nbsp;<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a routerLink="/profile">Profile</a></li>
+							<li><a routerLink="/profile/:id">Profile</a></li>
 							<li><a routerLink="">Log Out</a></li>
 						</ul>
 					</li>
-					<li><button class="btn btn-default navbar-btn" data-toggle="modal" data-target="#login-modal"><i class="fa fa-sign-in"></i> Log In</button></li>
+					<li><button class="btn btn-default navbar-btn" data-toggle="modal" data-target="#signin-modal"><i class="fa fa-sign-in"></i> Log In</button></li>
 					<li><button class="btn btn-default navbar-btn" data-toggle="modal" data-target="#signup-modal"><i class="fa fa-paw"></i> Sign Up</button></li>
 				</ul>
 				<form class="navbar-form navbar-right">

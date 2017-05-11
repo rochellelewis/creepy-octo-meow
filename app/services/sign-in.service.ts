@@ -12,7 +12,7 @@ export class SignInService extends BaseService {
 		super(http);
 	}
 
-	private signInUrl = "/apis/signin/";
+	private signInUrl = "apis/signin/";
 	public isSignedIn = false;
 
 	// pre form the post to initiate sign in
