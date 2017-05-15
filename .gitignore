@@ -6,6 +6,8 @@
 /vendor
 /app/**/*.js
 /app/**/*.js.map
+/src/**/*.js
+/src/**/*.js.map
 /public_html/dist
 /public_html/index.php
 /npm-debug.log
