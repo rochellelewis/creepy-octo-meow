@@ -1,44 +1,44 @@
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
-var ExtractTextPlugin = require('extract-text-webpack-plugin');
-var helpers = require('./helpers');
+var webpack = require("webpack");
+var HtmlWebpackPlugin = require("html-webpack-plugin");
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
+var helpers = require("./helpers");
 
 module.exports = {
 	entry: {
-		'polyfills': helpers.root('app') + '/polyfills.ts',
-		'vendor': helpers.root('app') + '/vendor.ts',
-		'app': helpers.root('app') + '/app.ts',
-		'css': helpers.root('app') + '/app.css'
+		"polyfills": helpers.root("src") + "/polyfills.ts",
+		"vendor": helpers.root("src") + "/vendor.ts",
+		"app": helpers.root("src") + "/main.ts",
+		"css": helpers.root("src") + "/app.css"
 	},
 
 	resolve: {
-		extensions: ['.ts', '.js']
+		extensions: [".ts", ".js"]
 	},
 
 	module: {
 		rules: [
 			{
 				test: /\.(html|php)$/,
-				loader: 'html-loader'
+				loader: "html-loader"
 			},
 			{
 				test: /\.(png|jpe?g|gif|svg|woff|woff2|ttf|eot|ico)$/,
-				loader: 'file-loader?name=/assets/[name].[hash].[ext]'
+				loader: "file-loader?name=/assets/[name].[hash].[ext]"
 			},
 			{
 				test: /\.css$/,
-				loader: ExtractTextPlugin.extract({ fallbackLoader: 'style-loader', loader: 'css-loader?minimize=true' })
+				loader: ExtractTextPlugin.extract({ fallbackLoader: "style-loader", loader: "css-loader?minimize=true" })
 			},
 			{
 				test: /\.ts$/,
-				loaders: ['awesome-typescript-loader']
+				loaders: ["awesome-typescript-loader"]
 			}
 		]
 	},
 
 	plugins: [
 		new webpack.optimize.CommonsChunkPlugin({
-			name: ['app', 'vendor', 'polyfills']
+			name: ["app", "vendor", "polyfills"]
 		}),
 
 		new webpack.ProvidePlugin({
@@ -48,9 +48,9 @@ module.exports = {
 		}),
 
 		new HtmlWebpackPlugin({
-			inject: 'head',
-			filename: helpers.root('public_html') + '/index.php',
-			template: helpers.root('webpack') + '/index.php'
+			inject: "head",
+			filename: helpers.root("public_html") + "/index.php",
+			template: helpers.root("webpack") + "/index.php"
 		})
 	]
 };
