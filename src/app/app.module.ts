@@ -23,8 +23,8 @@ const moduleDeclarations = [AppComponent];
 		PostService,
 		ProfileService,
 		SignInService,
-		SignUpService,
-		SignOutService
+		SignOutService,
+		SignUpService
 	]
 })
 
