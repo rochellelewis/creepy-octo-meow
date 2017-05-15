@@ -2,6 +2,6 @@
 	"bootstrapVersion": 3,
 	"extractStyles": true,
 	"scripts": true,
-	"styleLoaders": ["style", "css", "sass"],
+	"styleLoaders": ["style-loader", "css-loader?minimize=true", "sass-loader"],
 	"styles": true
 }
