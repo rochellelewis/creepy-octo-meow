@@ -51,7 +51,7 @@ try {
 		if(empty($requestObject->profilePassword) === true) {
 			throw (new \InvalidArgumentException("No password? U shall not pass!", 401));
 		} else {
-			$profilePassword = filter_var($requestObject->profilePassword, FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+			$profilePassword = $requestObject->profilePassword;
 		}
 
 		//check for email (required field)
