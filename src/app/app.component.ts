@@ -11,9 +11,11 @@ import {SignInService} from "./services/sign-in.service";
 })
 
 export class AppComponent {
-
 	constructor(private signInService: SignInService) {}
 
 	@ViewChild(SignInComponent)
 		private signInComponent: SignInComponent;
+
+	isSignedIn = false;
+
 }

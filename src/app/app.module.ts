@@ -5,7 +5,6 @@ import {HttpModule} from "@angular/http";
 import {AppComponent} from "./app.component";
 import {allAppComponents, appRoutingProviders, routing} from "./app.routes";
 
-import {BaseService} from "./services/base.service";
 import {PostService} from "./services/post.service";
 import {ProfileService} from "./services/profile.service";
 import {SignInService} from "./services/sign-in.service";

@@ -1,4 +1,5 @@
 import {RouterModule, Routes} from "@angular/router";
+
 import {CreatePostComponent} from "./components/create-post.component";
 import {DeletePostComponent} from "./components/delete-post.component";
 import {EditPostComponent} from "./components/edit-post.component";
