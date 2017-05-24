@@ -21,6 +21,7 @@ export class SignInComponent {
 	@ViewChild("signInForm") signInForm : any;
 
 	signin: SignIn = new SignIn("", "");
+	//profile: Profile = new Profile(0, "", "", "", "", "");
 	status: Status = null;
 
 	constructor(private signInService: SignInService, private router: Router) {}
@@ -36,9 +37,11 @@ export class SignInComponent {
 			this.status = status;
 			if(status.status === 200) {
 				this.router.navigate(["feed"]);
-				location.reload(true);
 				this.signInForm.reset();
-				setTimeout(function(){$("#signin-modal").modal("hide");}, 1000);
+				//location.reload(true);
+				this.signInService.isSignedIn = true;
+				this.isSignedIn = true;
+				setTimeout(function(){$("#signin-modal").modal("hide");}, 250);
 			}
 		});
 	}

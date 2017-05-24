@@ -19,9 +19,9 @@
 					<!-- show these buttons only if logged in -->
 					<li><button class="btn btn-default navbar-btn" data-toggle="modal" data-target="#new-post-modal"><i class="fa fa-plus"></i> Post</button></li>
 					<li class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hai, <em>username</em>&nbsp;<span class="caret"></span></a>
+						<a class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Hai, <em>{{profile.profileUsername}}</em>&nbsp;<span class="caret"></span></a>
 						<ul class="dropdown-menu">
-							<li><a routerLink="/profile">Profile</a></li>
+							<li><a routerLink="/profile">Your Profile</a></li>
 							<li><a routerLink="">Log Out</a></li>
 						</ul>
 					</li>
