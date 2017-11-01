@@ -2,6 +2,9 @@
 namespace Edu\Cnm\CreepyOctoMeow;
 
 require_once ("autoload.php");
+require_once (dirname(__DIR__, 2) . "/vendor/autoload.php");
+
+use Ramsey\Uuid\Uuid;
 
 /**
  * Post Class
@@ -15,6 +18,7 @@ require_once ("autoload.php");
 class Post implements \JsonSerializable {
 
 	use ValidateDate;
+	use ValidateUuid;
 
 	/**
 	 * id for the Post; this is the Primary Key.

@@ -3,6 +3,9 @@
 namespace Edu\Cnm\CreepyOctoMeow;
 
 require_once ("autoload.php");
+require_once (dirname(__DIR__, 2) . "/vendor/autoload.php");
+
+use Ramsey\Uuid\Uuid;
 
 /**
  * Profile Class
@@ -14,6 +17,9 @@ require_once ("autoload.php");
  **/
 
 class Profile implements \JsonSerializable {
+
+	use ValidateUuid;
+
 	/**
 	 * id for the Profile; this is the Primary Key.
 	 * @var int $profileId
@@ -53,7 +59,7 @@ class Profile implements \JsonSerializable {
 	/**
 	 * Constructor for this Profile
 	 *
-	 * @param int|null $newProfileId id of this Profile, or null if a new Profile
+	 * @param string|Uuid $newProfileId id of this Profile, or null if a new Profile
 	 * @param string|null $newProfileActivationToken activation token for this Profile
 	 * @param string $newProfileEmail email address for this Profile
 	 * @param string $newProfileHash hash value for the Profile password
@@ -64,7 +70,7 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if other exceptions occur
 	 **/
-	public function __construct(?int $newProfileId, ?string $newProfileActivationToken, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, string $newProfileUsername) {
+	public function __construct($newProfileId, ?string $newProfileActivationToken, string $newProfileEmail, string $newProfileHash, string $newProfileSalt, string $newProfileUsername) {
 		try {
 			$this->setProfileId($newProfileId);
 			$this->setProfileActivationToken($newProfileActivationToken);
@@ -83,31 +89,27 @@ class Profile implements \JsonSerializable {
 	 *
 	 * @return int|null value of profile id
 	 **/
-	public function getProfileId() :?int {
+	public function getProfileId() : Uuid {
 		return($this->profileId);
 	}
 
 	/**
 	 * mutator method for profile id
 	 *
-	 * @param int|null $newProfileId new value of profile id
+	 * @param Uuid|string $newProfileId new value of profile id
 	 * @throws \RangeException if $newProfileId is not positive
 	 * @throws \TypeError if $newProfileId is not an integer
 	 **/
-	public function setProfileId(?int $newProfileId) : void {
-		//base case: if profile id is null, this is a new profile and mysql will assign the primary key
-		if($newProfileId === null) {
-			$this->profileId = null;
-			return;
-		}
-
-		//check if profile id is positive
-		if($newProfileId <= 0) {
-			throw (new \RangeException("Profile Id is not positive."));
+	public function setProfileId($newProfileId) : void {
+		try {
+			$uuid = self::validateUuid($newProfileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw (new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
 		//convert and store the profile id
-		$this->profileId = $newProfileId;
+		$this->profileId = $uuid;
 	}
 
 	/**
