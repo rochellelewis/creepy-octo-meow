@@ -401,11 +401,15 @@ class Post implements \JsonSerializable {
 			throw (new \PDOException("Post content is invalid or insecure."));
 		}
 
+		// escape any mySQL wild cards
+		$postContent = str_replace("_", "\\_", str_replace("%", "\\%", $postContent));
+
 		//create query template
 		$query = "SELECT postId, postProfileId, postContent, postDate, postTitle FROM post WHERE postContent LIKE :postContent";
 		$statement = $pdo->prepare($query);
 
 		//bind member variables to the placeholders in the query template
+		$postContent = "%$postContent%";
 		$parameters = ["postContent" => $postContent];
 		$statement->execute($parameters);
 
@@ -456,8 +460,8 @@ class Post implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//format and bind dates to the placeholders in the query template
-		$formattedSunriseDate = $postSunriseDate->format("Y-m-d H:i:s");
-		$formattedSunsetDate = $postSunsetDate->format("Y-m-d H:i:s");
+		$formattedSunriseDate = $postSunriseDate->format("Y-m-d H:i:s.u");
+		$formattedSunsetDate = $postSunsetDate->format("Y-m-d H:i:s.u");
 		$parameters = [
 			"postSunriseDate" => $formattedSunriseDate,
 			"postSunsetDate" => $formattedSunsetDate
