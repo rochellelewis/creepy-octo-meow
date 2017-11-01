@@ -9,6 +9,9 @@
  //grab the class under scrutiny
  require_once (dirname(__DIR__) . "/autoload.php");
 
+ //grab the uuid generator
+ require_once (dirname(__DIR__, 2) . "/lib/uuid.php");
+
 /**
  * Full PHPUnit test for the Profile class
  *
@@ -89,7 +92,8 @@ class ProfileTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		//create new profile and insert
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profileId = generateUuidV4();
+		$profile = new Profile($profileId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
 		$profile->insert($this->getPDO());
 
 		//grab profile back from mysql and verify all fields match
@@ -102,16 +106,6 @@ class ProfileTest extends CreepyOctoMeowTest {
 		$this->assertEquals($pdoProfile->getProfileUsername(), $this->VALID_USERNAME);
 	}
 
-	/**
-	 * test inserting a Profile that already exists
-	 *
-	 * @expectedException \PDOException
-	 **/
-	public function testInsertInvalidProfile() {
-		//create profile with non-null profile id and watch it fail
-		$profile = new Profile(CreepyOctoMeowTest::INVALID_KEY, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
-		$profile->insert($this->getPDO());
-	}
 
 	/**
 	 * test inserting a Profile, editing it, and then updating it
@@ -139,17 +133,6 @@ class ProfileTest extends CreepyOctoMeowTest {
 	}
 
 	/**
-	 * test updating a Profile that does not exist
-	 *
-	 * @expectedException \PDOException
-	 **/
-	public function testUpdateInvalidProfile() {
-		//create a profile, don't insert it, try to run update and watch failure
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
-		$profile->update($this->getPDO());
-	}
-
-	/**
 	 * test creating a Profile and then deleting it
 	 **/
 	public function testDeleteValidProfile() {
@@ -168,17 +151,6 @@ class ProfileTest extends CreepyOctoMeowTest {
 		$pdoProfile = Profile::getProfileByProfileId($this->getPDO(), $profile->getProfileId());
 		$this->assertNull($pdoProfile);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("profile"));
-	}
-
-	/**
-	 * test deleting a Profile that does not exist
-	 *
-	 * @expectedException \PDOException
-	 **/
-	public function testDeleteInvalidProfile() {
-		//create a profile, don't insert it, try to run delete and watch failure
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
-		$profile->delete($this->getPDO());
 	}
 
 	/**
