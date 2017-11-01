@@ -22,13 +22,13 @@ class Post implements \JsonSerializable {
 
 	/**
 	 * id for the Post; this is the Primary Key.
-	 * @var int $postId
+	 * @var Uuid $postId
 	 **/
 	private $postId;
 
 	/**
 	 * id for the Profile that authored the Post; this is the Foreign Key.
-	 * @var int $postProfileId
+	 * @var Uuid $postProfileId
 	 **/
 	private $postProfileId;
 
@@ -53,8 +53,8 @@ class Post implements \JsonSerializable {
 	/**
 	 * Constructor for this Post
 	 *
-	 * @param int|null $newPostId id of this Post, or null if a new Post
-	 * @param int $newPostProfileId profile id of the author of this Post
+	 * @param string|Uuid $newPostId id of this Post, or null if a new Post
+	 * @param string|Uuid $newPostProfileId profile id of the author of this Post
 	 * @param string $newPostContent text content of this Post
 	 * @param \DateTime|string|null $newPostDate date and time this Post was created
 	 * @param string $newPostTitle title of this Post
@@ -63,7 +63,7 @@ class Post implements \JsonSerializable {
 	 * @throws \TypeError if data types violate type hints
 	 * @throws \Exception if other exceptions occur
 	 **/
-	public function __construct(?int $newPostId, int $newPostProfileId, string $newPostContent, $newPostDate = null, string $newPostTitle) {
+	public function __construct($newPostId, $newPostProfileId, string $newPostContent, $newPostDate = null, string $newPostTitle) {
 		try {
 			$this->setPostId($newPostId);
 			$this->setPostProfileId($newPostProfileId);
