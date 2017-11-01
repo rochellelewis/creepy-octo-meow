@@ -270,23 +270,19 @@ class Post implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function update(\PDO $pdo) : void {
-		//verify the post id is not null / don't update a post that doesn't exist!
-		if($this->postId === null) {
-			throw(new \PDOException("Post does not exist."));
-		}
 
 		//create query template
 		$query = "UPDATE post SET postProfileId = :postProfileId, postContent = :postContent, postDate = :postDate, postTitle = :postTitle WHERE postId = :postId";
 		$statement = $pdo->prepare($query);
 
 		//bind member variables to the placeholders in the query template
-		$formattedDate = $this->postDate->format("Y-m-d H:i:s");
+		$formattedDate = $this->postDate->format("Y-m-d H:i:s.u");
 		$parameters = [
-			"postProfileId" => $this->postProfileId,
+			"postProfileId" => $this->postProfileId->getBytes(),
 			"postContent" => $this->postContent,
 			"postDate" => $formattedDate,
 			"postTitle" => $this->postTitle,
-			"postId" => $this->postId
+			"postId" => $this->postId->getBytes()
 		];
 		$statement->execute($parameters);
 	}
@@ -299,17 +295,13 @@ class Post implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function delete(\PDO $pdo) : void {
-		//verify the post id is not null / don't delete a post that doesn't exist!
-		if($this->postId === null) {
-			throw(new \PDOException("Post does not exist."));
-		}
 
 		//create query template
 		$query = "DELETE FROM post WHERE postId = :postId";
 		$statement = $pdo->prepare($query);
 
 		//bind member variables to the placeholders in the query template
-		$parameters = ["postId" => $this->postId];
+		$parameters = ["postId" => $this->postId->getBytes()];
 		$statement->execute($parameters);
 	}
 
