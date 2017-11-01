@@ -88,24 +88,20 @@ class Post implements \JsonSerializable {
 	/**
 	 * mutator method for post id
 	 *
-	 * @param int|null $newPostId new value of post id
+	 * @param Uuid|string $newPostId new value of post id
 	 * @throws \RangeException if $newPostId is not positive
 	 * @throws \TypeError if $newPostId is not an integer
 	 **/
-	public function setPostId(?int $newPostId) : void {
-		//base case: if post id is null, this is a new Post and mysql will assign the primary key
-		if($newPostId === null) {
-			$this->postId = null;
-			return;
-		}
-
-		//check if post id is positive
-		if($newPostId <= 0) {
-			throw (new \RangeException("Post id is not positive."));
+	public function setPostId($newPostId) : void {
+		try {
+			$uuid = self::validateUuid($newPostId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
 		//convert and store the post id
-		$this->postId = $newPostId;
+		$this->postId = $uuid;
 	}
 
 	/**
@@ -120,18 +116,20 @@ class Post implements \JsonSerializable {
 	/**
 	 * mutator method for post profile id
 	 *
-	 * @param int $newPostProfileId new value of post profile id
+	 * @param string|Uuid $newPostProfileId new value of post profile id
 	 * @throws \RangeException if $newPostProfileId is not positive
 	 * @throws \TypeError if $newPostProfileId is not an integer
 	 **/
 	public function setPostProfileId(int $newPostProfileId) : void {
-		//check for a valid profile id
-		if($newPostProfileId <= 0) {
-			throw (new \RangeException("Post profile id is not positive."));
+		try {
+			$uuid = self::validateUuid($newPostProfileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
 		}
 
 		//store the profile id
-		$this->postProfileId = $newPostProfileId;
+		$this->postProfileId = $uuid;
 	}
 
 	/**
