@@ -98,7 +98,8 @@ class PostTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("post");
 
 		//create a new post and insert
-		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$postId = generateUuidV4();
+		$post = new Post($postId, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
 		$post->insert($this->getPDO());
 
 		//grab the post back from mysql and check if all fields match
@@ -106,8 +107,9 @@ class PostTest extends CreepyOctoMeowTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
 		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT);
-		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
 		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
+		//format the date to seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoPost->getPostDate()->getTimestamp(), $this->VALID_DATE->getTimestamp());
 	}
 
 	/**
@@ -118,7 +120,8 @@ class PostTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("post");
 
 		//create a new post and insert
-		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$postId = generateUuidV4();
+		$post = new Post($postId, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
 		$post->insert($this->getPDO());
 
 		//edit the post and run update method
@@ -142,7 +145,8 @@ class PostTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("post");
 
 		//create a new post and insert
-		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$postId = generateUuidV4();
+		$post = new Post($postId, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
 		$post->insert($this->getPDO());
 
 		//verify the row has been inserted, then run delete
@@ -163,7 +167,8 @@ class PostTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("post");
 
 		//create a new post and insert
-		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$postId = generateUuidV4();
+		$post = new Post($postId, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
 		$post->insert($this->getPDO());
 
 		//grab the posts from mysql, verify row count and namespace is correct
@@ -196,7 +201,8 @@ class PostTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("post");
 
 		//create a new post and insert
-		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$postId = generateUuidV4();
+		$post = new Post($postId, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
 		$post->insert($this->getPDO());
 
 		//grab the posts from mysql, verify row count and namespace is correct
@@ -229,7 +235,8 @@ class PostTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("post");
 
 		//create a new post and insert
-		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$postId = generateUuidV4();
+		$post = new Post($postId, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
 		$post->insert($this->getPDO());
 
 		//grab the posts from mysql, verify row count and namespace is correct
@@ -263,7 +270,8 @@ class PostTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("post");
 
 		//create a new post and insert
-		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$postId = generateUuidV4();
+		$post = new Post($postId, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
 		$post->insert($this->getPDO());
 
 		//grab the posts from mysql, verify row count and namespace is correct
@@ -296,7 +304,8 @@ class PostTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("post");
 
 		//create a new post and insert
-		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
+		$postId = generateUuidV4();
+		$post = new Post($postId, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
 		$post->insert($this->getPDO());
 
 		//grab the posts from mysql, verify row count and namespace is correct
