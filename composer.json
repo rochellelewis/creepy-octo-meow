@@ -3,6 +3,7 @@
     "phpunit/dbunit": "@stable",
     "phpunit/phpunit": "@stable",
     "swiftmailer/swiftmailer": "@stable",
-    "guzzlehttp/guzzle": "@stable"
+    "guzzlehttp/guzzle": "@stable",
+    "ramsey/uuid": "@stable"
   }
 }
