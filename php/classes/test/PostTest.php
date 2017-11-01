@@ -10,6 +10,9 @@ require_once ("CreepyOctoMeowTest.php");
 //grab the classes under scrutiny
 require_once (dirname(__DIR__) . "/autoload.php");
 
+//grab the uuid generator
+require_once (dirname(__DIR__, 2) . "/lib/uuid.php");
+
 /**
  * Full PHPUnit test for the Post class
  *
@@ -71,13 +74,12 @@ class PostTest extends CreepyOctoMeowTest {
 
 		//create and insert a profile to be the author of the test post
 		$activation = bin2hex(random_bytes(16));
-		$salt = bin2hex(random_bytes(16));
+		$salt = bin2hex(random_bytes(32));
 		$hash = hash_pbkdf2("sha512", "password123", $salt, 262144);
-		$this->profile = new Profile(null, $activation, "drumpf@tinyhands.ru", $hash, $salt, "bernie");
-		$this->profile->insert($this->getPDO());
+		$profileId = generateUuidV4();
 
-		//create a valid post date - this gives us something pre-set to check against
-		//$this->VALID_DATE = new \DateTime();
+		$this->profile = new Profile($profileId, $activation, "drumpf@tinyhands.ru", $hash, $salt, "bernie");
+		$this->profile->insert($this->getPDO());
 
 		//create a valid SUNRISE date for date range check
 		$this->SUNRISE_DATE = new \DateTime();
