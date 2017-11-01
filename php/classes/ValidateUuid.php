@@ -1,5 +1,5 @@
 <?php
-namespace Edu\Cnm\DataDesign;
+namespace Edu\Cnm\CreepyOctoMeow;
 require_once(dirname(__DIR__, 2) . "/vendor/autoload.php");
 use Ramsey\Uuid\Uuid;
 /**
