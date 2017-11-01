@@ -158,6 +158,14 @@ class ProfileTest extends CreepyOctoMeowTest {
 	}
 
 	/**
+	 * test grabbing a profile that does not exist
+	 **/
+	public function testGetInvalidProfileByProfileId() : void {
+		$profile = Profile::getProfileByProfileId($this->getPDO(), generateUuidV4());
+		$this->assertNull($profile);
+	}
+
+	/**
 	 * test grabbing a Profile by profile activation token
 	 **/
 	public function testGetValidProfileByProfileActivationToken() {
