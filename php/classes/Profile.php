@@ -378,15 +378,18 @@ class Profile implements \JsonSerializable {
 	 * gets a Profile by profileId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $profileId profile id to search for
+	 * @param Uuid|string $profileId profile id to search for
 	 * @return Profile|null Profile found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getProfileByProfileId(\PDO $pdo, int $profileId) : ?Profile {
-		//check for valid profile id
-		if($profileId <= 0) {
-			throw (new \PDOException("Profile id is not positive"));
+	public static function getProfileByProfileId(\PDO $pdo, $profileId) : ?Profile {
+
+		//sanitize profileId before searching
+		try {
+			$profileId = self::validateUuid($profileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw (new \PDOException($exception->getMessage(), 0, $exception));
 		}
 
 		//create query template
@@ -394,7 +397,7 @@ class Profile implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind profile id to placeholder in query template
-		$parameters = ["profileId" => $profileId];
+		$parameters = ["profileId" => $profileId->getBytes()];
 		$statement->execute($parameters);
 
 		//grab profile from mysql
