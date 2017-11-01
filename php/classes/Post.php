@@ -79,9 +79,9 @@ class Post implements \JsonSerializable {
 	/**
 	 * accessor method for post id
 	 *
-	 * @return int|null value of post id
+	 * @return Uuid value of post id
 	 **/
-	public function getPostId() : ?int {
+	public function getPostId() : Uuid {
 		return($this->postId);
 	}
 
@@ -111,9 +111,9 @@ class Post implements \JsonSerializable {
 	/**
 	 * accessor method for post profile id
 	 *
-	 * @return int value of post profile id
+	 * @return Uuid value of post profile id
 	 **/
-	public function getPostProfileId() : int {
+	public function getPostProfileId() : Uuid {
 		return($this->postProfileId);
 	}
 
