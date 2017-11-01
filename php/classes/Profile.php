@@ -311,10 +311,6 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo) : void {
-		//verify that profile id is null / don't insert a profile that already exists
-		if($this->profileId !== null) {
-			throw (new \PDOException("not a new Profile"));
-		}
 
 		//create query template
 		$query = "INSERT INTO profile(profileId, profileActivationToken, profileEmail, profileHash, profileSalt, profileUsername) VALUES(:profileId, :profileActivationToken, :profileEmail, :profileHash, :profileSalt, :profileUsername)";
@@ -343,10 +339,6 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function update(\PDO $pdo) : void {
-		//verify profileId is not null / don't update a Profile that does not exist
-		if($this->profileId === null) {
-			throw (new \PDOException("Can't update a Profile that doesn't exist!"));
-		}
 
 		//create query template
 		$query = "UPDATE profile SET profileActivationToken = :profileActivationToken, profileEmail = :profileEmail, profileHash = :profileHash, profileSalt = :profileSalt, profileUsername = :profileUsername WHERE profileId = :profileId";
@@ -359,7 +351,7 @@ class Profile implements \JsonSerializable {
 			"profileHash" => $this->profileHash,
 			"profileSalt" => $this->profileSalt,
 			"profileUsername" => $this->profileUsername,
-			"profileId" => $this->profileId
+			"profileId" => $this->profileId->getBytes()
 		];
 		$statement->execute($parameters);
 	}
@@ -372,17 +364,13 @@ class Profile implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function delete(\PDO $pdo) : void {
-		//verify profileId is not null / don't delete a profile that does not exist
-		if($this->profileId === null) {
-			throw (new \PDOException("Can't delete a Profile that doesn't exist!"));
-		}
 
 		//create query template
 		$query = "DELETE FROM profile WHERE profileId = :profileId";
 		$statement = $pdo->prepare($query);
 
 		//bind member variables to the placeholders in the query template
-		$parameters = ["profileId" => $this->profileId];
+		$parameters = ["profileId" => $this->profileId->getBytes()];
 		$statement->execute($parameters);
 	}
 
