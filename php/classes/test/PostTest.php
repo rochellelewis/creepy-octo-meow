@@ -161,6 +161,14 @@ class PostTest extends CreepyOctoMeowTest {
 	}
 
 	/**
+	 * test grabbing a post that does not exist
+	 **/
+	public function testGetInvalidPostByPostId() : void {
+		$post = Post::getPostByPostId($this->getPDO(), generateUuidV4());
+		$this->assertNull($post);
+	}
+
+	/**
 	 * test grabbing Posts by Profile Id
 	 **/
 	public function testGetValidPostsByPostProfileId() {
@@ -191,7 +199,7 @@ class PostTest extends CreepyOctoMeowTest {
 	 * test grabbing Posts by a Profile Id that does not exist
 	 **/
 	public function testGetPostsByInvalidPostProfileId() {
-		$posts = Post::getPostsByPostProfileId($this->getPDO(), parent::INVALID_KEY);
+		$posts = Post::getPostsByPostProfileId($this->getPDO(), generateUuidV4());
 		$this->assertCount(0, $posts);
 	}
 
