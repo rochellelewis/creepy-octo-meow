@@ -78,7 +78,7 @@ class ProfileTest extends CreepyOctoMeowTest {
 		parent::setUp();
 
 		//create valid salt
-		$this->VALID_SALT = bin2hex(random_bytes(16));
+		$this->VALID_SALT = bin2hex(random_bytes(32));
 
 		//create valid password hash
 		$this->VALID_HASH = hash_pbkdf2("sha512", $this->PASSWORD, $this->VALID_SALT, 262144);
