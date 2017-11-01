@@ -111,17 +111,6 @@ class PostTest extends CreepyOctoMeowTest {
 	}
 
 	/**
-	 * test inserting a Post that already exists
-	 *
-	 * @expectedException \PDOException
-	 **/
-	public function testInsertInvalidPost() {
-		//create a post with a non-null post id and watch it fail
-		$post = new Post(CreepyOctoMeowTest::INVALID_KEY, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
-		$post->insert($this->getPDO());
-	}
-
-	/**
 	 * test inserting a Post, editing it, and then updating it
 	 **/
 	public function testUpdateValidPost() {
@@ -146,17 +135,6 @@ class PostTest extends CreepyOctoMeowTest {
 	}
 
 	/**
-	 * test updating a Post that does not exist
-	 *
-	 * @expectedException \PDOException
-	 **/
-	public function testUpdateInvalidPost() {
-		//create a post, don't insert it, try updating it and watch it fail
-		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
-		$post->update($this->getPDO());
-	}
-
-	/**
 	 * test creating a Post and then deleting it
 	 **/
 	public function testDeleteValidPost() {
@@ -175,17 +153,6 @@ class PostTest extends CreepyOctoMeowTest {
 		$pdoPost = Post::getPostByPostId($this->getPDO(), $post->getPostId());
 		$this->assertNull($pdoPost);
 		$this->assertEquals($numRows, $this->getConnection()->getRowCount("post"));
-	}
-
-	/**
-	 * test deleting a Post that does not exist
-	 *
-	 * @expectedException \PDOException
-	 **/
-	public function testDeleteInvalidPost() {
-		//create a post, don't insert it, try deleting it and watch it fail
-		$post = new Post(null, $this->profile->getProfileId(), $this->VALID_CONTENT, $this->VALID_DATE, $this->VALID_TITLE);
-		$post->delete($this->getPDO());
 	}
 
 	/**
