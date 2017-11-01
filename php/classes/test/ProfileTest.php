@@ -115,7 +115,8 @@ class ProfileTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		//create new profile and insert
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profileId = generateUuidV4();
+		$profile = new Profile($profileId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
 		$profile->insert($this->getPDO());
 
 		//edit the profile and run update method
@@ -140,7 +141,8 @@ class ProfileTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		//create new profile and insert
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profileId = generateUuidV4();
+		$profile = new Profile($profileId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
 		$profile->insert($this->getPDO());
 
 		//delete the profile we just made
@@ -161,7 +163,8 @@ class ProfileTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		//create new profile and insert
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profileId = generateUuidV4();
+		$profile = new Profile($profileId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
 		$profile->insert($this->getPDO());
 
 		//grab profile back from mysql and check that all fields match
@@ -191,7 +194,8 @@ class ProfileTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		//create new profile and insert
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profileId = generateUuidV4();
+		$profile = new Profile($profileId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
 		$profile->insert($this->getPDO());
 
 		//grab profile back from mysql and check that all fields match
@@ -221,7 +225,8 @@ class ProfileTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		//create new profile and insert
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profileId = generateUuidV4();
+		$profile = new Profile($profileId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
 		$profile->insert($this->getPDO());
 
 		//grab profile back from mysql and check that all fields match
@@ -251,7 +256,8 @@ class ProfileTest extends CreepyOctoMeowTest {
 		$numRows = $this->getConnection()->getRowCount("profile");
 
 		//create new profile and insert
-		$profile = new Profile(null, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
+		$profileId = generateUuidV4();
+		$profile = new Profile($profileId, $this->VALID_ACTIVATION, $this->VALID_EMAIL, $this->VALID_HASH, $this->VALID_SALT, $this->VALID_USERNAME);
 		$profile->insert($this->getPDO());
 
 		//grab all profiles back from mysql and check that the count matches
