@@ -317,11 +317,12 @@ class Profile implements \JsonSerializable {
 		}
 
 		//create query template
-		$query = "INSERT INTO profile(profileActivationToken, profileEmail, profileHash, profileSalt, profileUsername) VALUES(:profileActivationToken, :profileEmail, :profileHash, :profileSalt, :profileUsername)";
+		$query = "INSERT INTO profile(profileId, profileActivationToken, profileEmail, profileHash, profileSalt, profileUsername) VALUES(:profileId, :profileActivationToken, :profileEmail, :profileHash, :profileSalt, :profileUsername)";
 		$statement = $pdo->prepare($query);
 
 		//bind the member variables to the placeholders in the query template
 		$parameters = [
+			"profileId" => $this->profileId->getBytes(),
 			"profileActivationToken" => $this->profileActivationToken,
 			"profileEmail" => $this->profileEmail,
 			"profileHash" => $this->profileHash,
