@@ -309,15 +309,16 @@ class Post implements \JsonSerializable {
 	 * gets a Post by postId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $postId post id to search for
+	 * @param Uuid|string $postId post id to search for
 	 * @return Post|null Post found or null if not found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getPostByPostId(\PDO $pdo, int $postId) : ?Post {
-		//verify the post id
-		if($postId <= 0) {
-			throw (new \PDOException("Post id is not positive."));
+	public static function getPostByPostId(\PDO $pdo, $postId) : ?Post {
+		try {
+			$postId = self::validateUuid($postId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 
 		//create query template
@@ -325,7 +326,7 @@ class Post implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind member variables to the placeholders in the query template
-		$parameters = ["postId" => $postId];
+		$parameters = ["postId" => $postId->getBytes()];
 		$statement->execute($parameters);
 
 		//grab post from mysql
