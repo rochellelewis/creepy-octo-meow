@@ -133,8 +133,9 @@ class PostTest extends CreepyOctoMeowTest {
 		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("post"));
 		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT_2);
-		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
 		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
+		//format the date to seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoPost->getPostDate()->getTimestamp(), $this->VALID_DATE->getTimestamp());
 	}
 
 	/**
@@ -181,8 +182,9 @@ class PostTest extends CreepyOctoMeowTest {
 		$pdoPost = $results[0];
 		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT);
-		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
 		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
+		//format the date to seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoPost->getPostDate()->getTimestamp(), $this->VALID_DATE->getTimestamp());
 	}
 
 	/**
@@ -215,8 +217,9 @@ class PostTest extends CreepyOctoMeowTest {
 		$pdoPost = $results[0];
 		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
-		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
 		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
+		//format the date to seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoPost->getPostDate()->getTimestamp(), $this->VALID_DATE->getTimestamp());
 	}
 
 	/**
@@ -250,8 +253,9 @@ class PostTest extends CreepyOctoMeowTest {
 		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT);
-		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
 		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
+		//format the date to seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoPost->getPostDate()->getTimestamp(), $this->VALID_DATE->getTimestamp());
 	}
 
 	/**
@@ -285,7 +289,8 @@ class PostTest extends CreepyOctoMeowTest {
 		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT);
-		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
+		//format the date to seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoPost->getPostDate()->getTimestamp(), $this->VALID_DATE->getTimestamp());
 	}
 
 	/**
@@ -319,7 +324,8 @@ class PostTest extends CreepyOctoMeowTest {
 		$this->assertEquals($pdoPost->getPostId(), $post->getPostId());
 		$this->assertEquals($pdoPost->getPostProfileId(), $this->profile->getProfileId());
 		$this->assertEquals($pdoPost->getPostContent(), $this->VALID_CONTENT);
-		//$this->assertEquals($pdoPost->getPostDate(), $this->VALID_DATE);
 		$this->assertEquals($pdoPost->getPostTitle(), $this->VALID_TITLE);
+		//format the date to seconds since the beginning of time to avoid round off error
+		$this->assertEquals($pdoPost->getPostDate()->getTimestamp(), $this->VALID_DATE->getTimestamp());
 	}
 }
