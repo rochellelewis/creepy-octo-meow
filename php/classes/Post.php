@@ -348,15 +348,16 @@ class Post implements \JsonSerializable {
 	 * gets Posts by postProfileId
 	 *
 	 * @param \PDO $pdo PDO connection object
-	 * @param int $postProfileId profile id of author to search for
+	 * @param Uuid|string $postProfileId profile id of author to search for
 	 * @return \SplFixedArray SplFixedArray of Posts found
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when variables are not the correct data type
 	 **/
-	public static function getPostsByPostProfileId(\PDO $pdo, int $postProfileId) : \SplFixedArray {
-		//verify post profile id
-		if($postProfileId <= 0) {
-			throw (new \PDOException("Post profile id is not positive."));
+	public static function getPostsByPostProfileId(\PDO $pdo, $postProfileId) : \SplFixedArray {
+		try {
+			$postProfileId = self::validateUuid($postProfileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			throw(new \PDOException($exception->getMessage(), 0, $exception));
 		}
 
 		//create query template
@@ -364,7 +365,7 @@ class Post implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind member variables to the placeholders in the query template
-		$parameters = ["postProfileId" => $postProfileId];
+		$parameters = ["postProfileId" => $postProfileId->getBytes()];
 		$statement->execute($parameters);
 
 		//build an array of posts
