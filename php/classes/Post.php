@@ -506,6 +506,7 @@ class Post implements \JsonSerializable {
 		$statement = $pdo->prepare($query);
 
 		//bind member variables to the placeholders in the query template
+		$postTitle = "%$postTitle%";
 		$parameters = ["postTitle" => $postTitle];
 		$statement->execute($parameters);
 
@@ -562,7 +563,13 @@ class Post implements \JsonSerializable {
 	 **/
 	public function jsonSerialize() {
 		$fields = get_object_vars($this);
-		$fields["postDate"] = $this->postDate->getTimestamp() * 1000;
+
+		$fields["postId"] = $this->postId->toString();
+		$fields["postProfileId"] = $this->postProfileId->toString();
+
+		//format the date so that the front end can consume it
+		$fields["postDate"] = round(floatval($this->postDate->format("U.u")) * 1000);
+
 		return($fields);
 	}
 
