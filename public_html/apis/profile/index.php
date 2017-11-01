@@ -136,7 +136,7 @@ try {
 			}
 
 			//generate new salt and hash for new password
-			$newProfileSalt = bin2hex(random_bytes(16));
+			$newProfileSalt = bin2hex(random_bytes(32));
 			$newProfileHash = hash_pbkdf2("sha512", $requestObject->newProfilePassword, $newProfileSalt, 262144);
 
 			//update password

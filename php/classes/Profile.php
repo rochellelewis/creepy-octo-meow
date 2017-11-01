@@ -261,7 +261,7 @@ class Profile implements \JsonSerializable {
 		}
 
 		//check for valid length
-		if(strlen($newProfileSalt) !== 32) {
+		if(strlen($newProfileSalt) !== 64) {
 			throw (new \RangeException("Profile salt is invalid length."));
 		}
 

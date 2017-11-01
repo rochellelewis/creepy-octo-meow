@@ -6,8 +6,7 @@ CREATE TABLE profile (
 	profileActivationToken CHAR(32),
 	profileEmail VARCHAR(64) NOT NULL,
 	profileHash CHAR(128) NOT NULL,
-	-- TODO: increase to char 64
-	profileSalt CHAR(32) NOT NULL,
+	profileSalt CHAR(64) NOT NULL,
 	profileUsername VARCHAR(64) NOT NULL,
 	UNIQUE (profileActivationToken),
 	UNIQUE (profileEmail),
