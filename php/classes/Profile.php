@@ -326,9 +326,6 @@ class Profile implements \JsonSerializable {
 			"profileUsername" => $this->profileUsername
 		];
 		$statement->execute($parameters);
-
-		//update the null profileId with what mysql gave us
-		$this->profileId = intval($pdo->lastInsertId());
 	}
 
 	/**

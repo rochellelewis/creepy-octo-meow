@@ -242,27 +242,24 @@ class Post implements \JsonSerializable {
 	 * @throws \TypeError if $pdo is not a PDO connection object
 	 **/
 	public function insert(\PDO $pdo) : void {
-		//verify the post id is null / don't insert a post that already exists!
-		if($this->postId !== null) {
-			throw(new \PDOException("Not a new post."));
-		}
 
 		//create query template
-		$query = "INSERT INTO post(postProfileId, postContent, postDate, postTitle) VALUES(:postProfileId, :postContent, :postDate, :postTitle)";
+		$query = "INSERT INTO post(postId, postProfileId, postContent, postDate, postTitle) VALUES(:postId, :postProfileId, :postContent, :postDate, :postTitle)";
 		$statement = $pdo->prepare($query);
 
 		//bind member variables to the placeholders in the query template
-		$formattedDate = $this->postDate->format("Y-m-d H:i:s");
+		$formattedDate = $this->postDate->format("Y-m-d H:i:s.u");
+
 		$parameters = [
-			"postProfileId" => $this->postProfileId,
+			"postId" => $this->postId->getBytes(),
+			"postProfileId" => $this->postProfileId->getBytes(),
 			"postContent" => $this->postContent,
 			"postDate" => $formattedDate,
 			"postTitle" => $this->postTitle
 		];
+
 		$statement->execute($parameters);
 
-		//update null postId with what mysql gave us
-		$this->postId = intval($pdo->lastInsertId());
 	}
 
 	/**
