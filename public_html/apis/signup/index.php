@@ -98,7 +98,7 @@ try {
 EOF;
 
 		//swiftmail it!
-		$swiftMessage = Swift_Message::newInstance();
+		$swiftMessage = new Swift_Message();
 		$swiftMessage->setFrom([$senderEmail => $senderName]);
 
 		$recipients = [
@@ -110,8 +110,8 @@ EOF;
 		$swiftMessage->setSubject($subject);
 		$swiftMessage->setBody($message, "text/html");
 		$swiftMessage->addPart(html_entity_decode($message), "text/plain");
-		$smtp = Swift_SmtpTransport::newInstance("localhost", 25);
-		$mailer = Swift_Mailer::newInstance($smtp);
+		$smtp = new Swift_SmtpTransport("localhost", 25);
+		$mailer = new Swift_Mailer($smtp);
 		$numSent = $mailer->send($swiftMessage, $failedRecipients);
 
 		if($numSent !== count($recipients)) {
