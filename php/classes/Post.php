@@ -120,7 +120,7 @@ class Post implements \JsonSerializable {
 	 * @throws \RangeException if $newPostProfileId is not positive
 	 * @throws \TypeError if $newPostProfileId is not an integer
 	 **/
-	public function setPostProfileId(int $newPostProfileId) : void {
+	public function setPostProfileId($newPostProfileId) : void {
 		try {
 			$uuid = self::validateUuid($newPostProfileId);
 		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
