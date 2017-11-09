@@ -60,7 +60,7 @@ try {
 	}*/
 
 	//check for valid post id for PUT and DELETE requests
-	if(($method === "PUT" || $method === "DELETE") && (empty($id) === true || $id <= 0)) {
+	if(($method === "PUT" || $method === "DELETE") && (empty($id) === true)) {
 		throw (new \InvalidArgumentException("Post id is not valid.", 405));
 	}
 
