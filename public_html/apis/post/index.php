@@ -45,8 +45,8 @@ try {
 	}
 
 	//sanitize and store input
-	$id = filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT);
-	$postProfileId = filter_input(INPUT_GET, "postProfileId", FILTER_VALIDATE_INT);
+	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
+	$postProfileId = filter_input(INPUT_GET, "postProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$postContent = filter_input(INPUT_GET, "postContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	//$postDate = filter_input(INPUT_GET, "postDate", FILTER_VALIDATE_INT);
 	$postSunriseDate = filter_input(INPUT_GET, "postSunriseDate", FILTER_VALIDATE_INT);
