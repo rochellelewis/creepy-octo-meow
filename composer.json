@@ -1,14 +1,17 @@
 {
   "require": {
+    "apigen/apigen": "dev-master",
     "phpdocumentor/phpdocumentor": "@stable",
     "phpunit/dbunit": "@stable",
     "phpunit/phpunit": "@stable",
     "swiftmailer/swiftmailer": "@stable",
     "guzzlehttp/guzzle": "@stable",
-    "ramsey/uuid": "@stable"
+    "ramsey/uuid": "@stable",
+    "roave/better-reflection": "dev-master#a402048"
   },
   "scripts":{
     "phpdoc": "./vendor/bin/phpdoc -t doc -d ./php/classes",
+    "apigen": "./vendor/bin/apigen generate ./php/classes/*.php --destination doc",
     "phpunit" : "./vendor/bin/phpunit -c ./php/classes/Test --coverage-html coverage"
   }
 }
