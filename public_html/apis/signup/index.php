@@ -74,11 +74,11 @@ try {
 		$profileActivationToken = bin2hex(random_bytes(16));
 
 		//create password salt and hash
-		$salt = bin2hex(random_bytes(16));
+		$salt = bin2hex(random_bytes(32));
 		$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $salt, 262144);
 
 		//create a new Profile and insert into mysql
-		$profile = new Profile(null, $profileActivationToken, $requestObject->profileEmail, $hash, $salt, $requestObject->profileUsername);
+		$profile = new Profile(generateUuidV4(), $profileActivationToken, $requestObject->profileEmail, $hash, $salt, $requestObject->profileUsername);
 		$profile->insert($pdo);
 
 		//build the account activation email link - this url points to the activation api
