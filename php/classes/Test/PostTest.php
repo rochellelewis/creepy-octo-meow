@@ -81,6 +81,9 @@ class PostTest extends CreepyOctoMeowTest {
 		$this->profile = new Profile($profileId, $activation, "drumpf@tinyhands.ru", $hash, $salt, "bernie");
 		$this->profile->insert($this->getPDO());
 
+		//create a valid date for the Post
+		$this->VALID_DATE = new \DateTime();
+
 		//create a valid SUNRISE date for date range check
 		$this->SUNRISE_DATE = new \DateTime();
 		$this->SUNRISE_DATE->sub(new \DateInterval("P10D"));
