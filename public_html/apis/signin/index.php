@@ -78,6 +78,13 @@ try {
 
 		//grab profile by id from mysql and put into the session
 		$profile = Profile::getProfileByProfileId($pdo, $profile->getProfileId());
+
+		//check if user has activated their acct yet
+		if(!empty($profile->getProfileActivationToken()) || $profile->getProfileActivationToken() !== null) {
+			throw (new \RuntimeException("Please check your email to activate your account before logging in.", 403));
+		}
+
+		//add profile to session
 		$_SESSION["profile"] = $profile;
 
 		//update reply
