@@ -82,7 +82,6 @@ try {
 		$profile->insert($pdo);
 
 		//build the account activation email link - this url points to the activation api
-		//TODO: Create pretty activation page =^. .^=
 		$basePath = dirname($_SERVER["SCRIPT_NAME"], 2);
 		$urlGlue = $basePath . "/activation/?token=" . $profileActivationToken;
 		$confirmLink = "https://" . $_SERVER["SERVER_NAME"] . $urlGlue;
