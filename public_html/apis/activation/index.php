@@ -61,7 +61,7 @@ try {
 		$profile = Profile::getProfileByProfileActivationToken($pdo, $token);
 
 		if(empty($profile) === true) {
-			throw (new \InvalidArgumentException("No profile found for the activation token.", 404));
+			throw (new \InvalidArgumentException("No profile found for this activation token. Have you already activated your account?", 404));
 		}
 
 		//set the activation token to null
