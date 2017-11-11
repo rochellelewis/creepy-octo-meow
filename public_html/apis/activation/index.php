@@ -122,10 +122,12 @@ if($reply->data === null) {
 				<hr>
 				<p class="lead d-flex">
 
-					<!-- echo the $reply message to the front end -->
+					<!-- echo the $reply message in a creative way to the front end :D -->
 					<?php
 						echo $reply->message . "&nbsp;";
-						if($reply->status !== 200) {
+						if($reply->status === 200) {
+							echo "<span class=\"align-self-center badge badge-success\">Code:&nbsp;" . $reply->status . "&nbsp;OK!</span>";
+						} else {
 							echo "<span class=\"align-self-center badge badge-danger\">Code:&nbsp;" . $reply->status . "</span>";
 						}
 					?>
