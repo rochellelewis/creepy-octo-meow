@@ -70,6 +70,18 @@ try {
 			throw (new \InvalidArgumentException("Passwords do not match."));
 		}
 
+		//check for duplicate email
+		$emailCheck = Profile::getProfileByProfileEmail($pdo, $requestObject->profileEmail);
+		if(!empty($emailCheck) || $emailCheck !== null) {
+			throw new \InvalidArgumentException("This email is already in use.", 403);
+		}
+
+		//check for duplicate username
+		$usernameCheck = Profile::getProfileByProfileUsername($pdo, $requestObject->profileUsername);
+		if(!empty($usernameCheck) || $usernameCheck !== null) {
+			throw new \InvalidArgumentException("This username is not available.", 403);
+		}
+
 		//create profile activation token
 		$profileActivationToken = bin2hex(random_bytes(16));
 
