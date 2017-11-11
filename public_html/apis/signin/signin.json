@@ -1,6 +1,6 @@
 // Sample JSON input to test against
 
 {
-  "profileEmail": "",
-  "profilePassword": ""
+  "profileEmail": "hello@rochellewis.com",
+  "profilePassword": "meowmeow"
 }

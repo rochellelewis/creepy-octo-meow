@@ -126,7 +126,7 @@ if($reply->data === null) {
 					<?php
 						echo $reply->message . "&nbsp;";
 						if($reply->status !== 200) {
-							echo "<span class=\"align-self-center badge badge-secondary\">Code:&nbsp;" . $reply->status . "</span>";
+							echo "<span class=\"align-self-center badge badge-danger\">Code:&nbsp;" . $reply->status . "</span>";
 						}
 					?>
 
