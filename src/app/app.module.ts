@@ -1,12 +1,10 @@
 import {NgModule} from "@angular/core";
 import {HttpClientModule} from "@angular/common/http";
 import {BrowserModule} from "@angular/platform-browser";
-//ReactiveFormsModule vs FormsModule see: https://next.angular.io/guide/reactive-forms
 import {ReactiveFormsModule} from "@angular/forms";
 import {AppComponent} from "./app.component";
 import {allAppComponents, appRoutingProviders, routing} from "./app.routes";
 
-//services
 /*
 import {PostService} from "./services/post.service";
 import {ProfileService} from "./services/profile.service";
@@ -22,7 +20,7 @@ const moduleDeclarations = [AppComponent];
 	declarations: [...moduleDeclarations, ...allAppComponents],
 	bootstrap:    [AppComponent],
 
-	//update services in providers array below:
+	/**update services in providers array below:*/
 	providers:    [...appRoutingProviders]
 })
 
