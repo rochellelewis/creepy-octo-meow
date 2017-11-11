@@ -1,9 +1,9 @@
 // Sample JSON input to test against
 
 
-"id": "a824dc0b-9105-4a86-90b7-d29bb4bcdbef",
 {
-  "postProfileId": "385aef96-af17-422a-aa82-cd1bf05a0cd4",
-  "postContent": "Lalalalllaa... more!!!",
-  "postTitle": "Second!"
+  "id": "",
+  "postProfileId": "",
+  "postContent": "",
+  "postTitle": ""
 }
