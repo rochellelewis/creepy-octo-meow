@@ -5,7 +5,11 @@ require_once (dirname(__DIR__, 3) . "/php/lib/xsrf.php");
 require_once (dirname(__DIR__, 3) . "/php/lib/uuid.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
-use Edu\Cnm\CreepyOctoMeow\Post;
+use Edu\Cnm\CreepyOctoMeow\{
+	Post,
+	// we only use the profile class for testing purposes
+	Profile
+};
 
 /**
  * API for Post class
@@ -48,16 +52,15 @@ try {
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$postProfileId = filter_input(INPUT_GET, "postProfileId", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 	$postContent = filter_input(INPUT_GET, "postContent", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
-	//$postDate = filter_input(INPUT_GET, "postDate", FILTER_VALIDATE_INT);
 	$postSunriseDate = filter_input(INPUT_GET, "postSunriseDate", FILTER_VALIDATE_INT);
 	$postSunsetDate = filter_input(INPUT_GET, "postSunsetDate", FILTER_VALIDATE_INT);
 	$postTitle = filter_input(INPUT_GET, "postTitle", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
 
-	//if sunrise and sunset are available for date range search, format them
-	/*if(empty($postSunriseDate) === false && empty($postSunsetDate) === false) {
+	//if sunrise and sunset dates are available for date range search, format them
+	if(empty($postSunriseDate) === false && empty($postSunsetDate) === false) {
 		$postSunriseDate = \DateTime::createFromFormat("U", $postSunriseDate / 1000);
 		$postSunsetDate = \DateTime::createFromFormat("U", $postSunsetDate / 1000);
-	}*/
+	}
 
 	//check for valid post id for PUT and DELETE requests
 	if(($method === "PUT" || $method === "DELETE") && (empty($id) === true)) {
@@ -122,14 +125,9 @@ try {
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
 
-		//restrict access if user is not logged into the account that authored created the post!
-		if($_SESSION["profile"]->getProfileId() !== $requestObject->postProfileId) {
-			throw (new \Exception("Profile id does not match post profile id.", 401));
-		}
-
 		//user MUST have an activated account before they can create or edit posts.
 		if($_SESSION["profile"]->getProfileActivationToken() !== null) {
-			throw (new \InvalidArgumentException("You must have an activated account before you can create posts. Please check your email for the activation link.", 401));
+			throw (new \InvalidArgumentException("You must have an activated account before you can create posts. Please check your email for the activation link.", 403));
 		}
 
 		//make sure a post profile id is available
@@ -149,13 +147,18 @@ try {
 
 		if($method === "PUT") {
 
-			//grab the post
+			//grab the post to be updated
 			$post = Post::getPostByPostId($pdo, $id);
 			if($post === null) {
-				throw (new \RuntimeException("Post does not exist.", 404));
+				throw new \RuntimeException("Post not found.", 404);
 			}
 
-			//set updated post data
+			//restrict access if user is not logged into the account that created the post!
+			if(empty($_SESSION["profile"]) || $_SESSION["profile"]->getProfileId()->toString() !== $post->getPostProfileId()->toString()) {
+				throw (new \Exception("You are not authorized to edit this post.", 403));
+			}
+
+			//update post data
 			$post->setPostContent($requestObject->postContent);
 			$post->setPostTitle($requestObject->postTitle);
 
@@ -172,7 +175,7 @@ try {
 		} elseif($method === "POST") {
 
 			//create a new post and insert into mysql
-			$post = new Post(null, $requestObject->postProfileId, $requestObject->postContent, null, $requestObject->postTitle);
+			$post = new Post(generateUuidV4(), $_SESSION["profile"]->getProfileId(), $requestObject->postContent, null, $requestObject->postTitle);
 			$post->insert($pdo);
 
 			//update reply
@@ -186,12 +189,12 @@ try {
 		//grab the post
 		$post = Post::getPostByPostId($pdo, $id);
 		if($post === null) {
-			throw (new \RuntimeException("Post no exist!", 404));
+			throw (new \RuntimeException("This post no exist!", 404));
 		}
 
 		//make sure user is logged in to the account that created the post
-		if($_SESSION["profile"]->getProfileId() !== $post->getPostProfileId()) {
-			throw (new \InvalidArgumentException("U are not allowed to delete this post!", 401));
+		if(empty($_SESSION["profile"]) === true || $_SESSION["profile"]->getProfileId()->toString() !== $post->getPostProfileId()->toString()) {
+			throw (new \InvalidArgumentException("U are not allowed to delete this post!", 403));
 		}
 
 		//delete the post (╯°▽°)╯︵ ┻━┻
