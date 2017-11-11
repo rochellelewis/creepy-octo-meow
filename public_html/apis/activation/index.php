@@ -1,9 +1,9 @@
 <?php
-require_once (dirname(__DIR__, 3) . "/vendor/autoload.php");
-require_once (dirname(__DIR__, 3) . "/php/classes/autoload.php");
-require_once (dirname(__DIR__, 3) . "/php/lib/xsrf.php");
-require_once (dirname(__DIR__, 3) . "/php/lib/uuid.php");
-require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
+require_once(dirname(__DIR__, 3) . "/vendor/autoload.php");
+require_once(dirname(__DIR__, 3) . "/php/classes/autoload.php");
+require_once(dirname(__DIR__, 3) . "/php/lib/xsrf.php");
+require_once(dirname(__DIR__, 3) . "/php/lib/uuid.php");
+require_once("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\CreepyOctoMeow\Profile;
 
@@ -86,10 +86,55 @@ try {
 }
 
 //sets up the response header.
-header("Content-type: application/json");
+//header("Content-type: application/json");
 if($reply->data === null) {
 	unset($reply->data);
 }
 
-//finally - JSON encode the $reply object and echo it back to the front end.
-echo json_encode($reply);
+?>
+
+<!-- BEGIN HTML FOR ACTIVATION PAGE -->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+		<!-- Bootstrap CSS -->
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"
+				integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
+		<!-- Font Awesome -->
+		<link type="text/css" href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+				rel="stylesheet"/>
+
+		<!-- JSON encode the $reply object and console.log it -->
+		<script>
+			console.log(<?php echo json_encode($reply);?>);
+		</script>
+
+		<title>Account Activation | Creepy Octo Meow</title>
+	</head>
+	<body>
+		<div class="container">
+			<div class="jumbotron my-5">
+				<h1>Creepy Octo Meow | Account Activation</h1>
+				<hr>
+				<p class="lead d-flex">
+
+					<!-- echo the $reply message to the front end -->
+					<?php
+						echo $reply->message . "&nbsp;";
+						if($reply->status !== 200) {
+							echo "<span class=\"align-self-center badge badge-secondary\">Code:&nbsp;" . $reply->status . "</span>";
+						}
+					?>
+
+				</p>
+				<div class="mt-4">
+					<a class="btn btn-lg btn-primary" href="https://bootcamp-coders.cnm.edu/~rlewis37/creepy-octo-meow/public_html/"><i class="fa fa-sign-in"></i>&nbsp;Sign In</a>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
