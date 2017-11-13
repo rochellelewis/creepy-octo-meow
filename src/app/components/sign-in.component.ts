@@ -12,13 +12,13 @@ import {SignIn} from "../classes/sign-in";
 declare var $: any;
 
 @Component({
-	templateUrl: "./templates/sign-in.php",
+	templateUrl: "./templates/sign-in.html",
 	selector: "sign-in"
 })
 
 export class SignInComponent {
 
-	@ViewChild("signInForm") signInForm : any;
+	/*@ViewChild("signInForm") signInForm : any;
 
 	signin: SignIn = new SignIn("", "");
 	//profile: Profile = new Profile(0, "", "", "", "", "");
@@ -44,5 +44,5 @@ export class SignInComponent {
 				setTimeout(function(){$("#signin-modal").modal("hide");}, 250);
 			}
 		});
-	}
+	}*/
 }

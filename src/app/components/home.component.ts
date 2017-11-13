@@ -8,7 +8,7 @@ import "rxjs/add/observable/from";
 import "rxjs/add/operator/switchMap";
 
 @Component({
-	templateUrl: "./templates/home.php"
+	templateUrl: "./templates/home.html"
 })
 
 export class HomeComponent {

@@ -9,12 +9,12 @@ import "rxjs/add/operator/switchMap";
 
 
 @Component({
-	templateUrl: "./templates/profile.php"
+	templateUrl: "./templates/profile.html"
 })
 
-export class ProfileComponent implements OnInit {
+export class ProfileComponent {
 
-	profile: Profile = new Profile(0, "", "", "", "", "");
+/*	profile: Profile = new Profile(0, "", "", "", "", "");
 	status: Status = null;
 
 	constructor(private profileService: ProfileService, private route: ActivatedRoute) {}
@@ -23,5 +23,5 @@ export class ProfileComponent implements OnInit {
 		this.route.params
 			.switchMap((params : Params) => this.profileService.getProfile(+params["id"]))
 			.subscribe(reply => this.profile = reply);
-	}
+	}*/
 }

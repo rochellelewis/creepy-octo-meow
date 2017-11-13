@@ -1,7 +1,7 @@
 import {Component} from "@angular/core";
 
 @Component({
-	templateUrl: "./templates/delete-post.php",
+	templateUrl: "./templates/delete-post.html",
 	selector: "delete-post"
 })
 
