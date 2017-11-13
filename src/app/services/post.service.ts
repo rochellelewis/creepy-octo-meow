@@ -4,8 +4,6 @@ import {Observable} from "rxjs/Observable";
 import {Status} from "../classes/status";
 import {Post} from "../classes/post";
 
-import DateTimeFormat = Intl.DateTimeFormat;
-
 @Injectable ()
 export class PostService {
 
@@ -15,66 +13,47 @@ export class PostService {
 	private postUrl = "apis/post/";
 
 	// connect to the post API and delete the post
-	deletePost(id: number) : Observable<Status> {
-		return(this.http.delete(this.postUrl + id)
-			.map(BaseService.extractMessage)
-			.catch(BaseService.handleError));
+	deletePost(id: string) : Observable<Status> {
+		return(this.http.delete<Status>(this.postUrl + id));
 	}
 
 	// connect to the profile API and edit/update the post
 	editPost(post: Post) : Observable<Status> {
-		return(this.http.put(this.postUrl + post.id, post)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+		return(this.http.put<Status>(this.postUrl + post.id, post));
 	}
 
 	// connect to the profile API and create the post
 	createPost(post: Post) : Observable<Status> {
-		return(this.http.post(this.postUrl, Post)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+		return(this.http.post<Status>(this.postUrl, Post));
 	}
 
 	// connect to post API and get post by id
-	getPost(id: number) : Observable<Post> {
-		return(this.http.get(this.postUrl + id)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+	getPost(id: string) : Observable<Post> {
+		return(this.http.get<Status>(this.postUrl + id));
 	}
 
 	// connect to post API and get posts by profile id
-	getPostsByProfileId(postProfileId : number) : Observable<Post[]> {
-		return(this.http.get(this.postUrl + postProfileId, Post)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+	getPostsByProfileId(postProfileId : string) : Observable<Status> {
+		return(this.http.get<Status>(this.postUrl + postProfileId, Post));
 	}
 
 	// connect to post API and get posts by content
-	getPostsByPostContent(postContent : string) : Observable<Post[]> {
-		return(this.http.get(this.postUrl + postContent)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+	getPostsByPostContent(postContent : string) : Observable<Status> {
+		return(this.http.get<Status>(this.postUrl + postContent));
 	}
 
 	// connect to post API and get posts by date range
-	getPostsByPostDateRange(postDate: number) :Observable<Post[]> {
-		return(this.http.get(this.postUrl + postDate)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+	getPostsByPostDateRange(postDate: string) :Observable<Status> {
+		return(this.http.get<Status>(this.postUrl + postDate));
 	}
 
 	// connect to post API and get post by title
-	getPostsByPostTitle(postTitle: string) : Observable<Post[]> {
-		return(this.http.get(this.postUrl + postTitle)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+	getPostsByPostTitle(postTitle: string) : Observable<Status> {
+		return(this.http.get<Status>(this.postUrl + postTitle));
 	}
 
 	// connect to post API and get all posts
-	getAllPosts() : Observable<Post[]> {
-		return(this.http.get(this.postUrl)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError)
-		);
+	getAllPosts() : Observable<Status> {
+		return(this.http.get<Status>(this.postUrl));
 	}
 }
