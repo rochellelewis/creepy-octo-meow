@@ -10,10 +10,14 @@ export class SignInService {
 	constructor (protected http:HttpClient) {}
 
 	private signInUrl = "apis/signin/";
-	public isSignedIn = false;
+	private signOutUrl = "apis/signout/";
 
 	// pre form the post to initiate sign in
 	postSignIn(signIn: SignIn) : Observable<Status> {
 		return(this.http.post<Status>(this.signInUrl, signIn));
+	}
+
+	getSignOut() : Observable<Status> {
+		return(this.http.get<Status>(this.signOutUrl));
 	}
 }
