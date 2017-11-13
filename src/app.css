@@ -1,3 +1,9 @@
+body {
+	background: url("app/images/creepy-octo-meow.jpg") no-repeat center center;
+	background-size: cover;
+	background-position: fixed;
+}
+
 /***
 * Flexbox Sticky Footer
 * http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
