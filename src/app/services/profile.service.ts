@@ -12,53 +12,28 @@ export class ProfileService {
 	// define the API endpoint
 	private profileUrl = "apis/profile/";
 
-	// connect to the profile API and delete the profile
-	deleteProfile(profileId: number) : Observable<Status> {
-		return(this.http.delete(this.profileUrl + profileId)
-			.map(BaseService.extractMessage)
-			.catch(BaseService.handleError));
-	}
-
 	// connect to the profile API and edit/update the profile
 	editProfile(profile: Profile) : Observable<Status> {
-		return(this.http.put(this.profileUrl + profile.id, profile)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+		return(this.http.put<Status>(this.profileUrl + profile.id, profile));
 	}
 
 	// connect to profile API and get profile by id
-	getProfile(profileId: number) : Observable<Profile> {
-		return(this.http.get(this.profileUrl + profileId)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
-	}
-
-	// connect to profile API and get profile by activation token
-	getProfileByProfileActivationToken(profileActivationToken: string) : Observable<Profile[]> {
-		return(this.http.get(this.profileUrl + profileActivationToken)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+	getProfile(id: string) : Observable<Profile> {
+		return(this.http.get<Profile>(this.profileUrl + id));
 	}
 
 	// connect to profile API and get profile by email
-	getProfileByProfileEmail(profileEmail: string) : Observable<Profile[]> {
-		return(this.http.get(this.profileUrl + profileEmail)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+	getProfileByProfileEmail(profileEmail: string) : Observable<Profile> {
+		return(this.http.get<Profile>(this.profileUrl + profileEmail));
 	}
 
 	// connect to profile API and get profile by username
-	getProfileByProfileUsername(profileUsername: string) : Observable<Profile[]> {
-		return(this.http.get(this.profileUrl + profileUsername)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError));
+	getProfileByProfileUsername(profileUsername: string) : Observable<Profile> {
+		return(this.http.get<Profile>(this.profileUrl + profileUsername));
 	}
 
 	// connect to profile API and get all profiles
 	getAllProfiles(profile: Profile) : Observable<Profile[]> {
-		return(this.http.get(this.profileUrl, profile)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError)
-		);
+		return(this.http.get<Profile[]>(this.profileUrl));
 	}
 }
