@@ -1,6 +1,6 @@
 export class Profile {
 	constructor(
-		public id: number,
+		public id: string,
 		public profileActivationToken: string,
 		public profileEmail: string,
 		public profilePassword: string,
