@@ -1,16 +1,13 @@
+import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
-import {BaseService} from "./base.service";
+import {Observable} from "rxjs/Observable";
 import {Status} from "../classes/status";
 import {Profile} from "../classes/profile";
-import {Observable} from "rxjs/Observable";
 
 @Injectable ()
-export class ProfileService extends BaseService {
+export class ProfileService {
 
-	constructor(protected http:Http) {
-		super(http);
-	}
+	constructor(protected http:HttpClient) {}
 
 	// define the API endpoint
 	private profileUrl = "apis/profile/";

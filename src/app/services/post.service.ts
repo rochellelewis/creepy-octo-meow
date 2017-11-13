@@ -1,18 +1,15 @@
+import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
-import {BaseService} from "./base.service";
+import {Observable} from "rxjs/Observable";
 import {Status} from "../classes/status";
 import {Post} from "../classes/post";
-import {Observable} from "rxjs/Observable";
 
 import DateTimeFormat = Intl.DateTimeFormat;
 
 @Injectable ()
-export class PostService extends BaseService {
+export class PostService {
 
-	constructor(protected http:Http) {
-		super(http);
-	}
+	constructor(protected http:HttpClient) {}
 
 	// define the API endpoint
 	private postUrl = "apis/post/";

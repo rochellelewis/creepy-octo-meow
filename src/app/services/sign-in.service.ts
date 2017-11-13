@@ -1,16 +1,13 @@
+import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
-import {BaseService} from "./base.service";
+import {Observable} from "rxjs/Observable";
 import {Status} from "../classes/status";
 import {SignIn} from "../classes/sign-in";
-import {Observable} from "rxjs/Observable";
 
 @Injectable ()
-export class SignInService extends BaseService {
+export class SignInService {
 
-	constructor (protected http:Http) {
-		super(http);
-	}
+	constructor (protected http:HttpClient) {}
 
 	private signInUrl = "apis/signin/";
 	public isSignedIn = false;

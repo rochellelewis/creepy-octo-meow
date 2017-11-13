@@ -1,23 +1,17 @@
+import {HttpClient} from "@angular/common/http";
 import {Injectable} from "@angular/core";
-import {Http} from "@angular/http";
-import {BaseService} from "./base.service";
+import {Observable} from "rxjs/Observable";
 import {Status} from "../classes/status";
 import {Profile} from "../classes/profile";
-import {Observable} from "rxjs/Observable";
 
 @Injectable()
-export class SignUpService extends BaseService {
+export class SignUpService {
 
-	constructor(protected http:Http) {
-		super(http);
-	}
+	constructor(protected http:HttpClient) {}
 
 	private signUpUrl = "apis/signup";
 
 	createProfile(profile: Profile) : Observable<Status> {
-		return(this.http.post(this.signUpUrl, profile)
-			.map(BaseService.extractData)
-			.catch(BaseService.handleError)
-		);
+		return(this.http.post<Status>(this.signUpUrl, profile));
 	}
 }
