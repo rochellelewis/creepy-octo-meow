@@ -29,27 +29,27 @@ export class PostService {
 
 	// connect to post API and get post by id
 	getPost(id: string) : Observable<Post> {
-		return(this.http.get<Status>(this.postUrl + id));
+		return(this.http.get<Post>(this.postUrl + id));
 	}
 
 	// connect to post API and get posts by profile id
-	getPostsByProfileId(postProfileId : string) : Observable<Status> {
-		return(this.http.get<Status>(this.postUrl + postProfileId, Post));
+	getPostsByProfileId(postProfileId : string) : Observable<Post> {
+		return(this.http.get<Post>(this.postUrl + postProfileId));
 	}
 
 	// connect to post API and get posts by content
-	getPostsByPostContent(postContent : string) : Observable<Status> {
-		return(this.http.get<Status>(this.postUrl + postContent));
+	getPostsByPostContent(postContent : string) : Observable<Post> {
+		return(this.http.get<Post>(this.postUrl + postContent));
 	}
 
 	// connect to post API and get posts by date range
-	getPostsByPostDateRange(postDate: string) :Observable<Status> {
-		return(this.http.get<Status>(this.postUrl + postDate));
+	getPostsByPostDateRange(postDate: string) :Observable<Post> {
+		return(this.http.get<Post>(this.postUrl + postDate));
 	}
 
 	// connect to post API and get post by title
-	getPostsByPostTitle(postTitle: string) : Observable<Status> {
-		return(this.http.get<Status>(this.postUrl + postTitle));
+	getPostsByPostTitle(postTitle: string) : Observable<Post> {
+		return(this.http.get<Post>(this.postUrl + postTitle));
 	}
 
 	// connect to post API and get all posts
