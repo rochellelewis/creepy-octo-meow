@@ -35,7 +35,7 @@ export class SignInComponent implements OnInit {
 	}
 
 	signIn() : void {
-		this.signInService.postSignIn(this.signin).subscribe(status => {
+		/*this.signInService.postSignIn(this.signin).subscribe(status => {
 			this.status = status;
 			if(status.status === 200) {
 				this.router.navigate(["feed"]);
@@ -45,6 +45,8 @@ export class SignInComponent implements OnInit {
 				this.isSignedIn = true;
 				//setTimeout(function(){$("#signin-modal").modal("hide");}, 250);
 			}
-		});
+		});*/
+		this.signInService.postSignIn(this.signin)
+			.subscribe(status => this.status = status);
 	}
 }
