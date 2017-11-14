@@ -1,32 +1,34 @@
-import {Component, ViewChild, EventEmitter, Output} from "@angular/core";
+import {Component, ViewChild, EventEmitter, Output, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs/Observable";
+import {Status} from "../classes/status";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms"
 
 import {SignInService} from "../services/sign-in.service";
-import {ProfileService} from "../services/profile.service";
-
-import {Profile} from "../classes/profile";
-import {Status} from "../classes/status";
 import {SignIn} from "../classes/sign-in";
-
-declare var $: any;
 
 @Component({
 	templateUrl: "./templates/sign-in.html",
 	selector: "sign-in"
 })
 
-export class SignInComponent {
+export class SignInComponent implements OnInit {
 
-	/*@ViewChild("signInForm") signInForm : any;
+	@ViewChild("signInForm") signInForm : FormGroup;
 
 	signin: SignIn = new SignIn("", "");
-	//profile: Profile = new Profile(0, "", "", "", "", "");
 	status: Status = null;
 
-	constructor(private signInService: SignInService, private router: Router) {}
+	constructor(private formBuilder: FormBuilder, private signInService: SignInService, private router: Router) {}
 
 	isSignedIn = false;
+
+	ngOnInit() : void {
+		this.signInForm = this.formBuilder.group({
+			profileEmail: ["", [Validators.maxLength(64), Validators.required]],
+			profilePassword: ["", [Validators.maxLength(255), Validators.required]]
+		});
+	}
 
 	ngOnChanges() : void {
 		this.isSignedIn = this.signInService.isSignedIn;
@@ -41,8 +43,8 @@ export class SignInComponent {
 				//location.reload(true);
 				this.signInService.isSignedIn = true;
 				this.isSignedIn = true;
-				setTimeout(function(){$("#signin-modal").modal("hide");}, 250);
+				//setTimeout(function(){$("#signin-modal").modal("hide");}, 250);
 			}
 		});
-	}*/
+	}
 }
