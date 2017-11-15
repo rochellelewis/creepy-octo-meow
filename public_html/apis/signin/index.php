@@ -94,15 +94,12 @@ try {
 		throw (new \InvalidArgumentException("Invalid HTTP request!"));
 	}
 
-} catch(Exception $exception) {
+} catch(\Exception | \TypeError $exception) {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
-} catch(TypeError $typeError) {
-	$reply->status = $typeError->getCode();
-	$reply->message = $typeError->getMessage();
 }
 
-//sets up the response header.
+//sets up the response header
 header("Content-type: application/json");
 if($reply->data === null) {
 	unset($reply->data);
