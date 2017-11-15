@@ -1,7 +1,5 @@
+// import @angular dependecies
 import {RouterModule, Routes} from "@angular/router";
-import {APP_BASE_HREF} from "@angular/common";
-import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {DeepDiveInterceptor} from "./services/deep.dive.interceptor";
 
 // import components
 import {CreatePostComponent} from "./components/create-post.component";
@@ -16,11 +14,18 @@ import {SignInComponent} from "./components/sign-in.component";
 import {SignUpComponent} from "./components/sign-up.component";
 
 // import services
+import {SessionService} from "./services/session.service";
 import {PostService} from "./services/post.service";
 import {ProfileService} from "./services/profile.service";
 import {SignInService} from "./services/sign-in.service";
 import {SignUpService} from "./services/sign-up.service";
 
+// import interceptors
+import {APP_BASE_HREF} from "@angular/common";
+import {HTTP_INTERCEPTORS} from "@angular/common/http";
+import {DeepDiveInterceptor} from "./services/deep.dive.interceptor";
+
+// array of components to be passed off to the module
 export const allAppComponents = [
 	CreatePostComponent,
 	DeletePostComponent,
@@ -41,13 +46,21 @@ export const routes: Routes = [
 	{path: "**", redirectTo: ""}
 ];
 
-export const appRoutingProviders: any[] = [
-	{provide: APP_BASE_HREF, useValue: window["_base_href"]},
-	{provide: HTTP_INTERCEPTORS, useClass: DeepDiveInterceptor, multi: true},
+// array of services
+const services: any[] = [
+	SessionService,
 	PostService,
 	ProfileService,
 	SignInService,
 	SignUpService
 ];
+
+// array of providers
+const provides : any[] = [
+	{provide: APP_BASE_HREF, useValue: window["_base_href"]},
+	{provide: HTTP_INTERCEPTORS, useClass: DeepDiveInterceptor, multi: true}
+];
+
+export const appRoutingProviders: any[] = [provides, services];
 
 export const routing = RouterModule.forRoot(routes);
