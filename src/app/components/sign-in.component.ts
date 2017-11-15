@@ -35,18 +35,14 @@ export class SignInComponent implements OnInit {
 	}
 
 	signIn() : void {
-		/*this.signInService.postSignIn(this.signin).subscribe(status => {
-			this.status = status;
-			if(status.status === 200) {
-				this.router.navigate(["feed"]);
-				this.signInForm.reset();
-				//location.reload(true);
-				this.signInService.isSignedIn = true;
-				this.isSignedIn = true;
-				//setTimeout(function(){$("#signin-modal").modal("hide");}, 250);
-			}
-		});*/
 		this.signInService.postSignIn(this.signin)
-			.subscribe(status => this.status = status);
+			/*.subscribe(status => this.status = status);
+			if(status.status === 200) {
+				this.isSignedIn = true;
+				this.signInForm.reset();
+				this.signInService.isSignedIn = true;
+				this.router.navigate(["posts"]);
+				setTimeout(function(){$("#signin-modal").modal("hide");}, 250);
+			}*/
 	}
 }
