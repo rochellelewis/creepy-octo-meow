@@ -36,7 +36,7 @@ export const allAppComponents = [
 
 export const routes: Routes = [
 	{path: "profile/:id", component: ProfileComponent},
-	{path: "feed", component: FeedComponent},
+	{path: "posts", component: FeedComponent},
 	{path: "", component: HomeComponent},
 	{path: "**", redirectTo: ""}
 ];
