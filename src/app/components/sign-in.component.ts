@@ -4,6 +4,7 @@ import {Observable} from "rxjs/Observable";
 import {Status} from "../classes/status";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms"
 
+import {SessionService} from "../services/session.service";
 import {SignInService} from "../services/sign-in.service";
 import {SignIn} from "../classes/sign-in";
 
@@ -16,10 +17,10 @@ export class SignInComponent implements OnInit {
 
 	@ViewChild("signInForm") signInForm : FormGroup;
 
-	signin: SignIn = new SignIn("", "");
+	signin: SignIn = new SignIn(null, null);
 	status: Status = null;
 
-	constructor(private formBuilder: FormBuilder, private signInService: SignInService, private router: Router) {}
+	constructor(private sessionService: SessionService, private formBuilder: FormBuilder, private signInService: SignInService, private router: Router) {}
 
 	isSignedIn = false;
 
@@ -36,13 +37,17 @@ export class SignInComponent implements OnInit {
 
 	signIn() : void {
 		this.signInService.postSignIn(this.signin)
-			/*.subscribe(status => this.status = status);
-			if(status.status === 200) {
-				this.isSignedIn = true;
-				this.signInForm.reset();
-				this.signInService.isSignedIn = true;
-				this.router.navigate(["posts"]);
-				setTimeout(function(){$("#signin-modal").modal("hide");}, 250);
-			}*/
+			.subscribe(status => {
+				this.status = status;
+				if(status.status === 200) {
+					this.sessionService.setSession();
+					this.isSignedIn = true;
+					this.signInForm.reset();
+					this.signInService.isSignedIn = true;
+					this.router.navigate(["posts"]);
+				} else {
+					console.log("failed login");
+				}
+			});
 	}
 }
