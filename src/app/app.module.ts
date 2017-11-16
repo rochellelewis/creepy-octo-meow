@@ -17,7 +17,9 @@ const moduleDeclarations = [AppComponent];
 })
 
 export class AppModule {
-	constructor(protected sessionService: SessionService) {}
+	constructor(protected sessionService: SessionService) {
+		this.run();
+	}
 
 	run() : void {
 		this.sessionService.setSession().subscribe();
