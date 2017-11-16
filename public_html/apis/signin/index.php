@@ -41,6 +41,8 @@ try {
 
 	if($method === "POST") {
 
+		var_dump($http_response_header);
+
 		//check xsrf token
 		verifyXsrf();
 
@@ -100,10 +102,8 @@ try {
 }
 
 //sets up the response header
+header("Access-Control-Allow-Origin: *");
 header("Content-type: application/json");
-if($reply->data === null) {
-	unset($reply->data);
-}
 
 //finally - JSON encode the $reply object and echo it back to the front end.
 echo json_encode($reply);
