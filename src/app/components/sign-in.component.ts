@@ -1,6 +1,5 @@
-import {Component, ViewChild, EventEmitter, Output, OnInit} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
-import {Observable} from "rxjs/Observable";
 import {Status} from "../classes/status";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms"
 
@@ -15,12 +14,15 @@ import {SignIn} from "../classes/sign-in";
 
 export class SignInComponent implements OnInit {
 
-	@ViewChild("signInForm") signInForm : FormGroup;
-
+	signInForm: FormGroup;
 	signin: SignIn = new SignIn(null, null);
 	status: Status = null;
 
-	constructor(private sessionService: SessionService, private formBuilder: FormBuilder, private signInService: SignInService, private router: Router) {}
+	constructor(
+		private sessionService: SessionService,
+		private formBuilder: FormBuilder,
+		private signInService: SignInService,
+		private router: Router) {}
 
 	isSignedIn = false;
 
@@ -29,21 +31,30 @@ export class SignInComponent implements OnInit {
 			profileEmail: ["", [Validators.maxLength(64), Validators.required]],
 			profilePassword: ["", [Validators.maxLength(255), Validators.required]]
 		});
+		this.applyFormChanges();
 	}
 
-	ngOnChanges() : void {
-		this.isSignedIn = this.signInService.isSignedIn;
+	applyFormChanges() : void {
+		this.signInForm.valueChanges.subscribe(values => {
+			for(let field in values) {
+				this.signin[field] = values[field];
+			}
+		});
 	}
+
+	/*ngOnChanges() : void {
+		this.isSignedIn = this.signInService.isSignedIn;
+	}*/
 
 	signIn() : void {
 		this.signInService.postSignIn(this.signin)
 			.subscribe(status => {
 				this.status = status;
-				if(status.status === 200) {
+				if(this.status.status === 200) {
 					this.sessionService.setSession();
 					this.isSignedIn = true;
-					this.signInForm.reset();
 					this.signInService.isSignedIn = true;
+					this.signInForm.reset();
 					this.router.navigate(["posts"]);
 				} else {
 					console.log("failed login");
