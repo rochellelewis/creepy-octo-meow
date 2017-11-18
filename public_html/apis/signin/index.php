@@ -41,7 +41,7 @@ try {
 
 	if($method === "POST") {
 
-		var_dump($http_response_header);
+		//var_dump($http_response_header);
 
 		//check xsrf token
 		verifyXsrf();
