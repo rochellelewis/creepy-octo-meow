@@ -10,7 +10,7 @@ export class SessionService {
 	private sessionUrl = "apis/session/";
 
 	setSession() : Observable<HttpResponse<any>> {
-		return (this.http.get(this.sessionUrl)
+		return (this.http.head(this.sessionUrl)
 			.map((response : HttpResponse<any>) => response));
 	}
 }
