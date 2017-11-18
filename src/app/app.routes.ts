@@ -39,6 +39,7 @@ export const allAppComponents = [
 	SignUpComponent
 ];
 
+// setup routes
 export const routes: Routes = [
 	{path: "profile/:id", component: ProfileComponent},
 	{path: "posts", component: FeedComponent},
@@ -56,11 +57,11 @@ const services: any[] = [
 ];
 
 // array of providers
-const provides : any[] = [
+const providers : any[] = [
 	{provide: APP_BASE_HREF, useValue: window["_base_href"]},
 	{provide: HTTP_INTERCEPTORS, useClass: DeepDiveInterceptor, multi: true}
 ];
 
-export const appRoutingProviders: any[] = [provides, services];
+export const appRoutingProviders: any[] = [providers, services];
 
 export const routing = RouterModule.forRoot(routes);
