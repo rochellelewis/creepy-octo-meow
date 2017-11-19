@@ -26,6 +26,7 @@ export class DeepDiveInterceptor implements HttpInterceptor {
 	intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 		// hand off to the next interceptor
 
+		// see bug report: https://github.com/angular/angular/issues/18396
 		const clonedRequest = request.clone({
 			responseType: "text"
 		});
