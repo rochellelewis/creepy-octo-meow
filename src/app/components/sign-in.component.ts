@@ -8,7 +8,7 @@ import {SignInService} from "../services/sign-in.service";
 import {SignIn} from "../classes/sign-in";
 
 //enable jquery $ alias
-declare var $: any;
+declare const $: any;
 
 @Component({
 	templateUrl: "./templates/sign-in.html",
