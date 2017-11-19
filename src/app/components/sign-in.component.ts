@@ -7,6 +7,9 @@ import {SessionService} from "../services/session.service";
 import {SignInService} from "../services/sign-in.service";
 import {SignIn} from "../classes/sign-in";
 
+//enable jquery $ alias
+declare var $: any;
+
 @Component({
 	templateUrl: "./templates/sign-in.html",
 	selector: "sign-in"
@@ -56,6 +59,8 @@ export class SignInComponent implements OnInit {
 					this.signInService.isSignedIn = true;
 					this.signInForm.reset();
 					this.router.navigate(["posts"]);
+					//console.log("signin successful");
+					setTimeout(function(){$("#signin-modal").modal('hide');},1000);
 				} else {
 					console.log("failed login");
 				}
