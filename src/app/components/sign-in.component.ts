@@ -28,14 +28,6 @@ export class SignInComponent {
 
 	isSignedIn = false;
 
-	applyFormChanges() : void {
-		this.signInForm.valueChanges.subscribe(values => {
-			for(let field in values) {
-				this.signin[field] = values[field];
-			}
-		});
-	}
-
 	ngOnChanges() : void {
 		this.isSignedIn = this.signInService.isSignedIn;
 	}

@@ -23,3 +23,5 @@ try {
 	$reply->status = $exception->getCode();
 	$reply->message = $exception->getMessage();
 }
+
+echo json_encode($reply);
