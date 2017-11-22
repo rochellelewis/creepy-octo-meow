@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
-import {HttpClient, HttpResponse} from "@angular/common/http";
-import {Observable} from "rxjs/Observable";
+import {HttpClient} from "@angular/common/http";
+import {Status} from "../classes/status";
 
 @Injectable()
 export class SessionService {
@@ -9,8 +9,7 @@ export class SessionService {
 
 	private sessionUrl = "apis/session/";
 
-	setSession() : Observable<HttpResponse<any>> {
-		return (this.http.head(this.sessionUrl)
-			.map((response : HttpResponse<any>) => response));
+	setSession() {
+		return (this.http.get<Status>(this.sessionUrl, {}));
 	}
 }
