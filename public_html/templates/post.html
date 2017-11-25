@@ -1,24 +1,35 @@
 <navbar></navbar>
 
-<main>
+<main class="my-5">
 	<div class="container-fluid">
 
 		<!-- title row -->
 		<div class="row">
-			<div class="col">
-				<h1>Feed Teh Kitty.</h1>
+			<div class="col d-flex align-items-center mb-4">
+				<button class="btn btn-outline-danger" data-toggle="modal" data-target="#new-post-modal"><i class="fa fa-paw fa-lg"></i></button>
+				<h1 class="mb-0">&nbsp;Feed Teh Kitty.</h1>
 			</div>
 		</div>
 
-		<!-- feed row -->
+		<!-- posts row -->
 		<div class="row">
-			<div class="col-sm-4">
-				<div class="card">
-					This is a post card.
+
+			<!-- begin post -->
+			<div class="col-sm-6 col-md-4 col-lg-3">
+				<div class="card mb-3">
+					<div class="card-header d-flex align-items-center">
+						<h6 class="mb-0">Post Title</h6>
+						<button class="badge badge-info ml-auto border-0"><i class="fa fa-pencil"></i></button>
+						<button class="badge badge-danger ml-1 border-0"><i class="fa fa-close"></i></button>
+					</div>
+					<div class="card-body">
+						<p class="card-text">This is a post card. With content, and such.</p>
+						<div class="small text-muted">- Author | Date</div>
+					</div>
 				</div>
 			</div>
-		</div>
+			<!-- end post -->
 
-
+		</div><!--/.row-->
 	</div><!--/.container-fluid-->
 </main>
