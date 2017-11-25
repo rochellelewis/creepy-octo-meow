@@ -3,6 +3,7 @@ require_once (dirname(__DIR__, 3) . "/vendor/autoload.php");
 require_once (dirname(__DIR__, 3) . "/php/classes/autoload.php");
 require_once (dirname(__DIR__, 3) . "/php/lib/xsrf.php");
 require_once (dirname(__DIR__, 3) . "/php/lib/uuid.php");
+require_once (dirname(__DIR__,3 ) . "/php/lib/jwt.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\CreepyOctoMeow\{
@@ -44,9 +45,9 @@ try {
 	$method = array_key_exists("HTTP_X_HTTP_METHOD", $_SERVER) ? $_SERVER["HTTP_X_HTTP_METHOD"] : $_SERVER["REQUEST_METHOD"];
 
 	//user must be logged in - if not, throw an exception
-	if(empty($_SESSION["profile"]) === true) {
+	/*if(empty($_SESSION["profile"]) === true) {
 		throw (new \InvalidArgumentException("Sorry. U are not logged in.", 401));
-	}
+	}*/
 
 	//sanitize and store input
 	$id = filter_input(INPUT_GET, "id", FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES);
@@ -121,6 +122,9 @@ try {
 		//check xsrf token
 		verifyXsrf();
 
+		//enforce the end user has a JWT token
+		validateJwtHeader();
+
 		//grab request content, decode json into a php object
 		$requestContent = file_get_contents("php://input");
 		$requestObject = json_decode($requestContent);
@@ -185,6 +189,9 @@ try {
 	} elseif($method === "DELETE") {
 
 		verifyXsrf();
+
+		//enforce the end user has a JWT token
+		validateJwtHeader();
 
 		//grab the post
 		$post = Post::getPostByPostId($pdo, $id);
