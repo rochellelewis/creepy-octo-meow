@@ -8,10 +8,10 @@ import {Post} from "../classes/post";
 import "rxjs/add/observable/from";
 
 @Component({
-	templateUrl: "./templates/feed.html"
+	templateUrl: "./templates/post.html"
 })
 
-export class FeedComponent {
+export class PostComponent {
 
 	/*posts: Post[] = [];
 	post: Post = new Post("", 0, "", "", "");

@@ -6,7 +6,7 @@ import {CreatePostComponent} from "./components/create-post.component";
 import {DeletePostComponent} from "./components/delete-post.component";
 import {EditPostComponent} from "./components/edit-post.component";
 import {EditProfileComponent} from "./components/edit-profile.component";
-import {FeedComponent} from "./components/feed.component";
+import {PostComponent} from "./components/post.component"
 import {HomeComponent} from "./components/home.component";
 import {NavbarComponent} from "./components/navbar.component";
 import {ProfileComponent} from "./components/profile.component";
@@ -32,7 +32,7 @@ export const allAppComponents = [
 	DeletePostComponent,
 	EditPostComponent,
 	EditProfileComponent,
-	FeedComponent,
+	PostComponent,
 	HomeComponent,
 	NavbarComponent,
 	ProfileComponent,
@@ -43,7 +43,7 @@ export const allAppComponents = [
 // setup routes
 export const routes: Routes = [
 	{path: "profile/:id", component: ProfileComponent},
-	{path: "posts", component: FeedComponent},
+	{path: "posts", component: PostComponent},
 	{path: "", component: HomeComponent},
 	{path: "**", redirectTo: ""}
 ];
