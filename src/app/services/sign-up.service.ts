@@ -9,7 +9,7 @@ export class SignUpService {
 
 	constructor(protected http:HttpClient) {}
 
-	private signUpUrl = "apis/signup";
+	private signUpUrl = "apis/signup/";
 
 	postProfile(profile: Profile) : Observable<Status> {
 		return(this.http.post<Status>(this.signUpUrl, profile));
