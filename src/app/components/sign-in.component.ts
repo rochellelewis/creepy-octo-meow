@@ -29,7 +29,7 @@ export class SignInComponent implements OnInit {
 		private signInService: SignInService,
 		private router: Router) {}
 
-	isSignedIn = false;
+	//isSignedIn = false;
 
 	ngOnInit() : void {
 		this.signInForm = this.formBuilder.group({
@@ -62,8 +62,8 @@ export class SignInComponent implements OnInit {
 					//console.log("jwt-token: " + localStorage.getItem("jwt-token"));
 
 					this.sessionService.setSession();
-					this.isSignedIn = true;
-					this.signInService.isSignedIn = true;
+					//this.isSignedIn = true;
+					//this.signInService.isSignedIn = true;
 					this.signInForm.reset();
 					this.router.navigate(["posts"]);
 

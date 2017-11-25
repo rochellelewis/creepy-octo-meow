@@ -12,7 +12,7 @@ export class SignInService {
 	private signInUrl = "apis/signin/";
 	private signOutUrl = "apis/signout/";
 
-	public isSignedIn = false;
+	//public isSignedIn = false;
 
 	// pre form the post to initiate sign in
 	postSignIn(signIn: SignIn) : Observable<Status> {
