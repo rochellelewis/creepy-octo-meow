@@ -1,5 +1,8 @@
 <?php
 require_once dirname(__DIR__,3 ) .  "/php/lib/xsrf.php";
+require_once dirname(__DIR__, 3) . "/php/lib/jwt.php";
+
+use Edu\Cnm\CreepyOctoMeow;
 
 $reply = new stdClass();
 $reply->status = 200;

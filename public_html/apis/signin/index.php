@@ -3,6 +3,7 @@ require_once (dirname(__DIR__, 3) . "/vendor/autoload.php");
 require_once (dirname(__DIR__, 3) . "/php/classes/autoload.php");
 require_once (dirname(__DIR__, 3) . "/php/lib/xsrf.php");
 require_once (dirname(__DIR__, 3) . "/php/lib/uuid.php");
+require_once (dirname(__DIR__, 3) . "/php/lib/jwt.php");
 require_once ("/etc/apache2/capstone-mysql/encrypted-config.php");
 
 use Edu\Cnm\CreepyOctoMeow\Profile;
@@ -89,6 +90,15 @@ try {
 		//add profile to session
 		$_SESSION["profile"] = $profile;
 
+		//create the auth payload
+		$authObject = (object) [
+			"profileId" => $profile->getProfileId(),
+			"profileUsername" => $profile->getProfileUsername()
+		];
+
+		//create & set the JWT
+		setJwtAndAuthHeader("auth", $authObject);
+
 		//update reply
 		$reply->message = "Welcome! Sign in successful :D";
 
@@ -102,7 +112,6 @@ try {
 }
 
 //sets up the response header
-header("Access-Control-Allow-Origin: *");
 header("Content-type: application/json");
 
 //finally - JSON encode the $reply object and echo it back to the front end.
