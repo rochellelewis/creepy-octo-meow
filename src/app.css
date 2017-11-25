@@ -26,3 +26,10 @@ body.sfooter > * {
 .sfooter-content {
 	flex: 1 0 auto;
 }
+
+/********************************
+* Splash Page
+*********************************/
+main.home {
+	height: 70vh;
+}
