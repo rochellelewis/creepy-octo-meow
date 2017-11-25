@@ -53,8 +53,7 @@ export class SignUpComponent implements OnInit{
 					this.signUpService.postProfile(this.profile);
 					this.signUpForm.reset();
 					console.log("signup successful");
-					setTimeout(function(){$("#signup-modal").modal("hide");}, 1000);
-					alert("Check your email to complete signup process.");
+					//setTimeout(function(){$("#signup-modal").modal("hide");}, 1000);
 				} else {
 					console.log("signup fail");
 				}
