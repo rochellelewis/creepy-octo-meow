@@ -11,7 +11,7 @@ export class SignUpService {
 
 	private signUpUrl = "apis/signup";
 
-	createProfile(profile: Profile) : Observable<Status> {
+	postProfile(profile: Profile) : Observable<Status> {
 		return(this.http.post<Status>(this.signUpUrl, profile));
 	}
 }
