@@ -59,7 +59,7 @@ export class SignInComponent implements OnInit {
 
 					let cookie = this.cookieService.get("JWT-TOKEN");
 					localStorage.setItem("jwt-token", cookie);
-					console.log("jwt-token: " + localStorage.getItem("jwt-token"));
+					//console.log("jwt-token: " + localStorage.getItem("jwt-token"));
 
 					this.sessionService.setSession();
 					this.isSignedIn = true;
