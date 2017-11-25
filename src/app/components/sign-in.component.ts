@@ -1,7 +1,8 @@
 import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {Status} from "../classes/status";
-import {FormBuilder, FormGroup, Validators} from "@angular/forms"
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {CookieService} from "ng2-cookies";
 
 import {SessionService} from "../services/session.service";
 import {SignInService} from "../services/sign-in.service";
@@ -22,6 +23,7 @@ export class SignInComponent implements OnInit {
 	status: Status = null;
 
 	constructor(
+		private cookieService: CookieService,
 		private sessionService: SessionService,
 		private formBuilder: FormBuilder,
 		private signInService: SignInService,
@@ -54,12 +56,18 @@ export class SignInComponent implements OnInit {
 			.subscribe(status => {
 				this.status = status;
 				if(this.status.status === 200) {
+
+					let cookie = this.cookieService.get("JWT-TOKEN");
+					localStorage.setItem("jwt-token", cookie);
+					console.log("jwt-token: " + localStorage.getItem("jwt-token"));
+
 					this.sessionService.setSession();
 					this.isSignedIn = true;
 					this.signInService.isSignedIn = true;
 					this.signInForm.reset();
 					this.router.navigate(["posts"]);
-					//console.log("signin successful");
+
+					console.log("signin successful");
 					setTimeout(function(){$("#signin-modal").modal('hide');},1000);
 				} else {
 					console.log("failed login");
