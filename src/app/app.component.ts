@@ -1,5 +1,7 @@
-import {Component, ViewChild} from "@angular/core";
-// import {SessionService} from "./services/session.service";
+import {Component} from "@angular/core";
+import {SessionService} from "./services/session.service";
+import {Status} from "./classes/status";
+
 // import {SignInService} from "./services/sign-in.service";
 // import {SignInComponent} from "./components/sign-in.component";
 
@@ -12,10 +14,10 @@ import {Component, ViewChild} from "@angular/core";
 })
 
 export class AppComponent {
-	/*constructor(private signInService: SignInService) {}
+	status: Status = null;
 
-	@ViewChild(SignInComponent)
-		private signInComponent: SignInComponent;
-
-	isSignedIn = false;*/
+	constructor(protected sessionService: SessionService) {
+		this.sessionService.setSession()
+			.subscribe(status => this.status = status);
+	}
 }

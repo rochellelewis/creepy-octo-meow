@@ -7,8 +7,6 @@ import {JwtModule} from "@auth0/angular-jwt";
 import {AppComponent} from "./app.component";
 import {allAppComponents, appRoutingProviders, routing} from "./app.routes";
 
-import {SessionService} from "./services/session.service";
-
 const moduleDeclarations = [AppComponent];
 
 const JwtHelper = JwtModule.forRoot({
@@ -30,12 +28,4 @@ const JwtHelper = JwtModule.forRoot({
 	providers:    [...appRoutingProviders]
 })
 
-export class AppModule {
-	constructor(protected sessionService: SessionService) {
-		this.run();
-	}
-
-	run() : void {
-		this.sessionService.setSession().subscribe();
-	}
-}
+export class AppModule {}
