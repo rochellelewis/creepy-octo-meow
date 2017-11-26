@@ -24,7 +24,7 @@ export class PostService {
 
 	// connect to the profile API and create the post
 	createPost(post: Post) : Observable<Status> {
-		return(this.http.post<Status>(this.postUrl, Post));
+		return(this.http.post<Status>(this.postUrl, post));
 	}
 
 	// connect to post API and get post by id
