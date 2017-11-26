@@ -1,17 +1,27 @@
 import {Component, OnInit} from "@angular/core";
 import {ActivatedRoute, Params} from "@angular/router";
 import {Observable} from "rxjs";
-import {Status} from "../classes/status";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {PostService} from "../services/post.service";
+import {Status} from "../classes/status";
+
 import {Post} from "../classes/post";
-import "rxjs/add/observable/from";
+import {Profile} from "../classes/profile";
+
+import {PostService} from "../services/post.service";
+import {ProfileService} from "../services/profile.service";
 
 @Component({
 	templateUrl: "./templates/post.html"
 })
 
-export class PostComponent {
+export class PostsComponent implements OnInit {
+
+	createPostForm: FormGroup;
+	editPostForm: FormGroup;
+
+	deleted: boolean = false;
+
+	post: Post = new Post();
 
 	/*posts: Post[] = [];
 	post: Post = new Post("", 0, "", "", "");
