@@ -53,7 +53,7 @@ export class PostService {
 	}
 
 	// connect to post API and get all posts
-	getAllPosts() : Observable<Status> {
-		return(this.http.get<Status>(this.postUrl));
+	getAllPosts() : Observable<Post[]> {
+		return(this.http.get<Post[]>(this.postUrl));
 	}
 }
