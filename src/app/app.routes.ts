@@ -6,7 +6,7 @@ import {CreatePostComponent} from "./components/create-post.component";
 import {DeletePostComponent} from "./components/delete-post.component";
 import {EditPostComponent} from "./components/edit-post.component";
 import {EditProfileComponent} from "./components/edit-profile.component";
-import {PostsComponent} from "./components/post.component"
+import {PostsComponent} from "./components/posts.component"
 import {HomeComponent} from "./components/home.component";
 import {NavbarComponent} from "./components/navbar.component";
 import {ProfileComponent} from "./components/profile.component";
