@@ -1,5 +1,5 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params} from "@angular/router";
+import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {Status} from "../classes/status";
@@ -16,21 +16,21 @@ import {ProfileService} from "../services/profile.service";
 
 export class PostsComponent implements OnInit {
 
-	createPostForm: FormGroup;
-	editPostForm: FormGroup;
+	profile: Profile = new Profile(null, null, null, null, null, null);
 
-	deleted: boolean = false;
-
-	post: Post = new Post();
-
-	/*posts: Post[] = [];
-	post: Post = new Post("", 0, "", "", "");
+	posts: Post[] = [];
 	status: Status = null;
 
-	constructor(private postService: PostService, private router: Router) {}
+	constructor(
+		private postService: PostService
+	){}
 
 	ngOnInit() : void {
-		this.postService.getAllPosts().subscribe(posts => this.posts = posts);
-	}*/
+		this.listPosts();
+	}
 
+	listPosts() : void {
+		this.postService.getAllPosts()
+		.subscribe(posts => this.posts = posts);
+	}
 }
