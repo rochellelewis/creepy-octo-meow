@@ -33,22 +33,22 @@ export class PostService {
 	}
 
 	// connect to post API and get posts by profile id
-	getPostsByProfileId(postProfileId : string) : Observable<Post> {
+	getPostsByProfileId(postProfileId : string) : Observable<Post[]> {
 		return(this.http.get<Post>(this.postUrl + postProfileId));
 	}
 
 	// connect to post API and get posts by content
-	getPostsByPostContent(postContent : string) : Observable<Post> {
+	getPostsByPostContent(postContent : string) : Observable<Post[]> {
 		return(this.http.get<Post>(this.postUrl + postContent));
 	}
 
 	// connect to post API and get posts by date range
-	getPostsByPostDateRange(postDate: string) :Observable<Post> {
+	getPostsByPostDateRange(postDate: string) :Observable<Post[]> {
 		return(this.http.get<Post>(this.postUrl + postDate));
 	}
 
 	// connect to post API and get post by title
-	getPostsByPostTitle(postTitle: string) : Observable<Post> {
+	getPostsByPostTitle(postTitle: string) : Observable<Post[]> {
 		return(this.http.get<Post>(this.postUrl + postTitle));
 	}
 
