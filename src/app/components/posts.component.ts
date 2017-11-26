@@ -33,9 +33,10 @@ export class PostsComponent implements OnInit {
 		this.listPosts();
 	}
 
-	getPostProfile() : void {
-		this.profileService.getProfile(this.post.postProfileId)
+	getPostProfileUsername(id: string) : string {
+		this.profileService.getProfile(id)
 			.subscribe(profile => this.profile = profile);
+		return this.profile.profileUsername;
 	}
 
 	listPosts() : void {
