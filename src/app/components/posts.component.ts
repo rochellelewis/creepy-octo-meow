@@ -16,17 +16,26 @@ import {ProfileService} from "../services/profile.service";
 
 export class PostsComponent implements OnInit {
 
+	post: Post = new Post(null, null, null, null, null);
 	profile: Profile = new Profile(null, null, null, null, null, null);
 
 	posts: Post[] = [];
+	profiles: Profile[] = [];
+
 	status: Status = null;
 
 	constructor(
-		private postService: PostService
+		private postService: PostService,
+		private profileService: ProfileService
 	){}
 
 	ngOnInit() : void {
 		this.listPosts();
+	}
+
+	getPostProfile() : void {
+		this.profileService.getProfile(this.post.postProfileId)
+			.subscribe(profile => this.profile = profile);
 	}
 
 	listPosts() : void {
