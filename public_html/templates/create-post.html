@@ -7,18 +7,39 @@
 			</div>
 			<div class="modal-body">
 
-				<!--<form>
+				<form id="createPostForm" name="createPostForm" [formGroup]="createPostForm" (submit)="createPost();" class="form-horizontal" novalidate>
+					<!-- post title group -->
 					<div class="form-group">
 						<label for="postTitle" class="sr-only">Title</label>
-						<input type="text" class="form-control" id="postTitle" name="postTitle" placeholder="post title">
+						<input type="text" formControlName="postTitle" class="form-control" id="postTitle" name="postTitle" placeholder="Title">
+						<div *ngIf="createPostForm.controls.postTitle?.invalid && createPostForm.controls.postTitle?.touched" class="alert alert-danger" role="alert">
+							<div *ngIf="createPostForm.controls.postTitle?.errors.required">Title is required.</div>
+							<div *ngIf="createPostForm.controls.postTitle?.errors.maxlength">Title is too long. {{createPostForm.controls.postTitle?.errors.maxlength.actualLength - createPostForm.controls.postTitle?.errors.maxlength.requiredLength}} too many characters.</div>
+						</div>
 					</div>
+
+					<!-- post content group -->
 					<div class="form-group">
 						<label for="postContent" class="sr-only">Content</label>
-						<textarea class="form-control" name="postContent" id="postContent" cols="30" rows="10" placeholder="2000 characters max"></textarea>
+						<textarea class="form-control" name="postContent" id="postContent" formControlName="postContent" cols="30" rows="10" placeholder="2000 characters max."></textarea>
+						<div *ngIf="createPostForm.controls.postContent?.invalid && createPostForm.controls.postContent?.touched" class="alert alert-danger" role="alert">
+							<div *ngIf="createPostForm.controls.postContent?.errors.required">Nothing to say?</div>
+							<div *ngIf="createPostForm.controls.postContent?.errors.maxlength">Content is too long. {{createPostForm.controls.postContent?.errors.maxlength.actualLength - createPostForm.controls.postContent?.errors.maxlength.requiredLength}} too many characters.</div>
+						</div>
 					</div>
-					<button class="btn btn-info" type="submit">Meow!</button>
-					<button class="btn btn-default" type="reset" data-dismiss="modal">Cancel</button>
-				</form>-->
+
+					<!-- submit buttons -->
+					<div class="form-group">
+						<button [disabled]="createPostForm.invalid" class="btn btn-info" type="submit">Meow!</button>
+						<button class="btn btn-default" type="reset" data-dismiss="modal">Cancel</button>
+					</div>
+				</form>
+
+				<!-- output area -->
+				<div *ngIf="status !== null" class="alert alert-secondary alert-dismissible" [ngClass]="status.type" role="alert">
+					<button type="button" class="close" aria-label="Close" (click)="status = null;"><span aria-hidden="true">&times;</span></button>
+					{{ status.message }}
+				</div>
 
 			</div>
 		</div>
