@@ -7,6 +7,7 @@ import {Status} from "../classes/status";
 import {Post} from "../classes/post";
 import {Profile} from "../classes/profile";
 
+import {CookieService} from "ng2-cookies";
 import {PostService} from "../services/post.service";
 import {ProfileService} from "../services/profile.service";
 
@@ -22,10 +23,14 @@ export class CreatePostComponent implements OnInit {
 
 	createPostForm: FormGroup;
 	post: Post = new Post(null, null, null, null, null);
+	profile: Profile = new Profile(null, null, null, null, null, null);
 	status: Status = null;
+
+	cookieJar: any = {};
 
 	constructor(
 		private formBuilder: FormBuilder,
+		private cookieService: CookieService,
 		private postService: PostService,
 		private profileService: ProfileService,
 		private router: Router
@@ -47,13 +52,25 @@ export class CreatePostComponent implements OnInit {
 		});
 	}
 
-	createPost() : void {
-		let post = new Post(null, null, this.createPostForm.value.postContent, null, this.createPostForm.value.postTitle);
+	/*getProfile() : void {
+		this.profileService.getProfile()
+			.subscribe(this.profile);
+	}*/
+
+	createPost(postProfileId: string) : void {
+		this.cookieJar = this.cookieService.getAll();
+		this.profileService.getProfile(this.cookieJar["profileId"])
+			.subscribe(profile => this.profile = profile);
+
+		let post = new Post(null, this.profile.id, this.createPostForm.value.postContent, null, this.createPostForm.value.postTitle);
+		//post.postProfileId = this.profileService.getProfile(this.profile.profileId);
+
 		this.postService.createPost(post)
 			.subscribe(status => {
 				this.status = status;
 				if(this.status.status === 200) {
 					this.createPostForm.reset();
+
 					console.log("post created ok");
 					setTimeout(function(){$("#new-post-modal").modal("hide");}, 1000);
 				} else {
