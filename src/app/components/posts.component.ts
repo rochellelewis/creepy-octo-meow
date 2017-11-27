@@ -26,7 +26,8 @@ export class PostsComponent implements OnInit {
 	status: Status = null;
 
 	constructor(
-		private postService: PostService
+		private postService: PostService,
+		private profileService: ProfileService
 	){}
 
 	ngOnInit() : void {
@@ -35,7 +36,7 @@ export class PostsComponent implements OnInit {
 
 	// this causes an infinite loop of calls
 	getPostProfileUsername(id: string) : any {
-		this.postService.getPostProfile(id)
+		this.profileService.getProfile(id)
 			.subscribe(profile => this.profile = profile);
 		return this.profile.profileUsername;
 	}
