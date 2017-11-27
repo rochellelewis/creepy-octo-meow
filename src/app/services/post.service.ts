@@ -11,18 +11,19 @@ export class PostService {
 
 	// define the API endpoint
 	private postUrl = "apis/post/";
+	private profileUrl = "apis/profile/";
 
 	// connect to the post API and delete the post
 	deletePost(id: string) : Observable<Status> {
 		return(this.http.delete<Status>(this.postUrl + id));
 	}
 
-	// connect to the profile API and edit/update the post
+	// connect to the post API and edit/update the post
 	editPost(post: Post) : Observable<Status> {
 		return(this.http.put<Status>(this.postUrl + post.id, post));
 	}
 
-	// connect to the profile API and create the post
+	// connect to the post API and create the post
 	createPost(post: Post) : Observable<Status> {
 		return(this.http.post<Status>(this.postUrl, post));
 	}
