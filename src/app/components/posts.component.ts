@@ -2,6 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {AsyncPipe} from "@angular/common";
 import {Status} from "../classes/status";
 
 import {Post} from "../classes/post";
@@ -38,6 +39,9 @@ export class PostsComponent implements OnInit {
 			.subscribe(profile => this.profile = profile);
 		return this.profile.profileUsername;
 	}
+
+	//{{ getPostProfileUsername(post.postProfileId) }}
+	//{{ getPostProfileUsername(post.postProfileId) | async }}
 
 	listPosts() : void {
 		this.postService.getAllPosts()

@@ -57,15 +57,17 @@ export class CreatePostComponent implements OnInit {
 			.subscribe(this.profile);
 	}*/
 
-	createPost(postProfileId: string) : void {
-		this.cookieJar = this.cookieService.getAll();
+	createPost() : void {
+		//get logged in profile of the author
+		/*this.cookieJar = this.cookieService.getAll();
 		this.profileService.getProfile(this.cookieJar["profileId"])
-			.subscribe(profile => this.profile = profile);
+			.subscribe(profile => this.profile = profile);*/
 
-		let post = new Post(null, this.profile.id, this.createPostForm.value.postContent, null, this.createPostForm.value.postTitle);
+		//form new post
+		//let post = new Post(null, this.profile.id, this.createPostForm.value.postContent, null, this.createPostForm.value.postTitle);
 		//post.postProfileId = this.profileService.getProfile(this.profile.profileId);
 
-		this.postService.createPost(post)
+		/*this.postService.createPost(post)
 			.subscribe(status => {
 				this.status = status;
 				if(this.status.status === 200) {
@@ -76,7 +78,7 @@ export class CreatePostComponent implements OnInit {
 				} else {
 					console.log("post not created");
 				}
-			});
+			});*/
 	}
 
 }
