@@ -12,12 +12,15 @@ use Lcobucci\JWT\{
 
 /**
  * this method creates a JWT that will be used on the front end to authenticate users,
- * activate protected routes, and verification of who is logged in. This token is viewable
- * by anyone and SHOULD NOT contain any sensitive information about the user.
+ * activate protected routes, and verification of who is logged in.
+ * this token is viewable by anyone and SHOULD NOT contain any sensitive information
+ * about the user.
  *
- * @see https://github.com/lcobucci/jwt/blob/3.2/README.md documentation for the composer package used for JWT
+ * @see https://github.com/lcobucci/jwt/blob/3.2/README.md documentation for the
+ * composer package used for JWT
  * @param string $value name of the custom object that will be used for validation.
- * @param stdClass $content the actual object that will be used for authentication on the front end
+ * @param stdClass $content the actual object that will be used for authentication
+ * on the front end
  **/
 function setJwtAndAuthHeader(string $value, stdClass $content): void {
 
@@ -45,8 +48,10 @@ function setJwtAndAuthHeader(string $value, stdClass $content): void {
 		->sign($signer, $signature->toString())
 		->getToken();
 
+	$_SESSION["JWT-TOKEN"] = (string)$token;
+
 	// add the JWT to the header
-	setcookie("JWT-TOKEN", $token, 0, "/");
+	header("X-JWT-TOKEN: $token");
 }
 
 /**
@@ -55,8 +60,7 @@ function setJwtAndAuthHeader(string $value, stdClass $content): void {
  * This function returns nothing, but will throw an exception when something does not match
  **/
 function jwtValidator() {
-
-	//retrieve the jwt from the header
+	// retrieve the jwt from the header
 	$headerJwt = validateJwtHeader();
 
 	//enforce that the JWT is Valid and verified.
@@ -64,13 +68,12 @@ function jwtValidator() {
 }
 
 /**
- * this method enforces that the session contains all necessary information
- * and that the JWT in the session matches the JWT sent by angular
+ * this method enforces that the session contains all necessary information and that
+ * the JWT in the session matches the JWT sent by angular
  *
  * @return \Lcobucci\JWT\Token the JWT token supplied by angular in the header
  **/
-function validateJwtHeader(): \Lcobucci\JWT\Token {
-
+function validateJwtHeader () : \Lcobucci\JWT\Token   {
 	//if the JWT does not exist in the cookie jar throw an exception
 	$headers = array_change_key_case(apache_request_headers(), CASE_UPPER);
 
@@ -79,7 +82,7 @@ function validateJwtHeader(): \Lcobucci\JWT\Token {
 	}
 
 	//enforce the session has needed content
-	if(empty($_SESSION["signature"]) === true) {
+	if(empty($_SESSION["signature"]) === true ) {
 		throw new InvalidArgumentException("not logged in", 401);
 	}
 
@@ -87,24 +90,25 @@ function validateJwtHeader(): \Lcobucci\JWT\Token {
 	$headerJwt = $headers["X-JWT-TOKEN"];
 	$headerJwt = (new Parser())->parse($headerJwt);
 
-	/**
-	 * enforce that the JWT payload in the session matches the payload from header
-	 * if ($_SESSION["JWT-TOKEN"] !== $headerJwt->__toString()) {
-	 * $_COOKIE = [];
-	 * $_SESSION = [];
-	 * throw (new InvalidArgumentException("please log in again", 400));
-	 * }
-	 **/
+	//enforce that the JWT payload in the session matches the payload from header
+	if ($_SESSION["JWT-TOKEN"] !== (string)$headerJwt) {
+		$_COOKIE = [];
+		$_SESSION = [];
+		throw (new InvalidArgumentException("please log in again", 400));
+	}
+
 	return $headerJwt;
 }
 
+
 /**
- * this method uses built in methods from the composer package to enforce that
- * the jwt has not been tampered with and is not expired.
+ * this method uses built in methods from the composer package to enforce that the
+ * jwt has not been tampered with and is not expired.
  *
  * @param \Lcobucci\JWT\Token $headerJwt X-JWT-TOKEN sent by Angular
  **/
-function verifiedAndValidatedSignature(\Lcobucci\JWT\Token $headerJwt): void {
+
+function verifiedAndValidatedSignature ( \Lcobucci\JWT\Token  $headerJwt) : void {
 
 	//enforce the JWT is valid
 	$validator = new ValidationData();
