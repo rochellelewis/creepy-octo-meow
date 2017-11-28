@@ -2,7 +2,7 @@ import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {AsyncPipe} from "@angular/common";
+import {ForkJoinObservable} from "rxjs/observable/ForkJoinObservable";
 import {Status} from "../classes/status";
 
 import {Post} from "../classes/post";
@@ -31,7 +31,10 @@ export class PostsComponent implements OnInit {
 	){}
 
 	ngOnInit() : void {
-		this.listPosts();
+		//this.listPosts();
+
+		//this.listPosts()
+			//.switchMap();
 	}
 
 	// this causes an infinite loop of calls
@@ -40,12 +43,27 @@ export class PostsComponent implements OnInit {
 			.subscribe(profile => this.profile = profile);
 		return this.profile.profileUsername;
 	}
-
 	//{{ getPostProfileUsername(post.postProfileId) }}
 	//{{ getPostProfileUsername(post.postProfileId) | async }}
 
-	listPosts() : void {
-		this.postService.getAllPosts()
-		.subscribe(posts => this.posts = posts);
+	listPosts() : any {
+
+		//grab profile
+		//const postProfile = this.http.get<Profile>(profileUrl + id);
+
+		//get profile username
+		//const postProfileUsername = postProfile.profileUsername;
+
+		//subscribe
+		//post.subscribe();
+
+		//parallel.subscribe(profile => this.profile = profile);
+
+
+
+
+		///////////////////////////////
+		/*this.postService.getAllPosts()
+		.subscribe(posts => this.posts = posts);*/
 	}
 }
