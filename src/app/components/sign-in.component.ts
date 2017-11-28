@@ -57,8 +57,8 @@ export class SignInComponent implements OnInit {
 				this.status = status;
 				if(this.status.status === 200) {
 
-					let cookie = this.cookieService.get("JWT-TOKEN");
-					localStorage.setItem("jwt-token", cookie);
+					//let cookie = this.cookieService.get("JWT-TOKEN");
+					//localStorage.setItem("jwt-token", cookie);
 					//console.log("jwt-token: " + localStorage.getItem("jwt-token"));
 
 					//let cookies = this.cookieService.getAll();
