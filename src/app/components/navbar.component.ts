@@ -33,9 +33,10 @@ export class NavbarComponent {
 			.subscribe(status => {
 				this.status = status;
 				if(status.status === 200) {
-					this.cookieService.deleteAll();
+					//this.cookieService.deleteAll();
+					localStorage.clear();
 					this.router.navigate([""]);
-					location.reload();
+					//location.reload();
 					console.log("goodbye");
 				}
 			});
