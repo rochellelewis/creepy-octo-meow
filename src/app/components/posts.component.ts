@@ -11,6 +11,8 @@ import {Profile} from "../classes/profile";
 import {PostService} from "../services/post.service";
 import {ProfileService} from "../services/profile.service";
 
+import 'rxjs/add/operator/switchMap';
+
 @Component({
 	templateUrl: "./templates/post.html"
 })
@@ -22,6 +24,7 @@ export class PostsComponent implements OnInit {
 
 	posts: Post[] = [];
 	profiles: Profile[] = [];
+	postUsernames: any = [];
 
 	status: Status = null;
 
@@ -31,39 +34,35 @@ export class PostsComponent implements OnInit {
 	){}
 
 	ngOnInit() : void {
-		//this.listPosts();
-
-		//this.listPosts()
-			//.switchMap();
+		this.listPosts();
+		this.getPostProfileUsernames(this.posts);
 	}
 
 	// this causes an infinite loop of calls
-	getPostProfileUsername(id: string) : any {
+	/*getPostProfileUsername(id: string) : any {
 		this.profileService.getProfile(id)
 			.subscribe(profile => this.profile = profile);
 		return this.profile.profileUsername;
+	}*/
+
+	listPosts() : void {
+		this.postService.getAllPosts()
+		.subscribe(posts => this.posts = posts);
 	}
+
+	getPostProfileUsernames(posts: Post[]) : any {
+		//let postUsernames = [];
+
+		for(let post of posts) {
+			this.profileService.getProfile(post.postProfileId)
+				.subscribe(profiles => this.profiles = profiles);
+			this.postUsernames.push(this.profile.profileUsername);
+		}
+
+		//console.log(this.postUsernames);
+		return this.postUsernames;
+	}
+
 	//{{ getPostProfileUsername(post.postProfileId) }}
 	//{{ getPostProfileUsername(post.postProfileId) | async }}
-
-	listPosts() : any {
-
-		//grab profile
-		//const postProfile = this.http.get<Profile>(profileUrl + id);
-
-		//get profile username
-		//const postProfileUsername = postProfile.profileUsername;
-
-		//subscribe
-		//post.subscribe();
-
-		//parallel.subscribe(profile => this.profile = profile);
-
-
-
-
-		///////////////////////////////
-		/*this.postService.getAllPosts()
-		.subscribe(posts => this.posts = posts);*/
-	}
 }
