@@ -33,7 +33,7 @@ export class ProfileService {
 	}
 
 	// connect to profile API and get all profiles
-	getAllProfiles(profile: Profile) : Observable<Profile[]> {
+	getAllProfiles() : Observable<Profile[]> {
 		return(this.http.get<Profile[]>(this.profileUrl));
 	}
 }
