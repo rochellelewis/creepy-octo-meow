@@ -29,8 +29,6 @@ export class SignInComponent implements OnInit {
 		private signInService: SignInService,
 		private router: Router) {}
 
-	//isSignedIn = false;
-
 	ngOnInit() : void {
 		this.signInForm = this.formBuilder.group({
 			profileEmail: ["", [Validators.maxLength(64), Validators.required]],
@@ -47,29 +45,14 @@ export class SignInComponent implements OnInit {
 		});
 	}
 
-	/*ngOnChanges() : void {
-		this.isSignedIn = this.signInService.isSignedIn;
-	}*/
-
 	signIn() : void {
 		this.signInService.postSignIn(this.signin)
 			.subscribe(status => {
 				this.status = status;
 				if(this.status.status === 200) {
-
-					//let cookie = this.cookieService.get("JWT-TOKEN");
-					//localStorage.setItem("jwt-token", cookie);
-					//console.log("jwt-token: " + localStorage.getItem("jwt-token"));
-
-					//let cookies = this.cookieService.getAll();
-					//console.log(cookies);
-
 					this.sessionService.setSession();
-					//this.isSignedIn = true;
-					//this.signInService.isSignedIn = true;
 					this.signInForm.reset();
 					this.router.navigate(["posts"]);
-
 					console.log("signin successful");
 					setTimeout(function(){$("#signin-modal").modal('hide');},1000);
 				} else {
