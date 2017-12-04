@@ -14,6 +14,7 @@ import {SignInComponent} from "./components/sign-in.component";
 import {SignUpComponent} from "./components/sign-up.component";
 
 // import services
+import {AuthService} from "./services/auth-service";
 import {CookieService} from "ng2-cookies";
 import {SessionService} from "./services/session.service";
 import {PostService} from "./services/post.service";
@@ -50,6 +51,7 @@ export const routes: Routes = [
 
 // array of services
 const services: any[] = [
+	AuthService,
 	CookieService,
 	SessionService,
 	PostService,
