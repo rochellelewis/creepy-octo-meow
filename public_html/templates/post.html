@@ -28,5 +28,16 @@
 			<!-- end post item -->
 
 		</div><!--/.card-columns-->
+
+		<!--test-->
+		<div class="container-fluid">
+			<h4>Profiles:</h4>
+			<div class="row">
+				<div *ngFor="let profile of profiles" class="card col">
+					<div>{{profile.profileUsername}}</div>
+				</div>
+			</div>
+		</div>
+
 	</div><!--/.container-fluid-->
 </main>

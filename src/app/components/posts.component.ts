@@ -24,7 +24,9 @@ export class PostsComponent implements OnInit {
 
 	posts: Post[] = [];
 	profiles: Profile[] = [];
-	postUsernames: any = [];
+
+	postUsername$: Observable<Profile[]>;
+	//postUsernames: any = [];
 
 	status: Status = null;
 
@@ -34,26 +36,49 @@ export class PostsComponent implements OnInit {
 	){}
 
 	ngOnInit() : void {
+		//this.postService.getAllPosts().switchMap((id: string) => this.getPostProfileUsername(id));
+
 		this.listPosts();
-		this.getPostProfileUsernames(this.posts);
+		this.listProfiles();
+
+		//console.log();
+		//this.getPostProfileUsernames(this.posts);
 	}
 
 	// this causes an infinite loop of calls
+	// {{ getPostProfileUsername(post.postProfileId) }}
 	/*getPostProfileUsername(id: string) : any {
 		this.profileService.getProfile(id)
 			.subscribe(profile => this.profile = profile);
 		return this.profile.profileUsername;
 	}*/
 
-	listPosts() : void {
+	/*getPostProfileUsername(posts: Post[]) : any {
+		this.profileService.getProfile(post.postProfileId)
+			.subscribe(profile => this.profile = profile);
+		return this.profile.profileUsername;
+	}*/
+
+
+	listPosts() : any {
 		this.postService.getAllPosts()
 		.subscribe(posts => this.posts = posts);
+		/*return this.postService.getAllPosts()
+			.switchMap(posts => this.profileService.getProfile(posts.postProfileId), (post, username) => [post, username]);*/
 	}
 
-	getPostProfileUsernames(posts: Post[]) : any {
-		//let postUsernames = [];
+	listProfiles() : void {
+		this.profileService.getAllProfiles()
+			.subscribe(profiles => this.profiles = profiles);
+	}
 
-		for(let post of posts) {
+	/*getPostProfileUsernames(posts: Post[]) : Observable<Profile> {
+		/!*return this.listPosts$()
+			.switchMap(posts => this.profileService.getProfile(posts.postProfileId),
+				(posts, usernames) => [posts, usernames]);*!/
+
+		//console.log(posts);
+		for(let post in posts) {
 			this.profileService.getProfile(post.postProfileId)
 				.subscribe(profiles => this.profiles = profiles);
 			this.postUsernames.push(this.profile.profileUsername);
@@ -62,7 +87,8 @@ export class PostsComponent implements OnInit {
 		//console.log(this.postUsernames);
 		return this.postUsernames;
 	}
+*/
 
-	//{{ getPostProfileUsername(post.postProfileId) }}
+
 	//{{ getPostProfileUsername(post.postProfileId) | async }}
 }
