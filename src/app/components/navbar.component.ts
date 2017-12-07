@@ -5,15 +5,6 @@ import {Status} from "../classes/status";
 import {CookieService} from "ng2-cookies";
 import {SignInService} from "../services/sign-in.service";
 
-import {SignUpService} from "../services/sign-up.service";
-import {ProfileService} from "../services/profile.service";
-
-import {SignIn} from "../classes/sign-in";
-import {Profile} from "../classes/profile";
-
-//enable jquery $ alias
-declare const $: any;
-
 @Component({
 	templateUrl: "./templates/navbar.html",
 	selector: "navbar"
@@ -33,10 +24,14 @@ export class NavbarComponent {
 			.subscribe(status => {
 				this.status = status;
 				if(status.status === 200) {
-					//this.cookieService.deleteAll();
+
+					//delete cookies and jwt
+					this.cookieService.deleteAll();
 					localStorage.clear();
+
+					//send user back home, refresh page
 					this.router.navigate([""]);
-					//location.reload();
+					location.reload();
 					console.log("goodbye");
 				}
 			});
