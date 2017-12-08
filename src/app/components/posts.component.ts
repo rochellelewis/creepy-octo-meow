@@ -1,18 +1,17 @@
-import {Component, OnInit, Input, ViewChild} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ForkJoinObservable} from "rxjs/observable/ForkJoinObservable";
-import {Status} from "../classes/status";
+import 'rxjs/add/operator/switchMap';
 
+import {Status} from "../classes/status";
 import {Post} from "../classes/post";
 import {Profile} from "../classes/profile";
 
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {PostService} from "../services/post.service";
 import {ProfileService} from "../services/profile.service";
-
-import 'rxjs/add/operator/switchMap';
 import {CreatePostComponent} from "./create-post.component";
 
 //enable jquery $ alias
@@ -24,17 +23,13 @@ declare const $: any;
 
 export class PostsComponent implements OnInit {
 
-	post: Post = new Post(null, null, null, null, null);
-	profile: Profile = new Profile(null, null, null, null, null, null);
+	//profile: Profile = new Profile(null, null, null, null, null, null);
 
 	posts: Post[] = [];
-	profiles: Profile[] = [];
+	//profiles: Profile[] = [];
 
-	postUsername$: Observable<Profile[]>;
+	//postUsername$: Observable<Profile[]>;
 	//postUsernames: any = [];
-
-	@Input() newPost : Post = new Post(null, null, null, null, null);
-	@ViewChild(CreatePostComponent) createPost: CreatePostComponent;
 
 	authObj: any = {};
 	status: Status = null;
@@ -49,9 +44,8 @@ export class PostsComponent implements OnInit {
 		//this.postService.getAllPosts().switchMap((id: string) => this.getPostProfileUsername(id));
 
 		this.listPosts();
-		this.listProfiles();
+		//this.listProfiles();
 
-		//console.log();
 		//this.getPostProfileUsernames(this.posts);
 	}
 
@@ -77,39 +71,19 @@ export class PostsComponent implements OnInit {
 			.switchMap(posts => this.profileService.getProfile(posts.postProfileId), (post, username) => [post, username]);*/
 	}
 
-	listProfiles() : void {
+	/*listProfiles() : void {
 		this.profileService.getAllProfiles()
 			.subscribe(profiles => this.profiles = profiles);
-	}
+	}*/
 
-	getJwtProfileId() : any {
-		this.authObj = this.jwtHelperService.decodeToken(localStorage.getItem('jwt-token'));
-	}
+	postNewPost(newPost: Post) : void {
 
-	postPost() : void {
-
-		//grab profileId off of JWT
-		//this.getJwtProfileId();
-		//let newPostProfileId = this.authObj.auth.profileId;
-
-		//form new post
-		let post = this.newPost;
-
-		this.postService.createPost(post)
+		this.postService.createPost(newPost)
 			.subscribe(status => {
 				this.status = status;
 				if(this.status.status === 200) {
-					//this.reloadPosts();
-					//this.updatePosts.emit(this.posts);
-					//console.log(this.posts);
-
-					//this.createPostForm.reset();
-					this.createPost.createPostForm.reset();
 					this.listPosts();
-
-					//this.router.navigate(["posts"]);
-					setTimeout(function(){$("#new-post-modal").modal("hide");}, 1000);
-
+					setTimeout(function(){$("#new-post-modal").modal("hide");}, 1750);
 					console.log("post created ok");
 				} else {
 					console.log("post not created");
