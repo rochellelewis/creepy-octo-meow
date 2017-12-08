@@ -1,6 +1,6 @@
-import {Component, OnInit} from "@angular/core";
-import {Router} from "@angular/router";
+import {Component, EventEmitter, OnInit, Output, OnChanges} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Router} from "@angular/router";
 import {Status} from "../classes/status";
 
 import {Post} from "../classes/post";
@@ -20,8 +20,11 @@ export class CreatePostComponent implements OnInit {
 
 	createPostForm: FormGroup;
 	post: Post = new Post(null, null, null, null, null);
-	posts: Post[] = [];
+	//posts: Post[] = [];
 	status: Status = null;
+
+	//@Output() posts : Post[] = [];
+	@Output() newPostCreated = new EventEmitter<Post>();
 
 	authObj: any = {};
 
@@ -29,6 +32,7 @@ export class CreatePostComponent implements OnInit {
 		private formBuilder: FormBuilder,
 		private jwtHelperService: JwtHelperService,
 		private postService: PostService,
+		private router: Router
 	){}
 
 	ngOnInit() : void {
@@ -47,10 +51,10 @@ export class CreatePostComponent implements OnInit {
 		});
 	}
 
-	reloadPosts() : void {
+	/*reloadPosts() : void {
 		this.postService.getAllPosts()
 			.subscribe(posts => this.posts = posts);
-	}
+	}*/
 
 	getJwtProfileId() : any {
 		this.authObj = this.jwtHelperService.decodeToken(localStorage.getItem('jwt-token'));
@@ -58,25 +62,33 @@ export class CreatePostComponent implements OnInit {
 
 	createPost() : void {
 
+		//grab profileId off of JWT
 		this.getJwtProfileId();
 		let newPostProfileId = this.authObj.auth.profileId;
-		//console.log(newPostProfileId);
 
 		//form new post
 		let post = new Post(null, newPostProfileId, this.createPostForm.value.postContent, null, this.createPostForm.value.postTitle);
 
-		this.postService.createPost(post)
+		//emit new post to the post controller
+		this.newPostCreated.emit(post);
+
+		/*this.postService.createPost(post)
 			.subscribe(status => {
 				this.status = status;
 				if(this.status.status === 200) {
-					this.reloadPosts();
+					//this.reloadPosts();
+					this.updatePosts.emit(this.posts);
+					console.log(this.posts);
+
 					this.createPostForm.reset();
+					//this.router.navigate(["posts"]);
+					setTimeout(function(){$("#new-post-modal").modal("hide");}, 1000);
+
 					console.log("post created ok");
-					setTimeout(function(){$("#new-post-modal").modal("hide");}, 3000);
 				} else {
 					console.log("post not created");
 				}
-			});
+			});*/
 	}
 
 }
