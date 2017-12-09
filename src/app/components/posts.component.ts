@@ -18,7 +18,7 @@ import {CreatePostComponent} from "./create-post.component";
 declare const $: any;
 
 @Component({
-	templateUrl: "./templates/post.html"
+	templateUrl: "./templates/posts.html"
 })
 
 export class PostsComponent implements OnInit {
