@@ -536,7 +536,7 @@ class Post implements \JsonSerializable {
 	 **/
 	public static function getAllPosts(\PDO $pdo) : \SplFixedArray {
 		//create query template
-		$query = "SELECT postId, postProfileId, postContent, postDate, postTitle FROM post";
+		$query = "SELECT postId, postProfileId, postContent, postDate, postTitle FROM post ORDER BY postDate DESC";
 		$statement = $pdo->prepare($query);
 		$statement->execute();
 
