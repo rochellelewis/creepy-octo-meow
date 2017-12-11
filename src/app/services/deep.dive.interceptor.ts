@@ -39,7 +39,7 @@ export class DeepDiveInterceptor implements HttpInterceptor {
 
 						if(jwtToken !== null) {
 							let token : string = jwtToken[0];
-							console.log(token);
+							//console.log(token);
 							localStorage.setItem("jwt-token", token.toString());
 						}
 					}
