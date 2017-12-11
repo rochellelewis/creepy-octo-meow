@@ -27,20 +27,19 @@ export class DeepDiveInterceptor implements HttpInterceptor {
 		// hand off to the next interceptor
 		return(next.handle(request).map((event: HttpEvent<any>) => {
 			// if this is an HTTP Response, from Angular...
-			if(event instanceof HttpResponse) {
+			if(event instanceof HttpResponse && event.body !== null) {
 				// create an event to return (by default, return the same event)
 				let dataEvent = event;
 
 				// if the API is successful...
 				if(event.status === 200) {
-
 					// extract the JWT Header and put it in local storage
 					if(localStorage.getItem("jwt-token") === null) {
 						let jwtToken = event.headers.getAll("X-JWT-TOKEN");
 
 						if(jwtToken !== null) {
 							let token : string = jwtToken[0];
-							//console.log(token);
+							console.log(token);
 							localStorage.setItem("jwt-token", token.toString());
 						}
 					}
@@ -48,7 +47,10 @@ export class DeepDiveInterceptor implements HttpInterceptor {
 					// extract the data or message from the response body
 					let body = event.body;
 					if(body.status === 200) {
-						if(body.data) {
+						if(body.data && body.message) {
+							// extract everything from a request with data AND a message
+							dataEvent = event.clone({body: {data: body.data, message: {message: body.message, status: 200, type: "alert-success"}}});
+						} else if(body.data) {
 							// extract data returned from a GET request
 							dataEvent = event.clone({body: body.data});
 						} else if(body.message) {
