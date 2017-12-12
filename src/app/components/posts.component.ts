@@ -1,4 +1,4 @@
-import {Component, OnInit} from "@angular/core";
+import {Component, EventEmitter, OnInit, Output} from "@angular/core";
 import {Router} from "@angular/router";
 import {Observable} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
@@ -33,6 +33,8 @@ export class PostsComponent implements OnInit {
 
 	authObj: any = {};
 	status: Status = null;
+
+	@Output() postReply = new EventEmitter<string>();
 
 	constructor(
 		private postService: PostService,
@@ -84,9 +86,10 @@ export class PostsComponent implements OnInit {
 				if(this.status.status === 200) {
 					this.listPosts();
 					setTimeout(function(){$("#new-post-modal").modal("hide");}, 1750);
-					console.log("post created ok");
+					console.log("post created ok " + status.message + " " + status.status);
+					this.postReply.emit(status.message);
 				} else {
-					console.log("post not created");
+					console.log("post not meowed " + status.message + " " + status.status);
 				}
 			});
 	}

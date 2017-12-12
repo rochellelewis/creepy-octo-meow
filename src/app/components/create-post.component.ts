@@ -1,4 +1,4 @@
-import {Component, EventEmitter, OnInit, Output} from "@angular/core";
+import {Component, EventEmitter, OnInit, Output, Input} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {JwtHelperService} from "@auth0/angular-jwt";
 
@@ -18,6 +18,7 @@ export class CreatePostComponent implements OnInit {
 	authObj: any = {};
 
 	@Output() newPost = new EventEmitter<Post>();
+	@Input() postReply: string = "";
 
 	constructor(
 		private formBuilder: FormBuilder,
