@@ -34,7 +34,7 @@ export class PostsComponent implements OnInit {
 	authObj: any = {};
 	status: Status = null;
 
-	@Output() postReply = new EventEmitter<string>();
+	@Output() postReply = new EventEmitter<any>();
 
 	constructor(
 		private postService: PostService,
@@ -87,7 +87,7 @@ export class PostsComponent implements OnInit {
 					this.listPosts();
 					setTimeout(function(){$("#new-post-modal").modal("hide");}, 1750);
 					console.log("post created ok " + status.message + " " + status.status);
-					this.postReply.emit(status.message);
+					this.postReply.emit(status);
 				} else {
 					console.log("post not meowed " + status.message + " " + status.status);
 				}
