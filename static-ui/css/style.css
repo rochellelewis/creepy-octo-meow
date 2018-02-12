@@ -2,8 +2,69 @@
 * Meow App 5 Theme
 * @author rlewis37@cnm.edu
 ***/
+
+/* GLOBAL */
 @import url('https://fonts.googleapis.com/css?family=Audiowide');
 
+h1, .h1,
+h2, .h2,
+h3, .h3,
+h4, .h4,
+.modal-title,
+.navbar-brand {
+	font-family: 'Audiowide', sans-serif;
+}
+
+h1, .h1 {
+	color: #ffc107 !important;
+	font-size: 4rem;
+}
+
+button {
+	cursor: pointer;
+}
+
+hr {
+	border-color: rgba(255,255,255,0.15);
+}
+
+/* UTILS */
+.mh-80 {
+	min-height: 80vh;
+}
+
+.bg-shadow-light {
+	background-color: rgba(255,255,255,0.15);
+}
+
+.bg-shadow-dark {
+	background-color: rgba(0,0,0,0.3);
+}
+
+.text-shadow-dark {
+	text-shadow: 1px 1px #000;
+}
+
+/***
+* Flexbox Sticky Footer
+* http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
+***/
+
+/*corrects IE min-height bug*/
+html { display: flex;}
+body { width: 100%;}
+
+.sfooter {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.sfooter-content {
+	flex: 1 0 auto;
+}
+
+/* BODY */
 body {
 	background-color: #000;
 	position: relative;
@@ -26,20 +87,12 @@ body::after {
 	}
 }
 
-h1, .h1,
-h2, .h2,
-h3, .h3,
-h4, .h4,
-.modal-title,
-.navbar-brand {
-	font-family: 'Audiowide', sans-serif;
+/* HEADER */
+nav {
+	border-bottom: 1px solid rgba(255,255,255,0.1);
 }
 
-h1, .h1 {
-	color: #ffc107 !important;
-	font-size: 4rem;
-}
-
+/* POSTS */
 button,
 .card,
 .modal-content {
@@ -47,46 +100,21 @@ button,
 	border: none;
 }
 
-button {
-	cursor: pointer;
+.card {
+	position: relative;
 }
 
-hr {
-	border-color: rgba(255,255,255,0.15);
-}
-
-nav {
-	border-bottom: 1px solid rgba(255,255,255,0.1);
+button.post-delete {
+	position: absolute;
+	top: 0;
+	right: 0;
+	z-index: 1;
 }
 
 .card-title {
 	color: #007bff;
 }
 
-footer.page-footer {
-	background: rgba(0,0,0,0.8);
-}
-
-/***
-* Utilities
-***/
-.mh-80 {
-	min-height: 80vh;
-}
-
-.bg-shadow-light {
-	background-color: rgba(255,255,255,0.15);
-}
-
-.bg-shadow-dark {
-	background-color: rgba(0,0,0,0.3);
-}
-
-.text-shadow-dark {
-	text-shadow: 1px 1px #000;
-}
-
-/* random blue post card */
 .blue-card {
 	background: #007bff;
 	color: #fff !important;
@@ -98,21 +126,7 @@ footer.page-footer {
 	color: #fff !important;
 }
 
-/***
-* Flexbox Sticky Footer
-* http://philipwalton.github.io/solved-by-flexbox/demos/sticky-footer/
-***/
-
-/*corrects IE min-height bug*/
-html { display: flex;}
-body { width: 100%;}
-
-.sfooter {
-	display: flex;
-	flex-direction: column;
-	min-height: 100vh;
-}
-
-.sfooter-content {
-	flex: 1 0 auto;
+/* FOOTER */
+footer.page-footer {
+	background: rgba(0,0,0,0.8);
 }

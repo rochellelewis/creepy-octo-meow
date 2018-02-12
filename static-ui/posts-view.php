@@ -37,6 +37,7 @@
 										<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
 										<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
 									</div>
+									<button class="post-delete btn btn-sm btn-danger">x</button>
 								</div>
 								<div class="card">
 									<div class="card-body">
