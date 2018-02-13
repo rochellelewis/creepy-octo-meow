@@ -2,37 +2,33 @@
 import {RouterModule, Routes} from "@angular/router";
 
 // import components
-import {CreatePostComponent} from "./components/create-post.component";
-import {DeletePostComponent} from "./components/delete-post.component";
-import {EditPostComponent} from "./components/edit-post.component";
-import {EditProfileComponent} from "./components/edit-profile.component";
-import {PostsComponent} from "./components/posts.component"
-import {HomeComponent} from "./components/home.component";
-import {NavbarComponent} from "./components/navbar.component";
-import {ProfileComponent} from "./components/profile.component";
-import {SignInComponent} from "./components/sign-in.component";
-import {SignUpComponent} from "./components/sign-up.component";
+//import {CreatePostComponent} from "./components/create-post.component";
+//import {DeletePostComponent} from "./components/delete-post.component";
+//import {EditPostComponent} from "./components/edit-post.component";
+//import {EditProfileComponent} from "./components/edit-profile.component";
+import {PostsComponent} from "./posts/posts.component"
+import {HomeComponent} from "./home/home.component";
+import {NavbarComponent} from "./shared/components/navbar/navbar.component";
+import {ProfileComponent} from "./profile/profile.component";
+import {SignInComponent} from "./home/sign-in/sign-in.component";
+import {SignUpComponent} from "./home/sign-up/sign-up.component";
 
 // import services
-import {AuthService} from "./services/auth-service";
+import {AuthService} from "./shared/services/auth-service";
 import {CookieService} from "ng2-cookies";
-import {SessionService} from "./services/session.service";
-import {PostService} from "./services/post.service";
-import {ProfileService} from "./services/profile.service";
-import {SignInService} from "./services/sign-in.service";
-import {SignUpService} from "./services/sign-up.service";
+import {SessionService} from "./shared/services/session.service";
+import {PostService} from "./shared/services/post.service";
+import {ProfileService} from "./shared/services/profile.service";
+import {SignInService} from "./shared/services/sign-in.service";
+import {SignUpService} from "./shared/services/sign-up.service";
 
 // import interceptors
 import {APP_BASE_HREF} from "@angular/common";
 import {HTTP_INTERCEPTORS} from "@angular/common/http";
-import {DeepDiveInterceptor} from "./services/deep.dive.interceptor";
+import {DeepDiveInterceptor} from "./shared/interceptors/deep.dive.interceptor";
 
 // array of components to be passed off to the module
 export const allAppComponents = [
-	CreatePostComponent,
-	DeletePostComponent,
-	EditPostComponent,
-	EditProfileComponent,
 	PostsComponent,
 	HomeComponent,
 	NavbarComponent,

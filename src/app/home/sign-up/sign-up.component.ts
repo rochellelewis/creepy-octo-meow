@@ -3,15 +3,15 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 import {CookieService} from "ng2-cookies";
-import {SignUpService} from "../services/sign-up.service";
-import {Status} from "../classes/status";
-import {Profile} from "../classes/profile";
+import {SignUpService} from "../../shared/services/sign-up.service";
+import {Status} from "../../shared/classes/status";
+import {Profile} from "../../shared/classes/profile";
 
 //enable jquery $ alias
 declare const $: any;
 
 @Component({
-	templateUrl: "./templates/sign-up.html",
+	templateUrl: "./sign-up.html",
 	selector: "sign-up"
 })
 

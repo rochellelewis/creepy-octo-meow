@@ -1,9 +1,6 @@
 import {Component} from "@angular/core";
-import {SessionService} from "./services/session.service";
-import {Status} from "./classes/status";
-
-// import {SignInService} from "./services/sign-in.service";
-// import {SignInComponent} from "./components/sign-in.component";
+import {SessionService} from "./shared/services/session.service";
+import {Status} from "./shared/classes/status";
 
 @Component({
 	// Update selector with YOUR_APP_NAME-app. This needs to match the custom tag in webpack/index.php

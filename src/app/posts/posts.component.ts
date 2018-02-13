@@ -5,20 +5,20 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {ForkJoinObservable} from "rxjs/observable/ForkJoinObservable";
 import 'rxjs/add/operator/switchMap';
 
-import {Status} from "../classes/status";
-import {Post} from "../classes/post";
-import {Profile} from "../classes/profile";
+import {Status} from "../shared/classes/status";
+import {Post} from "../shared/classes/post";
+import {Profile} from "../shared/classes/profile";
 
 import {JwtHelperService} from "@auth0/angular-jwt";
-import {PostService} from "../services/post.service";
-import {ProfileService} from "../services/profile.service";
-import {CreatePostComponent} from "./create-post.component";
+import {PostService} from "../shared/services/post.service";
+import {ProfileService} from "../shared/services/profile.service";
+//import {CreatePostComponent} from "./create-post.component";
 
 //enable jquery $ alias
 declare const $: any;
 
 @Component({
-	templateUrl: "./templates/posts.html"
+	templateUrl: "./posts.html"
 })
 
 export class PostsComponent implements OnInit {

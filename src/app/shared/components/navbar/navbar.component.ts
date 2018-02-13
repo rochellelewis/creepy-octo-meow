@@ -1,12 +1,12 @@
 import {Component} from "@angular/core";
 import {Router} from "@angular/router";
-import {Status} from "../classes/status";
+import {Status} from "../../classes/status";
 
 import {CookieService} from "ng2-cookies";
-import {SignInService} from "../services/sign-in.service";
+import {SignInService} from "../../services/sign-in.service";
 
 @Component({
-	templateUrl: "./templates/navbar.html",
+	templateUrl: "./navbar.html",
 	selector: "navbar"
 })
 
