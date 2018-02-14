@@ -65,27 +65,16 @@ body.sfooter > * {
 }
 
 /* BODY */
-/*body {*/
-	/*background-color: #000;*/
-	/*position: relative;*/
-/*}*/
+body > * {
+	background: url("app/images/meow-app.jpg") no-repeat 40% center fixed;
+	position: relative;
+}
 
-/*body::after {*/
-	/*content: "";*/
-	/*background: url("app/images/meow-app.jpg") no-repeat 40% center;*/
-	/*background-attachment: fixed;*/
-	/*filter: grayscale(0.75) opacity(0.5);*/
-	/*position:absolute;*/
-	/*height: 100%;*/
-	/*width: 100%;*/
-	/*z-index: -1;*/
-/*}*/
-
-/*@media only screen and (min-width: 768px) {*/
-	/*body::after {*/
-		/*background-position-x: center;*/
-	/*}*/
-/*}*/
+@media only screen and (min-width: 768px) {
+	body > *::after {
+		background-position-x: center;
+	}
+}
 
 /* HEADER */
 nav {
