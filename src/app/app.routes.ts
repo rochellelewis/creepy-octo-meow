@@ -10,8 +10,8 @@ import {PostsComponent} from "./posts/posts.component"
 import {HomeComponent} from "./home/home.component";
 import {NavbarComponent} from "./shared/components/navbar/navbar.component";
 import {ProfileComponent} from "./profile/profile.component";
-import {SignInComponent} from "./home/sign-in/sign-in.component";
-import {SignUpComponent} from "./home/sign-up/sign-up.component";
+import {SignInComponent} from "./shared/components/sign-in/sign-in.component";
+import {SignUpComponent} from "./sign-up/sign-up.component";
 
 // import services
 import {AuthService} from "./shared/services/auth-service";

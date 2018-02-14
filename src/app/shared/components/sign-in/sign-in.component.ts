@@ -1,12 +1,12 @@
 import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
-import {Status} from "../../shared/classes/status";
+import {Status} from "../../classes/status";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {CookieService} from "ng2-cookies";
 
-import {SessionService} from "../../shared/services/session.service";
-import {SignInService} from "../../shared/services/sign-in.service";
-import {SignIn} from "../../shared/classes/sign-in";
+import {SessionService} from "../../services/session.service";
+import {SignInService} from "../../services/sign-in.service";
+import {SignIn} from "../../classes/sign-in";
 
 //enable jquery $ alias
 declare const $: any;
