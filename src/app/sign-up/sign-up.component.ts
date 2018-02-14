@@ -3,9 +3,9 @@ import {Router} from "@angular/router";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 import {CookieService} from "ng2-cookies";
-import {SignUpService} from "../../shared/services/sign-up.service";
-import {Status} from "../../shared/classes/status";
-import {Profile} from "../../shared/classes/profile";
+import {SignUpService} from "../shared/services/sign-up.service";
+import {Status} from "../shared/classes/status";
+import {Profile} from "../shared/classes/profile";
 
 //enable jquery $ alias
 declare const $: any;
