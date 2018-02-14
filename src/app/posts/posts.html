@@ -1,39 +1,95 @@
 <navbar></navbar>
 
 <main class="my-5">
-	<div class="container-fluid">
+	<div class="container-fluid text-center text-lg-left">
 
-		<!-- title row -->
-		<div class="row">
-			<div class="col d-flex align-items-center mb-4">
-				<button class="btn btn-outline-danger" data-toggle="modal" data-target="#new-post-modal"><i
-					class="fa fa-paw fa-lg"></i></button>
-				<h1 class="mb-0">&nbsp;Feed Teh Kitty.</h1>
+		<div class="row mb-3">
+			<div class="col">
+				<h1>Meow Forum</h1>
 			</div>
 		</div>
 
-		<div class="card-columns">
-
-			<!-- begin post item -->
-			<div *ngFor="let post of posts" class="card mb-3">
-				<div class="card-header d-flex align-items-center">
-					<h6 class="mb-0">{{ post.postTitle }}</h6>
-					<button class="badge badge-info ml-auto border-0"><i class="fa fa-pencil"></i></button>
-					<button class="badge badge-danger ml-1 border-0"><i class="fa fa-close"></i></button>
-				</div>
-				<div class="card-body">
-					<p class="card-text">{{ post.postContent }}</p>
-					<div class="small text-muted">@{{ post.postProfileId }} | {{ post.postDate | date:'M/d/yy h:mm a' }}
+		<div class="row">
+			<div class="col-12 col-lg-3">
+				create post form here
+				<!--<form>
+					<div class="form-group">
+						<input type="text" class="form-control" name="postTitle" id="postTitle" placeholder="Title">
 					</div>
-				</div>
+					<div class="form-group">
+						<textarea name="postContent" id="postContent" class="form-control" placeholder="2000 chars max" rows="10"></textarea>
+					</div>
+					<button type="submit" class="btn btn-block btn-warning mb-3">Submit</button>
+				</form>-->
 			</div>
-			<!-- end post item -->
-
-		</div><!--/.card-columns-->
-
+			<div class="col-12 col-lg-9">
+				<div class="card-columns">
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">Post title that wraps to a new line</h4>
+							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
+						</div>
+						<button class="post-delete btn btn-sm btn-danger">x</button>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">Post Title</h4>
+							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">Post Title</h4>
+							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">Post Title</h4>
+							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body blue-card">
+							<h4 class="card-title">Post Title</h4>
+							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">Post Title</h4>
+							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">Post Title</h4>
+							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">Post Title</h4>
+							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
+						</div>
+					</div>
+					<div class="card">
+						<div class="card-body">
+							<h4 class="card-title">Post Title</h4>
+							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
+							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
+						</div>
+					</div>
+				</div><!--/.card-columns-->
+			</div><!--/.col-12-->
+		</div><!--/.row-->
 	</div><!--/.container-fluid-->
 </main>
-
-<!-- child component template must be avail to the parent -->
-<!--
-<create-post (newPost)="postNewPost($event)"></create-post>-->
