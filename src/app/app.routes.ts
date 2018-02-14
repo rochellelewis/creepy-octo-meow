@@ -39,7 +39,8 @@ export const allAppComponents = [
 
 // setup routes
 export const routes: Routes = [
-	{path: "profile/:id", component: ProfileComponent},
+	//{path: "profile/:id", component: ProfileComponent},
+	{path: "profile", component: ProfileComponent},
 	{path: "posts", component: PostsComponent},
 	{path: "", component: HomeComponent},
 	{path: "**", redirectTo: ""}
