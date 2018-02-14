@@ -11,7 +11,8 @@ import {Profile} from "../../shared/classes/profile";
 declare const $: any;
 
 @Component({
-	templateUrl: "./sign-up.html",
+	//templateUrl: "./sign-up.html",
+	template: require("./sign-up.html"),
 	selector: "sign-up"
 })
 

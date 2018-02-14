@@ -8,7 +8,8 @@ import "rxjs/add/observable/from";
 import "rxjs/add/operator/switchMap";
 
 @Component({
-	templateUrl: "./home.html"
+	//templateUrl: "./home.html"
+	template: require("./home.html")
 })
 
 export class HomeComponent {}

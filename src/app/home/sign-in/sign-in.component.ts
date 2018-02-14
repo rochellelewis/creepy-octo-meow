@@ -12,7 +12,8 @@ import {SignIn} from "../../shared/classes/sign-in";
 declare const $: any;
 
 @Component({
-	templateUrl: "./sign-in.html",
+	//templateUrl: "./sign-in.html",
+	template: require("./sign-in.html"),
 	selector: "sign-in"
 })
 

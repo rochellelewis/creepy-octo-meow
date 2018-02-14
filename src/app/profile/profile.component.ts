@@ -9,7 +9,8 @@ import "rxjs/add/operator/switchMap";
 
 
 @Component({
-	templateUrl: "./profile.html"
+	//templateUrl: "./profile.html"
+	template: require("./profile.html")
 })
 
 export class ProfileComponent {

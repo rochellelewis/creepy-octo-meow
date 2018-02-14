@@ -6,7 +6,8 @@ import {CookieService} from "ng2-cookies";
 import {SignInService} from "../../services/sign-in.service";
 
 @Component({
-	templateUrl: "./navbar.html",
+	//templateUrl: "./navbar.html",
+	template: require("./navbar.html"),
 	selector: "navbar"
 })
 

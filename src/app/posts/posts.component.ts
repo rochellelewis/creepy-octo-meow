@@ -18,7 +18,8 @@ import {ProfileService} from "../shared/services/profile.service";
 declare const $: any;
 
 @Component({
-	templateUrl: "./posts.html"
+	//templateUrl: "./posts.html"
+	template: require("./posts.html")
 })
 
 export class PostsComponent implements OnInit {
