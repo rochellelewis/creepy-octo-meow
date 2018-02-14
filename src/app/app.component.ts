@@ -7,7 +7,8 @@ import {Status} from "./shared/classes/status";
 	selector: 'creepy-octo-meow',
 
 	// templateUrl path to your public_html/templates directory. .html files only.
-	templateUrl: './templates/creepy-octo-meow.html'
+	//templateUrl: './templates/creepy-octo-meow.html'
+	template: require("./app.component.html")
 })
 
 export class AppComponent {
