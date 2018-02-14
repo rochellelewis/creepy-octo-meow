@@ -12,6 +12,7 @@ import {NavbarComponent} from "./shared/components/navbar/navbar.component";
 import {ProfileComponent} from "./profile/profile.component";
 import {SignInComponent} from "./shared/components/sign-in/sign-in.component";
 import {SignUpComponent} from "./sign-up/sign-up.component";
+import {AboutComponent} from "./about/about.component";
 
 // import services
 import {AuthService} from "./shared/services/auth-service";
@@ -34,7 +35,8 @@ export const allAppComponents = [
 	NavbarComponent,
 	ProfileComponent,
 	SignInComponent,
-	SignUpComponent
+	SignUpComponent,
+	AboutComponent
 ];
 
 // setup routes
@@ -42,6 +44,7 @@ export const routes: Routes = [
 	//{path: "profile/:id", component: ProfileComponent},
 	{path: "profile", component: ProfileComponent},
 	{path: "posts", component: PostsComponent},
+	{path: "about", component: AboutComponent},
 	{path: "", component: HomeComponent},
 	{path: "**", redirectTo: ""}
 ];
