@@ -66,13 +66,13 @@ body.sfooter > * {
 
 /* BODY */
 body > * {
-	background: url("app/images/meow-app.jpg") no-repeat 50% center fixed;
+	background: url("app/images/meow-app-bg-m.jpg") no-repeat center center fixed;
 	position: relative;
 }
 
 @media only screen and (min-width: 768px) {
-	body > *::after {
-		background-position-x: center;
+	body > * {
+		background: url("app/images/meow-app-bg.jpg") no-repeat 50% center fixed;
 	}
 }
 
