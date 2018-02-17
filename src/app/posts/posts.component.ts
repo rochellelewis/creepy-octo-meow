@@ -1,18 +1,13 @@
 import {Component, EventEmitter, OnInit, Output} from "@angular/core";
-import {Router} from "@angular/router";
-import {Observable} from "rxjs";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {ForkJoinObservable} from "rxjs/observable/ForkJoinObservable";
 import 'rxjs/add/operator/switchMap';
 
 import {Status} from "../shared/classes/status";
 import {Post} from "../shared/classes/post";
-import {Profile} from "../shared/classes/profile";
 
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {PostService} from "../shared/services/post.service";
 import {ProfileService} from "../shared/services/profile.service";
-//import {CreatePostComponent} from "./create-post.component";
 
 //enable jquery $ alias
 declare const $: any;
@@ -32,12 +27,16 @@ export class PostsComponent implements OnInit {
 	//postUsername$: Observable<Profile[]>;
 	//postUsernames: any = [];
 
-	authObj: any = {};
+	createPostForm: FormGroup;
+	post: Post = new Post(null, null, null, null, null);
 	status: Status = null;
+	authObj: any = {};
 
-	@Output() postReply = new EventEmitter<any>();
+	@Output() newPost = new EventEmitter<Post>();
+	//@Input() postReply: string = "";
 
 	constructor(
+		private formBuilder: FormBuilder,
 		private postService: PostService,
 		private profileService: ProfileService,
 		private jwtHelperService: JwtHelperService
@@ -50,7 +49,39 @@ export class PostsComponent implements OnInit {
 		//this.listProfiles();
 
 		//this.getPostProfileUsernames(this.posts);
+
+		this.createPostForm = this.formBuilder.group({
+			postTitle: ["", [Validators.maxLength(64), Validators.required]],
+			postContent: ["", [Validators.maxLength(2000), Validators.required]]
+		});
+		this.applyFormChanges();
 	}
+
+	applyFormChanges() : void {
+		this.createPostForm.valueChanges.subscribe(values => {
+			for(let field in values) {
+				this.post[field] = values[field];
+			}
+		});
+	}
+
+	getJwtProfileId() : any {
+		this.authObj = this.jwtHelperService.decodeToken(localStorage.getItem('jwt-token'));
+	}
+
+	createPost() : void {
+
+		//grab profileId off of JWT
+		this.getJwtProfileId();
+		let newPostProfileId = this.authObj.auth.profileId;
+
+		//form new post
+		let post = new Post(null, newPostProfileId, this.createPostForm.value.postContent, null, this.createPostForm.value.postTitle);
+
+		//emit new post to the post controller
+		this.newPost.emit(post);
+	}
+
 
 	// this causes an infinite loop of calls
 	// {{ getPostProfileUsername(post.postProfileId) }}
@@ -86,9 +117,8 @@ export class PostsComponent implements OnInit {
 				this.status = status;
 				if(this.status.status === 200) {
 					this.listPosts();
-					setTimeout(function(){$("#new-post-modal").modal("hide");}, 1750);
 					console.log("post created ok " + status.message + " " + status.status);
-					this.postReply.emit(status);
+					//this.postReply.emit(status);
 				} else {
 					console.log("post not meowed " + status.message + " " + status.status);
 				}
