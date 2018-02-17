@@ -24,70 +24,19 @@
 			</div>
 			<div class="col-12 col-lg-9">
 				<div class="card-columns">
-					<div class="card">
+
+					<!-- begin post item -->
+					<div *ngFor="let post of posts" class="card">
 						<div class="card-body">
-							<h4 class="card-title">Post title that wraps to a new line</h4>
-							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
-						</div>
-						<button class="post-delete btn btn-sm btn-danger">x</button>
-					</div>
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">Post Title</h4>
-							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
+							<h4 class="card-title">{{ post.postTitle }}</h4>
+							<p class="card-text">{{ post.postContent }}</p>
+							<div class="small text-muted">@{{ post.postProfileId }} | {{ post.postDate | date:'M/d/yy h:mm a' }}
+							</div>
+							<button class="post-delete btn btn-sm btn-danger">x</button>
 						</div>
 					</div>
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">Post Title</h4>
-							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">Post Title</h4>
-							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-body blue-card">
-							<h4 class="card-title">Post Title</h4>
-							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">Post Title</h4>
-							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">Post Title</h4>
-							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">Post Title</h4>
-							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
-						</div>
-					</div>
-					<div class="card">
-						<div class="card-body">
-							<h4 class="card-title">Post Title</h4>
-							<p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.</p>
-							<p class="card-text"><small class="text-muted">Author Name | Date</small></p>
-						</div>
-					</div>
+					<!-- end post item -->
+
 				</div><!--/.card-columns-->
 			</div><!--/.col-12-->
 		</div><!--/.row-->
