@@ -19,10 +19,9 @@ declare const $: any;
 
 export class PostsComponent implements OnInit {
 
-	//profile: Profile = new Profile(null, null, null, null, null, null);
+	//profiles: Profile[] = [];
 
 	posts: Post[] = [];
-	//profiles: Profile[] = [];
 
 	//postUsername$: Observable<Profile[]>;
 	//postUsernames: any = [];
@@ -33,7 +32,6 @@ export class PostsComponent implements OnInit {
 	authObj: any = {};
 
 	@Output() newPost = new EventEmitter<Post>();
-	//@Input() postReply: string = "";
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -47,7 +45,6 @@ export class PostsComponent implements OnInit {
 
 		this.listPosts();
 		//this.listProfiles();
-
 		//this.getPostProfileUsernames(this.posts);
 
 		this.createPostForm = this.formBuilder.group({
@@ -79,7 +76,16 @@ export class PostsComponent implements OnInit {
 		let post = new Post(null, newPostProfileId, this.createPostForm.value.postContent, null, this.createPostForm.value.postTitle);
 
 		//emit new post to the post controller
-		this.newPost.emit(post);
+		//this.newPost.emit(post);
+
+		this.postService.createPost(post)
+			.subscribe(status => {
+				this.status = status;
+				if(status.status === 200) {
+					this.listPosts();
+					this.createPostForm.reset();
+				}
+			});
 	}
 
 
@@ -110,7 +116,7 @@ export class PostsComponent implements OnInit {
 			.subscribe(profiles => this.profiles = profiles);
 	}*/
 
-	postNewPost(newPost: Post) : void {
+	/*postNewPost(newPost: Post) : void {
 
 		this.postService.createPost(newPost)
 			.subscribe(status => {
@@ -123,7 +129,7 @@ export class PostsComponent implements OnInit {
 					console.log("post not meowed " + status.message + " " + status.status);
 				}
 			});
-	}
+	}*/
 
 	/*getPostProfileUsernames(posts: Post[]) : Observable<Profile> {
 		/!*return this.listPosts$()
