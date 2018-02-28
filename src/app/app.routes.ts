@@ -1,5 +1,6 @@
 // import @angular dependencies
 import {RouterModule, Routes} from "@angular/router";
+import {AuthGuardService as AuthGuard} from "./shared/services/auth-guard.service";
 
 // import components
 //import {CreatePostComponent} from "./components/create-post.component";
@@ -16,6 +17,7 @@ import {AboutComponent} from "./about/about.component";
 
 // import services
 import {AuthService} from "./shared/services/auth-service";
+import {AuthGuardService} from "./shared/services/auth-guard.service";
 import {CookieService} from "ng2-cookies";
 import {SessionService} from "./shared/services/session.service";
 import {PostService} from "./shared/services/post.service";
@@ -43,7 +45,7 @@ export const allAppComponents = [
 export const routes: Routes = [
 	//{path: "profile/:id", component: ProfileComponent},
 	{path: "profile", component: ProfileComponent},
-	{path: "posts", component: PostsComponent},
+	{path: "posts", component: PostsComponent, canActivate: [AuthGuard]},
 	{path: "about", component: AboutComponent},
 	{path: "", component: HomeComponent},
 	{path: "**", redirectTo: ""}
@@ -52,6 +54,7 @@ export const routes: Routes = [
 // array of services
 const services: any[] = [
 	AuthService,
+	AuthGuardService,
 	CookieService,
 	SessionService,
 	PostService,
