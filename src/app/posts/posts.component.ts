@@ -65,15 +65,31 @@ export class PostsComponent implements OnInit {
 	}*/
 
 	getJwtProfileId() : any {
-		// TODO: add if block here: if localStorage !== null else exception
-		this.authObj = this.jwtHelperService.decodeToken(localStorage.getItem('jwt-token'));
+		//this.authObj = this.jwtHelperService.decodeToken(localStorage.getItem('jwt-token'));
+		try {
+			this.authObj = this.jwtHelperService.decodeToken(localStorage.getItem('jwt-token'));
+		} catch (e) {
+			console.log("jwt not found");
+			return{error:'jwt token invalid'};
+		}
 	}
 
-	createPost() : void {
+	createPost() : any {
 
 		//grab profileId off of JWT
 		this.getJwtProfileId();
-		let newPostProfileId = this.authObj.auth.profileId;
+		//let newPostProfileId = this.authObj.auth.profileId;
+
+		if(this.getJwtProfileId().error) {
+			console.log(this.getJwtProfileId().error);
+		} else {
+			//return{error:'pls sign in.'};
+			console.log('profileId OK');
+		}
+
+		//let newPostProfileId = this.authObj.auth.profileId;
+		let newPostProfileId = null;
+
 
 		//form new post
 		let post = new Post(null, newPostProfileId, this.createPostForm.value.postContent, null, this.createPostForm.value.postTitle);
@@ -87,6 +103,8 @@ export class PostsComponent implements OnInit {
 				if(status.status === 200) {
 					this.listPosts();
 					this.createPostForm.reset();
+				}else{
+					console.log('!200ok:(');
 				}
 			});
 	}
