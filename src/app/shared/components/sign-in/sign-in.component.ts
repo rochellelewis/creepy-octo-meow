@@ -61,4 +61,8 @@ export class SignInComponent implements OnInit {
 				}
 			});
 	}
+
+	signOut() :void {
+		this.signInService.getSignOut();
+	}
 }
