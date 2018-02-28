@@ -1,6 +1,5 @@
-import {Component, EventEmitter, OnInit, Output} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import 'rxjs/add/operator/switchMap';
 
 import {Status} from "../shared/classes/status";
 import {Post} from "../shared/classes/post";
@@ -13,25 +12,21 @@ import {ProfileService} from "../shared/services/profile.service";
 declare const $: any;
 
 @Component({
-	//templateUrl: "./posts.html"
 	template: require("./posts.html")
 })
 
 export class PostsComponent implements OnInit {
 
-	//profiles: Profile[] = [];
-
-	posts: Post[] = [];
-
-	//postUsername$: Observable<Profile[]>;
-	//postUsernames: any = [];
-
 	createPostForm: FormGroup;
-	post: Post = new Post(null, null, null, null, null);
+	posts: Post[] = [];
 	status: Status = null;
 	authObj: any = {};
 
-	@Output() newPost = new EventEmitter<Post>();
+	//postUsername$: Observable<Profile[]>;
+	//profiles: Profile[] = [];
+	//postUsernames: any = [];
+	//post: Post = new Post(null, null, null, null, null);
+	//@Output() newPost = new EventEmitter<Post>();
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -51,18 +46,26 @@ export class PostsComponent implements OnInit {
 			postTitle: ["", [Validators.maxLength(64), Validators.required]],
 			postContent: ["", [Validators.maxLength(2000), Validators.required]]
 		});
-		this.applyFormChanges();
+		//this.applyFormChanges();
 	}
 
-	applyFormChanges() : void {
+	listPosts() : any {
+		this.postService.getAllPosts()
+			.subscribe(posts => this.posts = posts);
+		/*return this.postService.getAllPosts()
+			.switchMap(posts => this.profileService.getProfile(posts.postProfileId), (post, username) => [post, username]);*/
+	}
+
+	/*applyFormChanges() : void {
 		this.createPostForm.valueChanges.subscribe(values => {
 			for(let field in values) {
 				this.post[field] = values[field];
 			}
 		});
-	}
+	}*/
 
 	getJwtProfileId() : any {
+		// TODO: add if block here: if localStorage !== null else exception
 		this.authObj = this.jwtHelperService.decodeToken(localStorage.getItem('jwt-token'));
 	}
 
@@ -104,12 +107,7 @@ export class PostsComponent implements OnInit {
 	}*/
 
 
-	listPosts() : any {
-		this.postService.getAllPosts()
-		.subscribe(posts => this.posts = posts);
-		/*return this.postService.getAllPosts()
-			.switchMap(posts => this.profileService.getProfile(posts.postProfileId), (post, username) => [post, username]);*/
-	}
+
 
 	/*listProfiles() : void {
 		this.profileService.getAllProfiles()
