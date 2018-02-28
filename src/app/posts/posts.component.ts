@@ -7,6 +7,7 @@ import {Post} from "../shared/classes/post";
 import {JwtHelperService} from "@auth0/angular-jwt";
 import {PostService} from "../shared/services/post.service";
 import {ProfileService} from "../shared/services/profile.service";
+import {error} from "util";
 
 //enable jquery $ alias
 declare const $: any;
@@ -69,8 +70,7 @@ export class PostsComponent implements OnInit {
 		try {
 			this.authObj = this.jwtHelperService.decodeToken(localStorage.getItem('jwt-token'));
 		} catch (e) {
-			console.log("jwt not found");
-			return{error:'jwt token invalid'};
+			return{error:401};
 		}
 	}
 
@@ -78,24 +78,19 @@ export class PostsComponent implements OnInit {
 
 		//grab profileId off of JWT
 		this.getJwtProfileId();
-		//let newPostProfileId = this.authObj.auth.profileId;
+		let newPostProfileId = this.authObj.auth.profileId;
+		//let newPostProfileId = null;
 
-		if(this.getJwtProfileId().error) {
-			console.log(this.getJwtProfileId().error);
-		} else {
-			//return{error:'pls sign in.'};
-			console.log('profileId OK');
-		}
-
-		//let newPostProfileId = this.authObj.auth.profileId;
-		let newPostProfileId = null;
-
+		//TODO: add handler if no valid JWT Token
+		// if(this.getJwtProfileId().error) {
+		// 	console.log(this.getJwtProfileId().error);
+		// } else {
+		// 	//return{error:'pls sign in.'};
+		// 	console.log('profileId OK');
+		// }
 
 		//form new post
 		let post = new Post(null, newPostProfileId, this.createPostForm.value.postContent, null, this.createPostForm.value.postTitle);
-
-		//emit new post to the post controller
-		//this.newPost.emit(post);
 
 		this.postService.createPost(post)
 			.subscribe(status => {
@@ -108,7 +103,6 @@ export class PostsComponent implements OnInit {
 				}
 			});
 	}
-
 
 	// this causes an infinite loop of calls
 	// {{ getPostProfileUsername(post.postProfileId) }}
@@ -123,9 +117,6 @@ export class PostsComponent implements OnInit {
 			.subscribe(profile => this.profile = profile);
 		return this.profile.profileUsername;
 	}*/
-
-
-
 
 	/*listProfiles() : void {
 		this.profileService.getAllProfiles()
@@ -163,7 +154,6 @@ export class PostsComponent implements OnInit {
 		return this.postUsernames;
 	}
 */
-
 
 	//{{ getPostProfileUsername(post.postProfileId) | async }}
 }
