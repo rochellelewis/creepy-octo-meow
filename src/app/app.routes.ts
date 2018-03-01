@@ -43,8 +43,8 @@ export const allAppComponents = [
 
 // setup routes
 export const routes: Routes = [
-	//{path: "profile/:id", component: ProfileComponent},
-	{path: "profile", component: ProfileComponent},
+	//{path: "profile", component: ProfileComponent},
+	{path: "profile/:id", component: ProfileComponent},
 	{path: "posts", component: PostsComponent, canActivate: [AuthGuard]},
 	{path: "about", component: AboutComponent},
 	{path: "", component: HomeComponent},
