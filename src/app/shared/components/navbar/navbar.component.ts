@@ -4,21 +4,25 @@ import {Status} from "../../classes/status";
 
 import {CookieService} from "ng2-cookies";
 import {SignInService} from "../../services/sign-in.service";
+import {AuthService} from "../../services/auth-service";
 
 @Component({
-	//templateUrl: "./navbar.html",
 	template: require("./navbar.html"),
 	selector: "navbar"
 })
 
 export class NavbarComponent {
 	status: Status = null;
+	isAuthenticated: any = null;
 
 	constructor(
 		private signInService: SignInService,
 		private cookieService: CookieService,
+		private authService: AuthService,
 		private router: Router
-	){}
+	){
+		this.isAuthenticated = this.authService.loggedIn();
+	}
 
 	signOut() : void {
 		this.signInService.getSignOut()
