@@ -15,7 +15,7 @@ export class AuthService {
 	//token : string = this.jwtHelperService.tokenGetter();
 
 	loggedIn() {
-		if (this.token) {
+		if (!this.token) {
 			return false;
 		}
 
