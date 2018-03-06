@@ -53,9 +53,9 @@ export class SignInComponent implements OnInit {
 				if(this.status.status === 200) {
 					this.sessionService.setSession();
 					this.signInForm.reset();
+					location.reload();
 					this.router.navigate(["posts"]);
 					console.log("signin successful");
-					setTimeout(function(){$("#signin-modal").modal('hide');},1000);
 				} else {
 					console.log("failed login");
 				}
