@@ -1,13 +1,16 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {error} from "util";
 
+//import classes
 import {Status} from "../shared/classes/status";
 import {Post} from "../shared/classes/post";
 
+//import services
 import {JwtHelperService} from "@auth0/angular-jwt";
+import {AuthService} from "../shared/services/auth-service";
 import {PostService} from "../shared/services/post.service";
 import {ProfileService} from "../shared/services/profile.service";
-import {error} from "util";
 
 //enable jquery $ alias
 declare const $: any;
