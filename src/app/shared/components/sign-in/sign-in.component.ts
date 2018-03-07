@@ -12,7 +12,6 @@ import {SignIn} from "../../classes/sign-in";
 declare const $: any;
 
 @Component({
-	//templateUrl: "./sign-in.html",
 	template: require("./sign-in.html"),
 	selector: "sign-in"
 })
@@ -53,8 +52,8 @@ export class SignInComponent implements OnInit {
 				if(this.status.status === 200) {
 					this.sessionService.setSession();
 					this.signInForm.reset();
-					location.reload();
 					this.router.navigate(["posts"]);
+					location.reload();
 					console.log("signin successful");
 				} else {
 					console.log("failed login");

@@ -10,7 +10,8 @@ export class AuthService {
 
 	constructor (
 		private jwtHelperService: JwtHelperService,
-		private http: HttpClient) {}
+		private http: HttpClient
+	) {}
 
 	//token : string = this.jwtHelperService.tokenGetter();
 
@@ -20,7 +21,6 @@ export class AuthService {
 		}
 
 		const tokenExpired: boolean = this.jwtHelperService.isTokenExpired(this.token);
-
 		return !tokenExpired
 	}
 
@@ -37,9 +37,6 @@ export class AuthService {
 			return false;
 		}
 
-		const authObject = this.jwtHelperService.decodeToken(this.token);
-
-		console.log(authObject);
-		return authObject;
+		return this.jwtHelperService.decodeToken(this.token);
 	}
 }

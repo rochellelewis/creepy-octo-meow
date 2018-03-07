@@ -14,6 +14,7 @@ import {AuthService} from "../../services/auth-service";
 export class NavbarComponent {
 	status: Status = null;
 	isAuthenticated: any = null;
+	profileUsername: string = null;
 
 	constructor(
 		private signInService: SignInService,
@@ -22,10 +23,20 @@ export class NavbarComponent {
 		private router: Router
 	){
 		this.isAuthenticated = this.authService.loggedIn();
+		this.profileUsername = this.getUsername();
+	}
+
+	getUsername() : string {
+		if(this.authService.decodeJwt()) {
+			return this.authService.decodeJwt().auth.profileUsername;
+		} else {
+			return ''
+		}
 	}
 
 	signOut() : void {
 		this.signInService.getSignOut()
+
 			.subscribe(status => {
 				this.status = status;
 				if(status.status === 200) {
