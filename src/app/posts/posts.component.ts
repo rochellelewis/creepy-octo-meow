@@ -1,13 +1,11 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
-import {error} from "util";
 
 //import classes
 import {Status} from "../shared/classes/status";
 import {Post} from "../shared/classes/post";
 
 //import services
-import {JwtHelperService} from "@auth0/angular-jwt";
 import {AuthService} from "../shared/services/auth-service";
 import {PostService} from "../shared/services/post.service";
 import {ProfileService} from "../shared/services/profile.service";
@@ -24,7 +22,6 @@ export class PostsComponent implements OnInit {
 	createPostForm: FormGroup;
 	posts: Post[] = [];
 	status: Status = null;
-	authObj: any = {};
 
 	//postUsername$: Observable<Profile[]>;
 	//profiles: Profile[] = [];
@@ -34,9 +31,9 @@ export class PostsComponent implements OnInit {
 
 	constructor(
 		private formBuilder: FormBuilder,
+		private authService: AuthService,
 		private postService: PostService,
-		private profileService: ProfileService,
-		private jwtHelperService: JwtHelperService
+		private profileService: ProfileService
 	){}
 
 	ngOnInit() : void {
@@ -69,30 +66,24 @@ export class PostsComponent implements OnInit {
 	}*/
 
 	getJwtProfileId() : any {
-		//this.authObj = this.jwtHelperService.decodeToken(localStorage.getItem('jwt-token'));
-		try {
-			this.authObj = this.jwtHelperService.decodeToken(localStorage.getItem('jwt-token'));
-		} catch (e) {
-			return{error:401};
+		if(this.authService.decodeJwt()) {
+			return this.authService.decodeJwt().auth.profileId;
+		} else {
+			return false
 		}
 	}
 
 	createPost() : any {
 
+		//if no JWT profileId, return false (not logged in, u can't post!)
+		if(!this.getJwtProfileId()) {
+			return false
+		}
+
 		//grab profileId off of JWT
-		this.getJwtProfileId();
-		let newPostProfileId = this.authObj.auth.profileId;
-		//let newPostProfileId = null;
+		let newPostProfileId = this.getJwtProfileId();
 
-		//TODO: add handler if no valid JWT Token
-		// if(this.getJwtProfileId().error) {
-		// 	console.log(this.getJwtProfileId().error);
-		// } else {
-		// 	//return{error:'pls sign in.'};
-		// 	console.log('profileId OK');
-		// }
-
-		//form new post
+		//create new post
 		let post = new Post(null, newPostProfileId, this.createPostForm.value.postContent, null, this.createPostForm.value.postTitle);
 
 		this.postService.createPost(post)
@@ -102,7 +93,7 @@ export class PostsComponent implements OnInit {
 					this.listPosts();
 					this.createPostForm.reset();
 				}else{
-					console.log('!200ok:(');
+					console.log('no valid login');
 				}
 			});
 	}
