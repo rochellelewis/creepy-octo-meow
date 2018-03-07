@@ -1,4 +1,4 @@
-import {Component} from "@angular/core";
+import {Component, OnInit} from "@angular/core";
 import {Router} from "@angular/router";
 import {Status} from "../../classes/status";
 
@@ -11,24 +11,36 @@ import {AuthService} from "../../services/auth-service";
 	selector: "navbar"
 })
 
-export class NavbarComponent {
+export class NavbarComponent implements OnInit {
 	status: Status = null;
 	isAuthenticated: any = null;
 	profileUsername: string = null;
+	profileId: string = null;
 
 	constructor(
 		private signInService: SignInService,
 		private cookieService: CookieService,
 		private authService: AuthService,
 		private router: Router
-	){
+	){}
+
+	ngOnInit(): void {
 		this.isAuthenticated = this.authService.loggedIn();
 		this.profileUsername = this.getUsername();
+		this.profileId = this.getUserId();
 	}
 
 	getUsername() : string {
 		if(this.authService.decodeJwt()) {
 			return this.authService.decodeJwt().auth.profileUsername;
+		} else {
+			return ''
+		}
+	}
+
+	getUserId() : string {
+		if(this.authService.decodeJwt()) {
+			return this.authService.decodeJwt().auth.profileId;
 		} else {
 			return ''
 		}

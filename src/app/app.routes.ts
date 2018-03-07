@@ -3,10 +3,6 @@ import {RouterModule, Routes} from "@angular/router";
 import {AuthGuardService as AuthGuard} from "./shared/services/auth-guard.service";
 
 // import components
-//import {CreatePostComponent} from "./components/create-post.component";
-//import {DeletePostComponent} from "./components/delete-post.component";
-//import {EditPostComponent} from "./components/edit-post.component";
-//import {EditProfileComponent} from "./components/edit-profile.component";
 import {PostsComponent} from "./posts/posts.component"
 import {HomeComponent} from "./home/home.component";
 import {NavbarComponent} from "./shared/components/navbar/navbar.component";
@@ -43,7 +39,6 @@ export const allAppComponents = [
 
 // setup routes
 export const routes: Routes = [
-	{path: "profile", component: ProfileComponent},
 	{path: "profile/:id", component: ProfileComponent},
 	{path: "posts", component: PostsComponent, canActivate: [AuthGuard]},
 	{path: "about", component: AboutComponent},
