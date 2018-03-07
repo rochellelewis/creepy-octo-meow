@@ -1,28 +1,43 @@
 import {Component, OnInit} from "@angular/core";
-import {ActivatedRoute, Params} from "@angular/router";
-import {ProfileService} from "../shared/services/profile.service";
-import {Profile} from "../shared/classes/profile";
+import {ActivatedRoute} from "@angular/router";
 import {Status} from "../shared/classes/status";
-import {Observable} from "rxjs";
-import "rxjs/add/observable/from";
-import "rxjs/add/operator/switchMap";
 
+import {Profile} from "../shared/classes/profile";
+
+import {AuthService} from "../shared/services/auth-service";
+import {ProfileService} from "../shared/services/profile.service";
 
 @Component({
-	//templateUrl: "./profile.html"
 	template: require("./profile.html")
 })
 
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
 
-/*	profile: Profile = new Profile(0, "", "", "", "", "");
-	status: Status = null;
+	profileId : string = this.route.snapshot.params["id"];
 
-	constructor(private profileService: ProfileService, private route: ActivatedRoute) {}
+	//for testing only - grab current logged in profileId off JWT
+	tempId: string = this.authService.decodeJwt().auth.profileId;
+
+	profile: Profile = new Profile(null,null,null,null,null,null);
+
+	constructor(
+		private authService: AuthService,
+		private profileService: ProfileService,
+		private route: ActivatedRoute
+	) {}
 
 	ngOnInit() : void {
-		this.route.params
-			.switchMap((params : Params) => this.profileService.getProfile(+params["id"]))
-			.subscribe(reply => this.profile = reply);
-	}*/
+		this.getUser();
+	}
+
+	getUser() : void {
+		//for testing
+		/*this.profileService.getProfile(this.tempId)
+			.subscribe(profile => this.profile = profile);*/
+
+		//live
+		this.profileService.getProfile(this.profileId)
+			.subscribe(profile => this.profile = profile);
+	}
+
 }
