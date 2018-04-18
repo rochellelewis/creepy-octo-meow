@@ -17,11 +17,11 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fa fa-envelope"></i></span>
 							</div>
-							<input type="email" class="form-control" formControlName="profileEmail" placeholder="Email">
+							<input type="email" class="form-control" formControlName="signupProfileEmail" placeholder="Email">
 						</div>
-						<div *ngIf="signUpForm.controls.profileEmail?.invalid && signUpForm.controls.profileEmail?.touched" class="alert alert-danger" role="alert">
-							<div *ngIf="signUpForm.controls.profileEmail?.errors.required">Email is required.</div>
-							<div *ngIf="signUpForm.controls.profileEmail?.errors.maxlength">Email is too long. {{signUpForm.controls.profileEmail?.errors.maxlength.actualLength - signUpForm.controls.profileEmail?.errors.maxlength.requiredLength}} too many characters.</div>
+						<div *ngIf="signUpForm.controls.signupProfileEmail?.invalid && signUpForm.controls.signupProfileEmail?.touched" class="alert alert-danger" role="alert">
+							<div *ngIf="signUpForm.controls.signupProfileEmail?.errors.required">Email is required.</div>
+							<div *ngIf="signUpForm.controls.signupProfileEmail?.errors.maxlength">Email is too long. {{signUpForm.controls.signupProfileEmail?.errors.maxlength.actualLength - signUpForm.controls.signupProfileEmail?.errors.maxlength.requiredLength}} too many characters.</div>
 						</div>
 					</div>
 
@@ -31,11 +31,11 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fa fa-user"></i></span>
 							</div>
-							<input type="text" class="form-control" formControlName="profileUsername" placeholder="Username">
+							<input type="text" class="form-control" formControlName="signupProfileUsername" placeholder="Username">
 						</div>
-						<div *ngIf="signUpForm.controls.profileUsername?.invalid && signUpForm.controls.profileUsername?.touched" class="alert alert-danger" role="alert">
-							<div *ngIf="signUpForm.controls.profileUsername?.errors.required">Username is required.</div>
-							<div *ngIf="signUpForm.controls.profileUsername?.errors.maxlength">Username is too long. {{signUpForm.controls.profileUsername?.errors.maxlength.actualLength - signUpForm.controls.profileUsername?.errors.maxlength.requiredLength}} too many characters.</div>
+						<div *ngIf="signUpForm.controls.signupProfileUsername?.invalid && signUpForm.controls.signupProfileUsername?.touched" class="alert alert-danger" role="alert">
+							<div *ngIf="signUpForm.controls.signupProfileUsername?.errors.required">Username is required.</div>
+							<div *ngIf="signUpForm.controls.signupProfileUsername?.errors.maxlength">Username is too long. {{signUpForm.controls.signupProfileUsername?.errors.maxlength.actualLength - signUpForm.controls.signupProfileUsername?.errors.maxlength.requiredLength}} too many characters.</div>
 						</div>
 					</div>
 
@@ -45,11 +45,11 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fa fa-lock"></i></span>
 							</div>
-							<input type="password" class="form-control" formControlName="profilePassword" placeholder="Password">
+							<input type="password" class="form-control" formControlName="signupProfilePassword" placeholder="Password">
 						</div>
-						<div *ngIf="signUpForm.controls.profilePassword?.invalid && signUpForm.controls.profilePassword?.touched" class="alert alert-danger" role="alert">
-							<div *ngIf="signUpForm.controls.profilePassword?.errors.required">Password is required.</div>
-							<div *ngIf="signUpForm.controls.profilePassword?.errors.maxlength">Password is too long. {{signUpForm.controls.profilePassword?.errors.maxlength.actualLength - signUpForm.controls.profilePassword?.errors.maxlength.requiredLength}} too many characters.</div>
+						<div *ngIf="signUpForm.controls.signupProfilePassword?.invalid && signUpForm.controls.signupProfilePassword?.touched" class="alert alert-danger" role="alert">
+							<div *ngIf="signUpForm.controls.signupProfilePassword?.errors.required">Password is required.</div>
+							<div *ngIf="signUpForm.controls.signupProfilePassword?.errors.maxlength">Password is too long. {{signUpForm.controls.signupProfilePassword?.errors.maxlength.actualLength - signUpForm.controls.signupProfilePassword?.errors.maxlength.requiredLength}} too many characters.</div>
 						</div>
 					</div>
 
@@ -59,11 +59,11 @@
 							<div class="input-group-prepend">
 								<span class="input-group-text"><i class="fa fa-ellipsis-h"></i></span>
 							</div>
-							<input type="password" class="form-control" formControlName="profileConfirmPassword" placeholder="Confirm Password">
+							<input type="password" class="form-control" formControlName="signupProfileConfirmPassword" placeholder="Confirm Password">
 						</div>
-						<div *ngIf="signUpForm.controls.profileConfirmPassword?.invalid && signUpForm.controls.profileConfirmPassword?.touched" class="alert alert-danger" role="alert">
-							<div *ngIf="signUpForm.controls.profileConfirmPassword?.errors.required">Password confirmation is required.</div>
-							<div *ngIf="signUpForm.controls.profileConfirmPassword?.errors.maxlength">Password is too long. {{signUpForm.controls.profileConfirmPassword?.errors.maxlength.actualLength - signUpForm.controls.profileConfirmPassword?.errors.maxlength.requiredLength}} too many characters.</div>
+						<div *ngIf="signUpForm.controls.signupProfileConfirmPassword?.invalid && signUpForm.controls.signupProfileConfirmPassword?.touched" class="alert alert-danger" role="alert">
+							<div *ngIf="signUpForm.controls.signupProfileConfirmPassword?.errors.required">Password confirmation is required.</div>
+							<div *ngIf="signUpForm.controls.signupProfileConfirmPassword?.errors.maxlength">Password is too long. {{signUpForm.controls.signupProfileConfirmPassword?.errors.maxlength.actualLength - signUpForm.controls.signupProfileConfirmPassword?.errors.maxlength.requiredLength}} too many characters.</div>
 						</div>
 					</div>
 
