@@ -1,5 +1,7 @@
 import {Component, OnInit} from "@angular/core";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {switchMap, mergeMap} from "rxjs/operators";
+import {forkJoin} from "rxjs/observable/forkJoin";
 
 //import classes
 import {Status} from "../shared/classes/status";
@@ -9,6 +11,8 @@ import {Post} from "../shared/classes/post";
 import {AuthService} from "../shared/services/auth-service";
 import {PostService} from "../shared/services/post.service";
 import {ProfileService} from "../shared/services/profile.service";
+import {Profile} from "../shared/classes/profile";
+import {Observable} from "rxjs/Observable";
 
 //enable jquery $ alias
 declare const $: any;
@@ -22,12 +26,16 @@ export class PostsComponent implements OnInit {
 	createPostForm: FormGroup;
 	posts: Post[] = [];
 	status: Status = null;
+	id: any = null;
 
-	//postUsername$: Observable<Profile[]>;
+	profile$: Observable<Profile>;
+	//posts$: Observable<Post>;
+
+	//postUsernames: string = [];
+	//getPostUsername$: Observable<Profile[]>;
+
+	//profile: Profile = new Profile(null,null,null,null,null,null);
 	//profiles: Profile[] = [];
-	//postUsernames: any = [];
-	//post: Post = new Post(null, null, null, null, null);
-	//@Output() newPost = new EventEmitter<Post>();
 
 	constructor(
 		private formBuilder: FormBuilder,
@@ -51,10 +59,26 @@ export class PostsComponent implements OnInit {
 	}
 
 	listPosts() : any {
-		this.postService.getAllPosts()
+		//this.postService.getAllPosts().subscribe(posts => this.posts = posts);
+		//////////////////////////////////////////////////////////////////////////
+
+		let getPosts$ = this.postService.getAllPosts()
 			.subscribe(posts => this.posts = posts);
-		/*return this.postService.getAllPosts()
-			.switchMap(posts => this.profileService.getProfile(posts.postProfileId), (post, username) => [post, username]);*/
+
+
+		//const results = getPosts$.switchMap(posts => {
+		// console.log(posts);
+		//	return
+		// });
+
+		// return this.postService.getAllPosts()
+		// 	.switchMap(posts =>
+		// 		this.profileService.getProfile(post.postProfileId),
+		// 		(post, username) => [post, username]);
+	}
+
+	getPostProfileUsername(id: string) : any {
+		return this.profileService.getProfile(id);
 	}
 
 	/*applyFormChanges() : void {
@@ -75,7 +99,7 @@ export class PostsComponent implements OnInit {
 
 	createPost() : any {
 
-		//if no JWT profileId, return false (not logged in, u can't post!)
+		//if no JWT profileId, return false (if u not logged in, u can't post!)
 		if(!this.getJwtProfileId()) {
 			return false
 		}
@@ -90,10 +114,10 @@ export class PostsComponent implements OnInit {
 			.subscribe(status => {
 				this.status = status;
 				if(status.status === 200) {
-					this.listPosts();
 					this.createPostForm.reset();
+					this.listPosts();
 				}else{
-					console.log('no valid login');
+					console.log('Not logged in!');
 				}
 			});
 	}
