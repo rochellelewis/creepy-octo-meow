@@ -52,17 +52,17 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		//check for password (required field)
-		if(empty($requestObject->profilePassword) === true) {
+		if(empty($requestObject->signinProfilePassword) === true) {
 			throw (new \InvalidArgumentException("No password? U shall not pass!", 401));
 		} else {
-			$profilePassword = $requestObject->profilePassword;
+			$profilePassword = $requestObject->signinProfilePassword;
 		}
 
 		//check for email (required field)
-		if(empty($requestObject->profileEmail) === true) {
+		if(empty($requestObject->signinProfileEmail) === true) {
 			throw (new \InvalidArgumentException("Enter an email address.", 401));
 		} else {
-			$profileEmail = filter_var($requestObject->profileEmail, FILTER_SANITIZE_EMAIL);
+			$profileEmail = filter_var($requestObject->signinProfileEmail, FILTER_SANITIZE_EMAIL);
 		}
 
 		//grab the profile by email address
