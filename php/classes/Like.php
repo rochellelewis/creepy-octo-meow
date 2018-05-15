@@ -17,7 +17,6 @@ use Ramsey\Uuid\Uuid;
 
 class Like implements \JsonSerializable {
 
-	use ValidateDate;
 	use ValidateUuid;
 
 	/**
