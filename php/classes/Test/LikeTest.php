@@ -57,13 +57,24 @@ class LikeTest extends CreepyOctoMeowTest {
 		$content = "I'm some valid post content!";
 		$postId = generateUuidV4();
 
-		$this->post = new Post($postId, $this->profile->getProfileId()->getBytes(), $content, null, $title);
+		$this->post = new Post($postId, $this->profile->getProfileId(), $content, null, $title);
 		$this->post->insert($this->getPDO());
 	}
 
 	/**
 	 * test inserting a valid Like and verify that the actual mySQL data matches
 	 **/
+	public function testInsertValidLike() : void {
+		//count the no of rows and save for later
+		$numRows = $this->getConnection()->getRowCount("like");
+
+		//create a like and insert
+		$like = new Like($this->post->getPostId(), $this->profile->getProfileId());
+		$like->insert($this->getPDO());
+
+		//verify the rowCount matches
+		$this->assertEquals($numRows + 1, $this->getConnection()->getRowCount("like"));
+	}
 
 	/**
 	 * test deleting a valid Like and verify
