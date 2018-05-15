@@ -1,9 +1,9 @@
 -- The statement below sets the collation of the database to utf8
 ALTER DATABASE rlewis37 CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
--- DROP TABLE IF EXISTS post;
--- DROP TABLE IF EXISTS profile;
--- DROP TABLE IF EXISTS `like`;
+DROP TABLE IF EXISTS `like`;
+DROP TABLE IF EXISTS post;
+DROP TABLE IF EXISTS profile;
 
 CREATE TABLE profile (
 	profileId BINARY(16) NOT NULL,
