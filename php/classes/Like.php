@@ -153,7 +153,7 @@ class Like implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
-	public static function getLikesByPostId(\PDO $pdo, $likePostId) : \SplFixedArray {
+	public static function getLikesByLikePostId(\PDO $pdo, $likePostId) : \SplFixedArray {
 		// sanitize the post id before searching
 		try {
 			$likePostId = self::validateUuid($likePostId);
@@ -191,6 +191,34 @@ class Like implements \JsonSerializable {
 	 * @throws \PDOException when mySQL related errors occur
 	 * @throws \TypeError when a variable are not the correct data type
 	 **/
+	public static function getLikesByLikeProfileId(\PDO $pdo, $likeProfileId) : \SplFixedArray {
+		//sanitize the profile id before searching
+		try {
+			$likeProfileId = self::validateUuid($likeProfileId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+
+		// create query template
+		$query = "SELECT likePostId, likeProfileId FROM `like` WHERE likeProfileId = :likeProfileId";
+		$statement = $pdo->prepare($query);
+		$parameters = ["likeProfileId" => $likeProfileId->getBytes()];
+		$statement->execute($parameters);
+
+		$likes = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try{
+				$like = new Like($row["likePostId"], $row["likeProfileId"]);
+				$likes[$likes->key()] = $like;
+				$likes->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return $likes;
+	}
 
 	/**
 	 * gets Like by post id and profile id
