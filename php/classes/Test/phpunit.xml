@@ -3,6 +3,7 @@
 		<testsuite name="Creepy Octo Meow">
 			<file>ProfileTest.php</file>
 			<file>PostTest.php</file>
+			<file>LikeTest.php</file>
 		</testsuite>
 	</testsuites>
 	<filter>

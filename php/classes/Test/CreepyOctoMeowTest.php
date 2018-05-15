@@ -55,6 +55,7 @@ abstract class CreepyOctoMeowTest extends TestCase {
 		// THESE TABLES *MUST* BE LISTED IN THE SAME ORDER THEY WERE CREATED!!!!
 		$dataset->addTable("profile");
 		$dataset->addTable("post");
+		$dataset->addTable("like");
 		return($dataset);
 	}
 
