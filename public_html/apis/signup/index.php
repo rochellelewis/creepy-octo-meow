@@ -48,36 +48,34 @@ try {
 		$requestObject = json_decode($requestContent);
 
 		//check for all required fields
-		if(empty($requestObject->profileEmail) === true) {
+		if(empty($requestObject->signupProfileEmail) === true) {
 			throw (new \InvalidArgumentException("Y u no email?"));
 		}
 
-		if(empty($requestObject->profileUsername) === true) {
+		if(empty($requestObject->signupProfileUsername) === true) {
 			throw (new \InvalidArgumentException("Please choose a username."));
 		}
 
-		if(empty($requestObject->profilePassword) === true) {
+		if(empty($requestObject->signupProfilePassword) === true) {
 			throw (new \InvalidArgumentException("You must provide a password."));
-		} else {
-			$profilePassword = $requestObject->profilePassword;
 		}
 
-		if(empty($requestObject->profileConfirmPassword) === true) {
+		if(empty($requestObject->signupProfileConfirmPassword) === true) {
 			throw (new \InvalidArgumentException("Please confirm your password."));
 		}
 
-		if($requestObject->profilePassword !== $requestObject->profileConfirmPassword) {
+		if($requestObject->signupProfilePassword !== $requestObject->signupProfileConfirmPassword) {
 			throw (new \InvalidArgumentException("Passwords do not match."));
 		}
 
 		//check for duplicate email
-		$emailCheck = Profile::getProfileByProfileEmail($pdo, $requestObject->profileEmail);
+		$emailCheck = Profile::getProfileByProfileEmail($pdo, $requestObject->signupProfileEmail);
 		if(!empty($emailCheck) || $emailCheck !== null) {
 			throw new \InvalidArgumentException("This email is already in use.", 403);
 		}
 
 		//check for duplicate username
-		$usernameCheck = Profile::getProfileByProfileUsername($pdo, $requestObject->profileUsername);
+		$usernameCheck = Profile::getProfileByProfileUsername($pdo, $requestObject->signupProfileUsername);
 		if(!empty($usernameCheck) || $usernameCheck !== null) {
 			throw new \InvalidArgumentException("This username is not available.", 403);
 		}
@@ -87,10 +85,10 @@ try {
 
 		//create password salt and hash
 		$salt = bin2hex(random_bytes(32));
-		$hash = hash_pbkdf2("sha512", $requestObject->profilePassword, $salt, 262144);
+		$hash = hash_pbkdf2("sha512", $requestObject->signupProfilePassword, $salt, 262144);
 
 		//create a new Profile and insert into mysql
-		$profile = new Profile(generateUuidV4(), $profileActivationToken, $requestObject->profileEmail, $hash, $salt, $requestObject->profileUsername);
+		$profile = new Profile(generateUuidV4(), $profileActivationToken, $requestObject->signupProfileEmail, $hash, $salt, $requestObject->signupProfileUsername);
 		$profile->insert($pdo);
 
 		//build the account activation email link - this url points to the activation api
