@@ -93,11 +93,11 @@ button,
 	position: relative;
 }
 
-button.post-delete {
+.card-body span:last-child {
+	display: flex;
 	position: absolute;
-	top: 0;
 	right: 0;
-	z-index: 1;
+	bottom: 0;
 }
 
 .card-title {
