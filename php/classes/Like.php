@@ -155,8 +155,31 @@ class Like implements \JsonSerializable {
 	 **/
 	public static function getLikesByPostId(\PDO $pdo, $likePostId) : \SplFixedArray {
 		// sanitize the post id before searching
+		try {
+			$likePostId = self::validateUuid($likePostId);
+		} catch(\InvalidArgumentException | \RangeException | \Exception | \TypeError $exception) {
+			$exceptionType = get_class($exception);
+			throw(new $exceptionType($exception->getMessage(), 0, $exception));
+		}
+
 		// create query template
-		//
+		$query = "SELECT likePostId, likeProfileId FROM `like` WHERE likePostId = :likePostId";
+		$statement = $pdo->prepare($query);
+		$parameters = ["likePostId" => $likePostId->getBytes()];
+		$statement->execute($parameters);
+
+		$likes = new \SplFixedArray($statement->rowCount());
+		$statement->setFetchMode(\PDO::FETCH_ASSOC);
+		while(($row = $statement->fetch()) !== false) {
+			try{
+				$like = new Like($row["likePostId"], $row["likeProfileId"]);
+				$likes[$likes->key()] = $like;
+				$likes->next();
+			} catch(\Exception $exception) {
+				throw(new \PDOException($exception->getMessage(), 0, $exception));
+			}
+		}
+		return $likes;
 	}
 
 	/**
