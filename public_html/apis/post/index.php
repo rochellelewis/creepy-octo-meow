@@ -76,6 +76,7 @@ try {
 		if(empty($id) === false) {
 
 			$post = Post::getPostByPostId($pdo, $id);
+			//TODO: remove if null condition in all apis
 			if($post !== null) {
 				$reply->data = $post;
 			}
